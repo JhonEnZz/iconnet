@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hubungi Kami - ICONNET</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #003366;
+            padding: 0.5rem 1.5rem;
+            position: relative;
+        }
+        header img {
+            height: 30px;
+        }
+        header nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            margin: 0;
+        }
+        header nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+        }
+
+        /* Mobile Burger Menu and Navigation */
+        .burger-menu {
+            display: none;
+            font-size: 1.8rem;
+            color: white;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #003366;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            padding: 1rem 1.5rem;
+        }
+        .mobile-nav.active {
+            display: flex;
+        }
+        .mobile-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+
+        /* Generic Section Styling */
+        .section {
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Contact Page Specific Styles */
+        .contact-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            line-height: 1.6;
+        }
+
+        .contact-content h2 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+        }
+        .contact-content p {
+            margin-bottom: 1rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            background-color: #f9f9f9;
+            padding: 1.2rem;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            text-align: center;
+            word-wrap: break-word;
+            display: flex; /* Tambahan: untuk mengatur ikon dan teks */
+            flex-direction: column; /* Tambahan: ikon di atas teks */
+            align-items: center; /* Tambahan: pusatkan konten */
+            justify-content: center; /* Tambahan: pusatkan konten */
+        }
+        .contact-item .icon {
+            font-size: 2.5rem; /* Ukuran ikon */
+            color: #0056b3; /* Warna ikon */
+            margin-bottom: 0.8rem; /* Jarak antara ikon dan teks */
+        }
+        .contact-item strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #003366;
+            font-size: 1.1rem;
+        }
+        .contact-item a {
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+        .contact-item .icon-link {
+            display: block; /* Pastikan ikon-link mengambil baris baru */
+            margin-bottom: 0.5rem; /* Jarak antar ikon dan teks */
+        }
+
+        /* ALAMAT KANTOR - Revised Layout */
+        .address-section {
+            margin-top: 3rem;
+            padding: 1rem;
+            border-radius: 12px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+        }
+        .address-section h3 {
+            color: #003366;
+            margin-bottom: 0.5rem; 
+            text-align: center;
+            font-size: 1.8rem;
+            width: 100%;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem; 
+            gap: 10px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        .search-container input {
+            padding: 0.8rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            flex-grow: 1;
+            max-width: 400px;
+        }
+        .search-container button {
+            background-color: #003366;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .search-container button:hover {
+            background-color: #002244;
+        }
+
+        .address-list-container {
+            width: 100%; 
+            max-height: 450px; 
+            overflow-y: auto; 
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Customize scrollbar for webkit browsers */
+        .address-list-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .address-list-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .address-list-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        .address-list-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .office-list {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .office-location {
+            padding: 1rem 0.5rem;
+            cursor: pointer;
+            border-bottom: 1px dashed #e0e0e0;
+            transition: background-color 0.2s ease;
+        }
+        .office-location:last-child {
+            border-bottom: none;
+        }
+        .office-location:hover, .office-location.active-office {
+            background-color: #e0f0ff; 
+        }
+        .office-location strong {
+            display: block;
+            color: #003366;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        .office-location p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        /* Map Container */
+        .map-container {
+            width: 100%; 
+            height: 400px; 
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 20px; 
+            background-color: #f0f0f0; 
+            border: 1px solid #ccc; 
+        }
+
+        /* Mitra Iconnet */
+        .partner-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .partner-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        .partner-list li:last-child {
+            border-bottom: none;
+        }
+        .partner-list a {
+            color: #0056b3;
+            text-decoration: none;
+        }
+        .partner-list a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #003366;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+        .footer-links-desktop {
+            display: inline-block;
+        }
+
+        /* Custom Modal for Refund */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 2000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            padding: 20px; /* Padding for small screens */
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #888;
+            border-radius: 12px;
+            width: 90%; /* Responsive width */
+            max-width: 500px; /* Max width for larger screens */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .close-button {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-content h3 {
+            color: #003366;
+            margin-top: 0;
+            font-size: 1.8rem;
+        }
+
+        .modal-content p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .store-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .store-links a {
+            color: #0056b3;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .store-links i {
+            font-size: 3rem; /* Ukuran ikon store */
+            margin-bottom: 5px;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            header nav ul {
+                display: none;
+            }
+            .burger-menu {
+                display: block;
+            }
+            .contact-content h2 {
+                font-size: 1.8rem;
+            }
+            .address-section h3 {
+                font-size: 1.5rem;
+            }
+            .address-list-container, .map-container {
+                min-width: unset;
+                width: 100%;
+            }
+            .map-container {
+                height: 300px; 
+            }
+            .search-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .search-container input, .search-container button {
+                width: 100%;
+                max-width: 300px;
+            }
+            .modal-content {
+                padding: 20px;
+            }
+            .modal-content h3 {
+                font-size: 1.5rem;
+            }
+            .store-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mobile-nav a {
+                padding: 0.6rem 0;
+            }
+            .contact-content {
+                padding: 1.5rem;
+            }
+            .contact-content h2 {
+                font-size: 1.5rem;
+            }
+            .address-section h3 {
+                font-size: 1.3rem;
+            }
+            .contact-item .icon {
+                font-size: 2rem;
+            }
+            .store-links i {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://iconnetsumut.com/wp-content/uploads/2023/09/iconnet-putih.webp" alt="ICONNET Logo" />
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="produk.html">Produk & Promo</a></li>
+                <li><a href="cakupan.html">Cakupan Area</a></li>
+                <li><a href="kontak.html">Hubungi Kami</a></li>
+            </ul>
+        </nav>
+        <div class="burger-menu" id="headerBurger">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <a href="index.html">Home</a>
+            <a href="produk.html">Produk & Promo</a>
+            <a href="cakupan.html">Cakupan Area</a>
+            <a href="kontak.html">Hubungi Kami</a>
+            <a href="pembayaran.html">Metode Pembayaran</a>
+            <a href="tentang.html">Tentang Kami</a>
+            <a href="syarat.html">Syarat & Ketentuan</a>
+            <a href="privasi.html">Kebijakan Privasi</a>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="contact-content" data-aos="fade-up">
+            <h2>HUBUNGI KAMI</h2>
+            <p>ICONNET adalah sebuah internet provider baru yang dulunya bernama Stroomnet. ICONNET Bangkit Bersatu Untuk Indonesia, dengan menjunjung tinggi nilai-nilai Nasionalisme, ICONNET berniat memberikan yang terbaik untuk masyarakat Indonesia.</p>
+
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <i class="fas fa-phone-alt icon"></i>
+                    <strong>Contact Center</strong>
+                    <a href="tel:150678">150678</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-whatsapp icon"></i>
+                    <strong>Whatsapp</strong>
+                    <a href="https://wa.me/6281112002123" target="_blank">0811-1200-2123</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-instagram icon"></i>
+                    <strong>Instagram</strong>
+                    <a href="https://www.instagram.com/iconnet.plniconplus/" target="_blank">@iconnet.plniconplus</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope icon"></i>
+                    <strong>E-mail ICONNET</strong>
+                    <a href="mailto:cc.iconnet@iconpln.co.id">cc.iconnet@iconpln.co.id</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-exclamation-triangle icon"></i>
+                    <strong>Email Gangguan</strong>
+                    <a href="mailto:cc.iconnet@iconpln.co.id">cc.iconnet@iconpln.co.id</a>
+                </div>
+                <div class="contact-item" id="refundTrigger">
+                    <i class="fas fa-receipt icon"></i>
+                    <strong>Refund Iconnet</strong>
+                    <a href="#" >Pengajuan & Check Refund Iconnet</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-instagram icon"></i>
+                    <strong>Instagram (Here)</strong>
+                    <a href="https://www.instagram.com/iconnet.here/" target="_blank">@iconnet.here</a>
+                </div>
+            </div>
+
+            <div class="address-section">
+                <h3>ALAMAT KANTOR</h3>
+                
+                <div class="search-container">
+                    <input type="text" id="addressSearchInput" placeholder="Cari berdasarkan kota atau alamat..." aria-label="Cari alamat kantor">
+                    <button id="addressSearchButton">Cari</button>
+                </div>
+                
+                <div class="address-list-container">
+                    <div class="office-list" id="officeList">
+                        <div class="office-location" data-lat="-6.235581085921884" data-lng="106.82089639570829" data-name="Alamat Korespondensi">
+                            <strong>Alamat Korespondensi</strong>
+                            <p>JL. ABDUL ROCHIM 1 MAMPANG PRAPATAN MAMPANG PRAPATAN JAKARTA SELATAN DKI JAKARTA 12710</p>
+                        </div>
+                        <div class="office-location" data-lat="3.5843151549604864" data-lng="98.64033945728639" data-name="SBU Sumatera Bagian Utara">
+                            <strong>SBU Sumatera Bagian Utara</strong>
+                            <p>Jl. Kasuari No.8, Sei Sikambing B, Kec. Medan Sunggal, Kota Medan, Sumatera Utara SEI SIKAMBING B MEDAN SUNGGAL KOTA MEDAN SUMATERA UTARA 20122</p>
+                        </div>
+                        <div class="office-location" data-lat="-0.9464223280962799" data-lng="100.3720499464306" data-name="SBU Sumatera Bagian Tengah">
+                            <strong>SBU Sumatera Bagian Tengah</strong>
+                            <p>Jl. Dr. Wahidin No.8, Sawahan Tim., Kec. Padang Tim., Kota Padang, Sumatera Barat 25171 SAWAHAN TIMUR PADANG TIMUR KOTA PADANG SUMATERA BARAT 25171</p>
+                        </div>
+                        <div class="office-location" data-lat="-2.963326023072192" data-lng="104.73701933059095" data-name="SBU Sumatera Bagian Selatan">
+                            <strong>SBU Sumatera Bagian Selatan</strong>
+                            <p>Jl. Jend. Basuki Rachmat No.48, Ario Kemuning, Kec. Kemuning, Kota Palembang, Sumatera Selatan 30128 ARIO KEMUNING KEMUNING KOTA PALEMBANG SUMATERA SELATAN 30128</p>
+                        </div>
+                        <div class="office-location" data-lat="-5.377350790970021" data-lng="105.27723352849739" data-name="KP Lampung">
+                            <strong>KP Lampung</strong>
+                            <p>Jl. Demang Lebar Daun No.1782, 20 Ilir D. IV, Kec. Ilir Tim. I, Kota Palembang, Sumatera Selatan 20 ILIR D IV ILIR TIMUR I KOTA PALEMBANG SUMATERA SELATAN 30128</p>
+                        </div>
+                        <div class="office-location" data-lat="-2.7245308721440034" data-lng="107.63916686757013" data-name="KP Belitung">
+                            <strong>KP Belitung</strong>
+                            <p>Jl. S. Parman No.62E, Padang Jati, Kec. Ratu Agung, Kota Bengkulu, Bengkulu 38222 PADANG JATI RATU SAMBAN KOTA BENGKULU BENGKULU 38222</p>
+                        </div>
+                        <div class="office-location" data-lat="-1.6080150720291975" data-lng="103.62958542757964" data-name="KP Jambi">
+                            <strong>KP Jambi</strong>
+                            <p>Kom. Pol. M Thaher Jambi, Kelurahan, Talang Banjar, Kec. Jambi Tim., Kota Jambi, Jambi 36142 TALANG BANJAR JAMBI TIMUR KOTA JAMBI JAMBI 36142</p>
+                        </div>
+                        <div class="office-location" data-lat="-6.908332997730371" data-lng="107.63127506010736" data-name="SBU Jawa Bagian Barat">
+                            <strong>SBU Jawa Bagian Barat</strong>
+                            <p>Jl. Supratman No.58, Cihapit, Kec. Bandung Wetan, Kota Bandung, Jawa Barat 40114 CIHAPIT BANDUNG WETAN KOTA BANDUNG JAWA BARAT 40114</p>
+                        </div>
+                        <div class="office-location" data-lat="-6.728890263460371" data-lng="108.54710290335342" data-name="KP Cirebon">
+                            <strong>KP Cirebon</strong>
+                            <p>Jl. Pemuda Raya No.20, Sunyaragi, Kec. Kesambi, Kota Cirebon, Jawa Barat 45152 SUNYARAGI KESAMBI KOTA CIREBON JAWA BARAT 45152</p>
+                        </div>
+                        <div class="office-location" data-lat="-7.050183818626995" data-lng="110.41897178683985" data-name="SBU Jawa Bagian Tengah">
+                            <strong>SBU Jawa Bagian Tengah</strong>
+                            <p>Jl. Setia Budi No.96, Srondol Kulon, Kec. Banyumanik, Kota Semarang, Jawa Tengah 50263 SRONDOL KULON BANYUMANIK KOTA SEMARANG JAWA TENGAH 50263</p>
+                        </div>
+                        <div class="office-location" data-lat="-7.783177101539264" data-lng="110.38327471668052" data-name="KP Yogyakarta">
+                            <strong>KP Yogyakarta</strong>
+                            <p>Jl. Urip Sumoharjo No.103-F, Klitren, Kec. Gondokusuman, Kota Yogyakarta, Daerah Istimewa Yogyakarta 55222 KLITREN GONDOKUSUMAN KOTA YOGYAKARTA DAERAH ISTIMEWA YOGYAKARTA 55222</p>
+                        </div>
+                        <div class="office-location" data-lat="-7.436214850632593" data-lng="109.26130229977898" data-name="KP Purwokerto">
+                            <strong>KP Purwokerto</strong>
+                            <p>Jl. Mardikenya No.4, Brubahan, Purwanegara, Kec. Purwokerto Tim., Kabupaten Banyumas, Jawa Tengah 53116 PURWOKERTO WETAN PURWOKERTO TIMUR BANYUMAS JAWA TENGAH 53116</p>
+                        </div>
+                        <div class="office-location" data-lat="-8.15605572118351" data-lng="113.70139682584927" data-name="SBU Jawa Bagian Timur">
+                            <strong>SBU Jawa Bagian Timur</strong>
+                            <p>Jl. Ketintang Baru No.1, RW.3, Ketintang, Kec. Gayungan, Surabaya, Jawa Timur 60231, Indonesia KETINTANG GAYUNGAN KOTA SURABAYA JAWA TIMUR 60231</p>
+                        </div>
+                        <div class="office-location" data-lat="-1.2752312510698895" data-lng="116.84561755335602" data-name="SBU Kalimantan">
+                            <strong>SBU Kalimantan</strong>
+                            <p>Jl. Sungai Ampal No.168, RT. 54, Sumber Rejo, Kec. Balikpapan Tengah, Kota Balikpapan, Kalimantan Timur 76114 SUMBER REJO BALIKPAPAN TENGAH KOTA BALIKPAPAN KALIMANTAN TIMUR 76114</p>
+                        </div>
+                        <div class="office-location" data-lat="-0.4653332122225521" data-lng="117.17498942290582" data-name="KP Kalimantan Timur">
+                            <strong>KP Kalimantan Timur</strong>
+                            <p>Sungai Pinang Dalam, Kec. Sungai Pinang, Kota Samarinda, Kalimantan Timur 75243 SUNGAI PINANG DALAM SUNGAI PINANG KOTA SAMARINDA KALIMANTAN TIMUR 75243</p>
+                        </div>
+                        <div class="office-location" data-lat="-3.461462367001348" data-lng="114.81546891443055" data-name="KP Kalimantan Selatan">
+                            <strong>KP Kalimantan Selatan</strong>
+                            <p>Guntungmanggis, Kec. Landasan Ulin, Kota Banjar Baru, Kalimantan Selatan 70731 GUNTUNG MANGGIS LANDASAN ULIN KOTA BANJARBARU KALIMANTAN SELATAN 70731</p>
+                        </div>
+                        <div class="office-location" data-lat="-2.2150576169203204" data-lng="113.92481889955396" data-name="KP Kalimantan Tengah">
+                            <strong>KP Kalimantan Tengah</strong>
+                            <p>Jl. Diponegoro No.07, Langkai, Kec. Pahandut, Kota Palangka Raya, Kalimantan Tengah 74874 LANGKAI PAHANDUT KOTA PALANGKARAYA KALIMANTAN TENGAH 74874</p>
+                        </div>
+                        <div class="office-location" data-lat="-8.663555055089937" data-lng="115.21005471621628" data-name="SBU Bali dan Nusa Tenggara">
+                            <strong>SBU Bali dan Nusa Tenggara</strong>
+                            <p>Jl. Gunung Mandalawangi No.15, Denpasar Barat-Bali 80119, Pemecutan Klod, Kec. Denpasar Bar., Kota Denpasar, Bali 80112 PEMECUTAN KELOD DENPASAR BARAT KOTA DENPASAR BALI 80112</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="map-container" id="mapid"></div>
+            </div>
+
+            <div class="address-section">
+                <h3>Mitra Iconnet</h3>
+                <div class="office-list">
+                    <div class="office-location">
+                        <strong>Daftar Akun Instagram Mitra Iconnet</strong>
+                        <ul class="partner-list">
+                            <li><a href="https://www.instagram.com/iconnet.aceh/" target="_blank">Sumatera Bagian Utara - Nanggroe Aceh Darussalam - @iconnet.aceh</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.sumut/" target="_blank">Sumatera Bagian Utara - Sumatera Utara - @iconnet.sumut</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.plnriau/" target="_blank">Sumatera Bagian Utara - Riau - @iconnet.plnriau</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.plnsumbar/" target="_blank">Sumatera Bagian Tengah - Sumatera Barat - @iconnet.plnsumbar</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.plnkepri/" target="_blank">Sumatera Bagian Tengah - Kepulauan Riau - @iconnet.plnkepri</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.sumbagsel/" target="_blank">Sumatera Bagian Selatan - Sumatera Selatan - @iconnet.sumbagsel</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.babel/" target="_blank">Sumatera Bagian Selatan - Bangka Belitung - @iconnet.babel</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.jambi/" target="_blank">Sumatera Bagian Selatan - Jambi - @iconnet.jambi</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.bengkulu/" target="_blank">Sumatera Bagian Selatan - Bengkulu - @Iconnet.bengkulu</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.lampung/" target="_blank">Sumatera Bagian Selatan - Lampung - @iconnet.lampung</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.jakban/" target="_blank">Jakarta Banten - Jakarta Banten - @iconnet.jakban</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.jawabarat/" target="_blank">Jawa Bagian Barat - Jawa barat - @Iconnet.jawabarat</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.jogja/" target="_blank">Jawa Bagian Tengah - Daerah Istimewa Yogyakarta - @iconnet.jogja</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.jatengdiy/" target="_blank">Jawa Bagian Tengah - Jawa Tengah - @Iconnet.jatengdiy</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.jatim/" target="_blank">Jawa Bagian Timur - Jawa Timur - @iconnet.jatim</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.balinusra/" target="_blank">Bali Nusa Tenggara - Bali dan Nusa Tenggara - @iconnet.balinusra</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.kalbar/" target="_blank">Kalimantan - Kalimantan Barat - @iconnet.kalbar</a></li>
+                            <li><a href="https://www.instagram.com/iconnet_kaltim/" target="_blank">Kalimantan - Kalimantan Bagian Timur - @iconnet_kaltim</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.kalsel/" target="_blank">Kalimantan - Kalimantan Selatan - @iconnet.kalsel</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.kalteng/" target="_blank">Kalimantan - Kalimantan Tengah - @iconnet.kalteng</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.sulawesi/" target="_blank">Sulawesi Indonesia Bagian Timur - Sulawesi - @iconnet.sulawesi</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.sultra/" target="_blank">Sulawesi Indonesia Bagian Timur - Sulawesi Tenggara - @iconnet.sultra</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.gorontalo/" target="_blank">Sulawesi Indonesia Bagian Timur - Gorontalo - @iconnet.gorontalo</a></li>
+                            <li><a href="https://www.instagram.com/iconnet.sulbar/" target="_blank">Sulawesi Indonesia Bagian Timur - Sulawesi Barat - @iconnet.sulbar</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div>
+            <span class="footer-links-desktop">
+                <a href="cakupan.html">Cek Area</a> |
+                <a href="pembayaran.html">Metode Pembayaran</a> |
+                <a href="tentang.html">Tentang Kami</a> |
+                <a href="kontak.html">Hubungi Kami</a> |
+                <a href="syarat.html">Syarat & Ketentuan</a> |
+                <a href="privasi.html">Kebijakan Privasi</a>
+            </span>
+        </div>
+        <p>© 2025 All rights reserved. ICONNET powered by PT Indonesia Comnets Plus</p>
+    </footer>
+
+    <!-- Custom Modal for Refund -->
+    <div id="refundModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3>Refund</h3>
+            <p>Pelanggan yang Terhormat, mohon maaf untuk Layanan refund hanya bisa diakses melalui aplikasi My Icon+. Dapatkan dan nikmati kemudahan layanan melalui aplikasi My Icon+ melalui App Store dan Play Store.</p>
+            <div class="store-links">
+                <a href="https://apps.apple.com/id/app/my-icon/id1579204047" target="_blank">
+                    <i class="fab fa-apple"></i>
+                    App Store
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.iconplus.myicon" target="_blank">
+                    <i class="fab fa-google-play"></i>
+                    Play Store
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+
+        // Toggle Header Mobile Menu
+        const headerBurger = document.getElementById("headerBurger");
+        const mobileNav = document.getElementById("mobileNav");
+
+        if (headerBurger && mobileNav) {
+            headerBurger.addEventListener("click", () => {
+                mobileNav.classList.toggle("active");
+                console.log("Burger menu toggled.");
+            });
+        } else {
+            console.warn("Burger menu elements not found.");
+        }
+
+        let map;
+        let currentMarker = null;
+
+        function addMarker(lat, lng, name) {
+            if (!map) {
+                console.error("Map not initialized. Cannot add marker.");
+                return;
+            }
+            if (currentMarker) {
+                map.removeLayer(currentMarker);
+            }
+            currentMarker = L.marker([lat, lng]).addTo(map)
+                .bindPopup(name)
+                .openPopup();
+            map.setView([lat, lng], 13);
+            console.log(`Marker added: ${name} at [${lat}, ${lng}]`);
+        }
+
+        function initMap() {
+            console.log('initMap() called.'); 
+            const mapElement = document.getElementById('mapid');
+            
+            if (!mapElement) {
+                console.error("Error: Map container with ID 'mapid' not found in DOM!");
+                return;
+            }
+            
+            const computedStyle = window.getComputedStyle(mapElement);
+            const height = computedStyle.height;
+            const width = computedStyle.width;
+            
+            console.log(`Map container #mapid dimensions: Height = ${height}, Width = ${width}`);
+            if (height === '0px' || width === '0px') {
+                console.error("Critical Error: Map container #mapid has zero height or width. This WILL prevent map display. Please check CSS.");
+                mapElement.innerHTML = '<p style="color: red; text-align: center; margin-top: 50px;">Error: Peta tidak dapat dimuat. Pastikan ada tinggi yang terdefinisi untuk elemen peta.</p>';
+                return;
+            }
+
+            if (map instanceof L.Map) {
+                map.remove();
+                console.log('Previous map instance removed.');
+            }
+
+            try {
+                if (typeof L === 'undefined') {
+                    console.error("Leaflet library (L) is still not loaded or defined. Cannot initialize map.");
+                    mapElement.innerHTML = '<p style="color: red; text-align: center; margin-top: 50px;">Gagal memuat peta: Pustaka Leaflet tidak tersedia.</p>';
+                    return;
+                }
+
+                map = L.map('mapid').setView([-2.5489, 118.0149], 5); // Default view for Indonesia
+                console.log('Leaflet map initialized successfully.');
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+                console.log('OpenStreetMap tiles added.');
+
+                const officeLocations = document.querySelectorAll('.office-location');
+                if (officeLocations.length > 0) {
+                    // Find the "Alamat Korespondensi" as the default
+                    let defaultOffice = Array.from(officeLocations).find(office => 
+                        office.getAttribute('data-name') === 'Alamat Korespondensi'
+                    );
+
+                    // If "Alamat Korespondensi" not found, use the first office
+                    if (!defaultOffice) {
+                        defaultOffice = officeLocations[0];
+                    }
+
+                    const defaultLat = parseFloat(defaultOffice.getAttribute('data-lat'));
+                    const defaultLng = parseFloat(defaultOffice.getAttribute('data-lng'));
+                    const defaultName = defaultOffice.getAttribute('data-name');
+
+                    if (!isNaN(defaultLat) && !isNaN(defaultLng)) {
+                        addMarker(defaultLat, defaultLng, defaultName);
+                        defaultOffice.classList.add('active-office');
+                        console.log('Default marker added for first office or Alamat Korespondensi.');
+                    } else {
+                        console.error("Invalid coordinates for the default office location.");
+                    }
+                } else {
+                    console.warn("No office locations found to set a default marker.");
+                }
+                
+                map.invalidateSize();
+                console.log('map.invalidateSize() called after init.');
+
+            } catch (e) {
+                console.error("Error initializing Leaflet map:", e);
+                mapElement.innerHTML = '<p style="color: red; text-align: center; margin-top: 50px;">Gagal memuat peta. Periksa koneksi internet atau konsol browser untuk error.</p>';
+            }
+        }
+
+        // Event listener for DOMContentLoaded to ensure map is initialized after HTML is parsed
+        document.addEventListener('DOMContentLoaded', initMap);
+
+        // Map functionality for clicking office locations
+        const officeList = document.getElementById('officeList');
+        const addressSearchInput = document.getElementById('addressSearchInput');
+        const addressSearchButton = document.getElementById('addressSearchButton');
+        const officeListContainer = document.querySelector('.address-list-container');
+
+
+        if (officeList) {
+            officeList.addEventListener('click', (event) => {
+                const targetOffice = event.target.closest('.office-location');
+                if (targetOffice) {
+                    // Remove active class from all offices
+                    document.querySelectorAll('.office-location').forEach(office => {
+                        office.classList.remove('active-office');
+                    });
+                    // Add active class to clicked office
+                    targetOffice.classList.add('active-office');
+
+                    const lat = parseFloat(targetOffice.getAttribute('data-lat'));
+                    const lng = parseFloat(targetOffice.getAttribute('data-lng'));
+                    const name = targetOffice.getAttribute('data-name');
+                    
+                    if (!isNaN(lat) && !isNaN(lng)) {
+                        addMarker(lat, lng, name);
+                    } else {
+                        console.error("Invalid latitude or longitude for selected office.");
+                    }
+                }
+            });
+        } else {
+            console.warn("Office list container with ID 'officeList' not found.");
+        }
+
+        // Search functionality
+        if (addressSearchButton && addressSearchInput && officeListContainer) {
+            addressSearchButton.addEventListener('click', () => {
+                const searchTerm = addressSearchInput.value.toLowerCase();
+                const allOffices = officeListContainer.querySelectorAll('.office-location');
+                
+                let foundMatch = false;
+                allOffices.forEach(office => {
+                    const officeText = office.textContent.toLowerCase();
+                    if (officeText.includes(searchTerm)) {
+                        office.style.display = ''; // Show
+                        foundMatch = true;
+                    } else {
+                        office.style.display = 'none'; // Hide
+                    }
+                });
+
+                if (!foundMatch) {
+                    console.log("No matching offices found for search term:", searchTerm);
+                    // Optionally, display a message to the user
+                }
+            });
+
+            addressSearchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    addressSearchButton.click();
+                }
+            });
+        } else {
+            console.warn("Search elements (button, input) or office list container not found.");
+        }
+
+        // Modal functionality for Refund Iconnet
+        const refundTrigger = document.getElementById('refundTrigger');
+        const refundModal = document.getElementById('refundModal');
+        const closeButton = document.querySelector('.modal .close-button');
+
+        if (refundTrigger && refundModal && closeButton) {
+            refundTrigger.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default link behavior
+                refundModal.style.display = 'flex'; // Show the modal
+            });
+
+            closeButton.addEventListener('click', () => {
+                refundModal.style.display = 'none'; // Hide the modal
+            });
+
+            // Close the modal if clicking outside the modal content
+            refundModal.addEventListener('click', (e) => {
+                if (e.target === refundModal) {
+                    refundModal.style.display = 'none';
+                }
+            });
+        } else {
+            console.warn("Refund modal elements (trigger, modal, close button) not found.");
+        }
+    </script>
+</body>
+</html>

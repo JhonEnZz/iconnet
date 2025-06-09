@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ICONNET - Internet Cepat dan Stabil</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #003366;
+            padding: 0.5rem 1.5rem;
+            position: relative; /* Needed for absolute positioning of mobile nav */
+        }
+        header img {
+            height: 30px;
+        }
+        header nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            margin: 0;
+        }
+        header nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+        }
+
+        /* Mobile Burger Menu and Navigation */
+        .burger-menu {
+            display: none; /* Hidden by default */
+            font-size: 1.8rem;
+            color: white;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .mobile-nav {
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            position: absolute;
+            top: 100%; /* Position below header */
+            left: 0;
+            width: 100%;
+            background-color: #003366;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            padding: 1rem 1.5rem;
+        }
+        .mobile-nav.active {
+            display: flex;
+        }
+        .mobile-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+
+        /* Carousel utama wrapper */
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+            aspect-ratio: 2000 / 857;
+        }
+        .carousel-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        /* Tombol navigasi carousel utama (redesigned) */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 51, 102, 0.7);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            padding: 0.7rem 0.9rem;
+            cursor: pointer;
+            border-radius: 50%;
+            user-select: none;
+            transition: background-color 0.3s, transform 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .carousel-btn:hover {
+            background-color: rgba(0, 51, 102, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+        .carousel-btn.left {
+            left: 15px;
+        }
+        .carousel-btn.right {
+            right: 15px;
+        }
+
+        .section {
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .features {
+            display: flex;
+            justify-content: space-around;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .feature {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 250px;
+            text-align: center;
+        }
+        .feature h3 {
+            color: #003366;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        .feature p {
+            font-size: 1rem;
+            color: #555;
+        }
+        .paket-banner {
+            margin-top: 2rem;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* Testimoni wrapper dengan tombol */
+        .testimoni-wrapper {
+            position: relative;
+            max-width: 1200px;
+            margin: 2rem auto 0;
+            padding: 0 20px; /* Add padding to prevent buttons from overlapping cards */
+        }
+        .testimoni {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px; /* Increased gap between cards */
+            scroll-behavior: smooth;
+            padding-bottom: 10px;
+            scrollbar-width: none; /* Firefox */
+        }
+        .testimoni::-webkit-scrollbar {
+            display: none; /* Chrome, Safari */
+        }
+        .testimoni-card {
+            flex: 0 0 auto;
+            width: calc(33.333% - 13.333px); /* Adjust width for gap */
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .testimoni-card img {
+            width: 100%; /* Allow image to take full card width */
+            height: auto;
+            object-fit: cover;
+            border-radius: 8px; /* Slightly smaller border-radius for images */
+            margin-bottom: 1rem;
+        }
+        /* Tombol navigasi testimoni (redesigned) */
+        .testimoni-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 51, 102, 0.7);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            padding: 0.6rem 0.8rem;
+            cursor: pointer;
+            border-radius: 50%;
+            user-select: none;
+            transition: background-color 0.3s, transform 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .testimoni-btn:hover {
+            background-color: rgba(0, 51, 102, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+        .testimoni-btn.left {
+            left: 0;
+        }
+        .testimoni-btn.right {
+            right: 0;
+        }
+
+        /* Call to Action Section */
+        .cta-section {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 3rem;
+            border-radius: 12px;
+        }
+        .cta-section h2 {
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        .cta-section p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+        .cta-button {
+            background-color: #ff9900;
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+        }
+        .cta-button:hover {
+            background-color: #e68a00;
+            transform: scale(1.05);
+        }
+
+        footer {
+            background-color: #003366;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            header nav ul {
+                display: none; /* Hide desktop nav in header */
+            }
+            .burger-menu {
+                display: block; /* Show burger menu */
+            }
+            .testimoni-card {
+                width: calc(50% - 10px); /* Two cards per row on tablets */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .testimoni-wrapper {
+                padding: 0 10px;
+            }
+            .testimoni-card {
+                width: calc(100% - 20px); /* Single card per row on small mobiles */
+            }
+            .testimoni-btn {
+                font-size: 1rem;
+                padding: 0.5rem 0.7rem;
+            }
+            .carousel-btn {
+                font-size: 1.2rem;
+                padding: 0.6rem 0.8rem;
+            }
+            .cta-section h2 {
+                font-size: 1.5rem;
+            }
+            .cta-section p {
+                font-size: 1rem;
+            }
+            .cta-button {
+                font-size: 1rem;
+                padding: 0.7rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://iconnetsumut.com/wp-content/uploads/2023/09/iconnet-putih.webp" alt="ICONNET Logo" />
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="produk.html">Produk & Promo</a></li>
+                <li><a href="cakupan.html">Cakupan Area</a></li>
+                <li><a href="kontak.html">Hubungi Kami</a></li>
+            </ul>
+        </nav>
+        <div class="burger-menu" id="headerBurger">
+            <i class="fas fa-bars"></i> </div>
+        <div class="mobile-nav" id="mobileNav">
+            <a href="index.html">Home</a>
+            <a href="produk.html">Produk & Promo</a>
+            <a href="cakupan.html">Cakupan Area</a>
+            <a href="kontak.html">Hubungi Kami</a>
+            <a href="pembayaran.html">Metode Pembayaran</a>
+            <a href="tentang.html">Tentang Kami</a>
+            <a href="syarat.html">Syarat & Ketentuan</a>
+            <a href="privasi.html">Kebijakan Privasi</a>
+        </div>
+    </header>
+
+    <div class="carousel-wrapper" data-aos="fade-up">
+        <button class="carousel-btn left" aria-label="Previous Image"><i class="fas fa-chevron-left"></i></button>
+        <img id="carouselImage" src="https://api.stroom.id/v1/file/asset/load/png/hojzxbo6un" alt="Slideshow" />
+        <button class="carousel-btn right" aria-label="Next Image"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <section class="section">
+        <h2 style="text-align:center">KEUNGGULAN ICONNET</h2>
+        <p style="text-align:center; max-width:800px; margin:auto">
+            Dengan pesatnya perkembangan teknologi mempengaruhi berbagai aspek kehidupan kita yang semakin bergantung pada Internet. Kualitas dan kecepatan yang terus bertambah menjadi kebutuhan baik di rumah, kantor, dan banyak tempat lainnya membuat kami memberikan layanan terbaik untuk anda.
+        </p>
+        <div class="features">
+            <div class="feature" data-aos="fade-right">
+                <h3>Reliable</h3>
+                <p>ICONNET memiliki kecepatan internet yang tinggi dan stabil karena menggunakan jaringan Fiber.</p>
+            </div>
+            <div class="feature" data-aos="zoom-in">
+                <h3>Affordable</h3>
+                <p>Koneksi ICONNET sangat stabil karena menggunakan jaringan fiber optic yang tercanggih.</p>
+            </div>
+            <div class="feature" data-aos="fade-left">
+                <h3>Unlimited</h3>
+                <p>ICONNET saat ini mempunyai coverage area yang paling luas jangkauannya.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 style="text-align:center">PAKET ICONNET</h2>
+        <p style="text-align:center">Berbagai paket yang dapat sesuai dengan layanan kebutuhan internet dan multimedia anda.</p>
+        <img class="paket-banner" src="https://iconnet.id/img/banner_web_iconnet_2.55ae0adb.png" alt="Banner Paket" data-aos="fade-up" />
+    </section>
+
+    <section class="section">
+        <h2 style="text-align:center">TESTIMONI</h2>
+        <div class="testimoni-wrapper">
+            <button class="testimoni-btn left" aria-label="Scroll Left"><i class="fas fa-chevron-left"></i></button>
+            <div class="testimoni">
+                <div class="testimoni-card" data-aos="fade-up">
+                    <img src="https://api.stroom.id/v1/file/asset/load/jpg/gn11mvk7kw" alt="Wiyadi" />
+                    <p><strong>Wiyadi</strong><br />ICONNET menjawab kebutuhan internet untuk bisnis saya</p>
+                </div>
+                <div class="testimoni-card" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://api.stroom.id/v1/file/asset/load/jpg/38kbelrf4l" alt="Murni" />
+                    <p><strong>Murni</strong><br />ICONNET harganya relatif murah &amp; terjangkau</p>
+                </div>
+                <div class="testimoni-card" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://api.stroom.id/v1/file/asset/load/jpg/irstgnewo2" alt="Wahyudi" />
+                    <p><strong>Wahyudi Anggoro Hadi</strong><br />ICONNET menjadi salah satu infrastruktur teknologi penting</p>
+                </div>
+                <div class="testimoni-card" data-aos="fade-up" data-aos-delay="300">
+                    <img src="https://api.stroom.id/v1/file/asset/load/jpg/nsd9ssj7ne" alt="I Wayan" />
+                    <p><strong>I Wayan Aman</strong><br />Dengan ICONNET Semua Makin Mudah</p>
+                </div>
+                <div class="testimoni-card" data-aos="fade-up" data-aos-delay="400">
+                    <img src="https://api.stroom.id/v1/file/asset/load/png/61wfp8z1np" alt="Hamdi" />
+                    <p><strong>Hamdi Syukron</strong><br />Sangat puas dengan pelayanan ICONNET dan acara gratis dari CONI ICONNET</p>
+                </div>
+            </div>
+            <button class="testimoni-btn right" aria-label="Scroll Right"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <section class="cta-section" data-aos="fade-up">
+        <h2>Siap Rasakan Perbedaannya?</h2>
+        <p>Jangan lewatkan kesempatan untuk menikmati internet tanpa batas dengan kecepatan luar biasa. Cek ketersediaan di area Anda sekarang dan daftar untuk pengalaman internet yang benar-benar berbeda!</p>
+        <a href="cakupan.html" class="cta-button">CEK KETERSEDIAAN DI AREA ANDA</a>
+    </section>
+
+    <footer>
+        <div>
+            <span class="footer-links-desktop">
+                <a href="cakupan.html">Cek Area</a> |
+                <a href="pembayaran.html">Metode Pembayaran</a> |
+                <a href="tentang.html">Tentang Kami</a> |
+                <a href="kontak.html">Hubungi Kami</a> |
+                <a href="syarat.html">Syarat & Ketentuan</a> |
+                <a href="privasi.html">Kebijakan Privasi</a>
+            </span>
+        </div>
+        <p>© 2025 All rights reserved. ICONNET powered by PT Indonesia Comnets Plus</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+
+        // Main Carousel
+        const imageList = [
+            "https://api.stroom.id/v1/file/asset/load/png/hojzxbo6un",
+            "https://api.stroom.id/v1/file/asset/load/png/i9eqyouga8",
+            "https://api.stroom.id/v1/file/asset/load/png/khrss86nek",
+            "https://api.stroom.id/v1/file/asset/load/jpg/fonj7zzggz",
+            "https://api.stroom.id/v1/file/asset/load/png/nh83voulxh",
+            "https://api.stroom.id/v1/file/asset/load/png/dc5ic3iauj",
+        ];
+
+        let currentIndex = 0;
+        const carouselImage = document.getElementById("carouselImage");
+        const btnLeft = document.querySelector(".carousel-btn.left");
+        const btnRight = document.querySelector(".carousel-btn.right");
+
+        function showImage(index) {
+            carouselImage.src = imageList[index];
+        }
+
+        btnLeft.addEventListener("click", () => {
+            currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+            showImage(currentIndex);
+        });
+        btnRight.addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % imageList.length;
+            showImage(currentIndex);
+        });
+
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % imageList.length;
+            showImage(currentIndex);
+        }, 5000);
+
+        // Testimonial Scroll
+        const testimoniWrapper = document.querySelector(".testimoni");
+        const testimoniBtnLeft = document.querySelector(".testimoni-btn.left");
+        const testimoniBtnRight = document.querySelector(".testimoni-btn.right");
+
+        testimoniBtnLeft.addEventListener("click", () => {
+            testimoniWrapper.scrollBy({
+                left: -testimoniWrapper.offsetWidth / 3,
+                behavior: "smooth",
+            });
+        });
+
+        testimoniBtnRight.addEventListener("click", () => {
+            testimoniWrapper.scrollBy({
+                left: testimoniWrapper.offsetWidth / 3,
+                behavior: "smooth",
+            });
+        });
+
+        // Toggle Header Mobile Menu
+        const headerBurger = document.getElementById("headerBurger");
+        const mobileNav = document.getElementById("mobileNav");
+
+        headerBurger.addEventListener("click", () => {
+            mobileNav.classList.toggle("active");
+        });
+    </script>
+</body>
+</html>

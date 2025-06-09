@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ICONNET - Internet Cepat dan Stabil</title> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS yang disalin PERSIS dari Pastebin, dengan penyesuaian minimal untuk Cakupan Area dan dropdown */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex; /* Tambahan untuk layout agar footer di bawah */
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #003366;
+            padding: 0.5rem 1.5rem;
+            position: relative; /* Needed for absolute positioning of mobile nav */
+            z-index: 10;
+        }
+        header img {
+            height: 30px;
+        }
+        header nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+        }
+        header nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        /* Menghilangkan efek hover kuning pada menu navigasi, menjaga putih */
+        header nav a:hover {
+            color: white;
+        }
+        header nav a.active {
+            color: white; /* Di index.html tidak ada warna aktif khusus, jadi putih */
+        }
+
+
+        /* Mobile Burger Menu and Navigation */
+        .burger-menu {
+            display: none; /* Hidden by default */
+            font-size: 1.8rem;
+            color: white;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .mobile-nav {
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            position: absolute;
+            top: 100%; /* Position below header */
+            left: 0;
+            width: 100%;
+            background-color: #003366;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            padding: 1rem 1.5rem;
+        }
+        .mobile-nav.active {
+            display: flex;
+        }
+        .mobile-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: color 0.3s ease;
+        }
+        /* Menghilangkan efek hover kuning pada menu navigasi mobile, menjaga putih */
+        .mobile-nav a:hover {
+            color: white;
+        }
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+        .mobile-nav a.active {
+            color: white; /* Di index.html tidak ada warna aktif khusus, jadi putih */
+        }
+
+        /* Sembunyikan bagian-bagian dari index.html yang tidak relevan, dengan !important */
+        .carousel-wrapper,
+        .carousel-btn,
+        .features,
+        .feature,
+        .paket-banner,
+        .testimoni-wrapper,
+        .testimoni-btn,
+        .cta-section {
+            display: none !important;
+        }
+        .testimoni, .testimoni::-webkit-scrollbar,
+        .testimoni-card, .testimoni-card img {
+            display: none !important;
+        }
+
+        main {
+            flex-grow: 1; /* Agar konten utama mengisi ruang yang tersisa */
+            padding: 1rem; /* Padding global untuk konten utama agar konten tidak terlalu menempel tepi */
+        }
+
+        .section {
+            padding: 2rem 1rem;
+            max-width: 900px; /* Disesuaikan untuk konten Cakupan Area */
+            margin: 2rem auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        /* Sembunyikan bagian lain yang tidak relevan dengan halaman cakupan area */
+        .section:not(.area-checker-container) {
+            display: none !important;
+        }
+
+        /* Styling khusus untuk bagian Cakupan Area */
+        .area-checker-container h1 {
+            font-size: 2.5rem;
+            color: #003366;
+            margin-bottom: 1rem;
+        }
+        .area-checker-container p.intro {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .area-checker-container h2 {
+            font-size: 1.8rem;
+            color: #0056b3;
+            margin-bottom: 2rem;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+        .input-group select, .input-group input[type="text"] {
+            padding: 1rem 1.2rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-color: #fff;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M287%2C114.7L154.5%2C18.9c-2.4-1.4-5.3-1.4-7.7%2C0L5.4%2C114.7c-3.1%2C1.9-3.1%2C6.9%2C0%2C8.9L146.8%2C281.3c2.4%2C1.4%2C5.3%2C1.4%2C7.7%2C0l141.4-157.7C290.1%2C121.6%2C290.1%2C116.6%2C287%2C114.7z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 0.7em top 50%, 0 0;
+            background-size: 0.65em auto, 100%;
+        }
+        .input-group select:focus, .input-group input[type="text"]:focus {
+            border-color: #0056b3;
+            box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2);
+            outline: none;
+        }
+        .input-group button {
+            background-color: #0056b3;
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .input-group button:hover {
+            background-color: #004080;
+            transform: scale(1.02);
+        }
+
+        /* Styling untuk pesan hasil */
+        .result-message {
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: none; /* Hidden by default */
+        }
+        .result-message.visible { /* Menambahkan kelas 'visible' untuk menampilkan */
+            display: block;
+        }
+        .result-message.success {
+            background-color: #e0ffe0;
+            color: #28a745;
+            border: 1px solid #28a745;
+        }
+        .result-message.error {
+            background-color: #ffe0e0;
+            color: #dc3545;
+            border: 1px solid #dc3545;
+        }
+        .result-message.warning {
+            background-color: #fffacd;
+            color: #ffc107;
+            border: 1px solid #ffc107;
+        }
+        .result-message p {
+            margin-bottom: 0;
+        }
+        .result-message a.whatsapp-button {
+            display: inline-block;
+            margin-top: 1.2rem;
+            background-color: #25d366;
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .result-message a.whatsapp-button:hover {
+            background-color: #1ea751;
+            transform: scale(1.02);
+        }
+
+
+        footer {
+            background-color: #003366;
+            color: white;
+            padding: 2rem; /* Ukuran padding footer dari Pastebin */
+            text-align: center;
+            margin-top: auto;
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+            padding: 0 0.5rem; /* Padding antar link dari index.html */
+            font-size: 0.95rem; /* Ukuran font footer dari Pastebin */
+            transition: color 0.3s ease;
+            white-space: nowrap; /* Mencegah link putus baris */
+        }
+        /* Menghilangkan efek hover kuning pada footer, menjaga putih */
+        footer a:hover {
+            color: white;
+        }
+        footer .footer-links-desktop {
+            margin-bottom: 1rem;
+            display: flex; /* Disesuaikan agar item footer sejajar di desktop */
+            flex-wrap: wrap; /* Izinkan wrap jika terlalu banyak */
+            justify-content: center; /* Pusatkan link */
+            gap: 0.5rem; /* Jarak antar link */
+        }
+        footer p {
+            font-size: 0.9rem; /* Ukuran font copyright dari Pastebin */
+            margin: 0;
+        }
+
+
+        /* Media Queries for Responsiveness - Dari Pastebin */
+        @media (max-width: 768px) {
+            header nav ul {
+                display: none; /* Hide desktop nav in header */
+            }
+            .burger-menu {
+                display: block; /* Show burger menu */
+            }
+            .testimoni-card { /* Disembunyikan di halaman ini, jadi ini tidak berlaku efektif */
+                width: calc(50% - 10px); /* Two cards per row on tablets */
+            }
+            .section {
+                padding: 1.5rem 0.8rem; /* Lebih sedikit padding di mobile */
+                margin: 1rem auto;
+            }
+            .area-checker-container h1 {
+                font-size: 2rem;
+            }
+            .area-checker-container p.intro {
+                font-size: 1rem;
+            }
+            .area-checker-container h2 {
+                font-size: 1.5rem;
+            }
+            .input-group {
+                flex-direction: column; /* Tumpuk input dan tombol secara vertikal */
+            }
+            footer .footer-links-desktop {
+                flex-direction: column; /* Tumpuk link footer secara vertikal di mobile */
+                gap: 0.3rem; /* Jarak antar link vertikal */
+            }
+            footer a { /* Atur ulang padding footer untuk tampilan mobile agar tidak bertumpuk */
+                padding: 0; /* Hapus padding horizontal */
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 0.5rem 1rem;
+            }
+            header img { /* Logo gambar di mobile */
+                height: 25px; /* Sedikit lebih kecil di mobile */
+            }
+            .mobile-nav {
+                padding: 1rem;
+            }
+            .testimoni-wrapper {
+                padding: 0 10px;
+            }
+            .testimoni-card {
+                width: calc(100% - 20px); /* Single card per row on small mobiles */
+            }
+            .testimoni-btn {
+                font-size: 1rem;
+                padding: 0.5rem 0.7rem;
+            }
+            .carousel-btn {
+                font-size: 1.2rem;
+                padding: 0.6rem 0.8rem;
+            }
+            .cta-section h2 {
+                font-size: 1.5rem;
+            }
+            .cta-section p {
+                font-size: 1rem;
+            }
+            .cta-button {
+                font-size: 1rem;
+                padding: 0.7rem 1.5rem;
+            }
+            .section {
+                padding: 1.2rem 0.5rem;
+            }
+            .area-checker-container h1 {
+                font-size: 1.8rem;
+            }
+            .area-checker-container h2 {
+                font-size: 1.3rem;
+            }
+            .input-group select, .input-group input[type="text"], .input-group button {
+                padding: 0.8rem 1rem;
+                font-size: 1rem;
+            }
+            .result-message {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+            .result-message a.whatsapp-button {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="https://iconnetsumut.com/wp-content/uploads/2023/09/iconnet-putih.webp" alt="ICONNET Logo" onerror="this.onerror=null;this.src='https://placehold.co/100x30/003366/FFFFFF?text=ICONNET';">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="produk.html">Produk & Promo</a></li>
+                <li><a href="cakupan.html" class="active">Cakupan Area</a></li> <li><a href="kontak.html">Hubungi Kami</a></li>
+            </ul>
+        </nav>
+        <div class="burger-menu" id="headerBurger">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <a href="index.html">Home</a>
+            <a href="produk.html">Produk & Promo</a>
+            <a href="cakupan.html" class="active">Cakupan Area</a>
+            <a href="kontak.html">Hubungi Kami</a>
+            <a href="pembayaran.html">Metode Pembayaran</a>
+            <a href="tentang.html">Tentang Kami</a>
+            <a href="syarat.html">Syarat & Ketentuan</a>
+            <a href="privasi.html">Kebijakan Privasi</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="section area-checker-container" data-aos="fade-up">
+            <h1>CAKUPAN AREA</h1>
+            <p class="intro">
+                ICONNET merupakan jaringan Fiber Optic, menggunakan teknologi terkini sehingga dapat melayani Internet dan TV seamless pada kabel fiber optic yang sama tanpa menurunkan kecepatan dan kualitas.
+            </p>
+
+            <h2>Cek Ketersediaan Layanan di Lokasi Anda</h2>
+            <div class="input-group">
+                <select id="provinceSelect" aria-label="Pilih Provinsi">
+                    <option value="">Pilih Provinsi</option>
+                </select>
+                <select id="citySelect" aria-label="Pilih Kota/Kabupaten" disabled>
+                    <option value="">Pilih Kota/Kabupaten</option>
+                </select>
+                <input
+                    type="text"
+                    id="subDistrictInput"
+                    placeholder="Masukkan Kecamatan atau Kelurahan (Opsional)"
+                    aria-label="Input Kecamatan atau Kelurahan"
+                />
+                <button id="checkButton">Cek Area</button>
+            </div>
+            <div id="result" class="result-message"></div>
+        </section>
+    </main>
+
+    <footer>
+        <div>
+            <span class="footer-links-desktop">
+                <a href="cakupan.html">Cek Area</a> |
+                <a href="pembayaran.html">Metode Pembayaran</a> |
+                <a href="tentang.html">Tentang Kami</a> |
+                <a href="kontak.html">Hubungi Kami</a> |
+                <a href="syarat.html">Syarat & Ketentuan</a> |
+                <a href="privasi.html">Kebijakan Privasi</a>
+            </span>
+        </div>
+        <p>&copy; 2025 All rights reserved. ICONNET powered by PT Indonesia Comnets Plus</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+
+        // Fungsionalitas menu burger
+        const headerBurger = document.getElementById('headerBurger');
+        const mobileNav = document.getElementById('mobileNav');
+
+        if (headerBurger && mobileNav) {
+            headerBurger.addEventListener('click', function() {
+                mobileNav.classList.toggle('active');
+            });
+        }
+
+        // Data Provinsi dan Kota/Kabupaten di Indonesia
+        const areaData = {
+            "aceh": ["aceh barat", "aceh barat daya", "aceh besar", "aceh selatan", "aceh tamiang", "aceh tengah", "aceh utara", "aceh tenggara", "aceh timur", "banda aceh", "bener meriah", "bireuen", "langsa", "lhokseumawe", "nagan raya", "pidie", "pidie jaya", "sabang", "simeulue", "subulussalam"],
+            "sumatra utara": ["asahan", "batubara", "dairi", "deli serdang", "humbang hasundutan", "karo", "labuhanbatu", "labuhanbatu selatan", "labuhanbatu utara", "langkat", "mandailing natal", "nias", "nias barat", "nias selatan", "nias utara", "padang lawas", "padang lawas utara", "pakpak bharat", "samosir", "serdang bedagai", "simalungun", "tapanuli selatan", "tapanuli tengah", "tapanuli utara", "toba", "binjai", "gunungsitoli", "medan", "padangsidimpuan", "pematangsiantar", "sibolga", "tanjungbalai", "tebing tinggi"],
+            "sumatra barat": ["agam", "dharmasraya", "kepulauan mentawai", "lima puluh kota", "padang pariaman", "pasaman", "pasaman barat", "pesisir selatan", "sijunjung", "solok", "solok selatan", "tanah datar", "bukittinggi", "padang", "padang panjang", "pariaman", "payakumbuh", "sawahlunto", "solok"],
+            "riau": ["bengkalis", "indragiri hilir", "indragiri hulu", "kampar", "kepulauan meranti", "kuantan singingi", "pelalawan", "rokan hilir", "rokan hulu", "siak", "dumai", "pekanbaru"],
+            "kepulauan riau": ["bintan", "karimun", "lingga", "natuna", "kepulauan anambas", "batam", "tanjungpinang"],
+            "jambi": ["batanghari", "bungo", "kerinci", "merangin", "muaro jambi", "sarolangun", "tanjung jabung barat", "tanjung jabung timur", "tebo", "jambi", "sungai penuh"],
+            "sumatra selatan": ["banyuasin", "empat lawang", "lahat", "muara enim", "musi banyuasin", "musi rawas", "musi rawas utara", "ogan ilir", "ogan komering ilir", "ogan komering ulu", "ogan komering ulu selatan", "ogan komering ulu timur", "lubuklinggau", "pagar alam", "palembang", "prabumulih"],
+            "bengkulu": ["bengkulu selatan", "bengkulu tengah", "bengkulu utara", "kaur", "kepahiang", "lebong", "muko-muko", "rejanglebong", "seluma", "bengkulu"],
+            "lampung": ["lampung barat", "lampung selatan", "lampung tengah", "lampung timur", "lampung utara", "mesuji", "pesawaran", "pesisir barat", "pringsewu", "tanggamus", "tulang bawang", "tulang bawang barat", "way kanan", "bandar lampung", "metro"],
+            "bangka belitung": ["bangka", "bangka barat", "bangka selatan", "bangka tengah", "belitung", "belitung timur", "pangkalpinang"],
+            "dki jakarta": ["kepulauan seribu", "jakarta barat", "jakarta pusat", "jakarta selatan", "jakarta timur", "jakarta utara"],
+            "jawa barat": ["bandung", "bandung barat", "bekasi", "bogor", "ciamis", "cianjur", "cirebon", "garut", "indramayu", "karawang", "kuningan", "majalengka", "pangandaran", "purwakarta", "subang", "sukabumi", "sumedang", "tasikmalaya", "banjar", "cimahi", "depok"],
+            "banten": ["lebak", "pandeglang", "serang", "tangerang", "cilegon", "serang", "tangerang", "tangerang selatan"],
+            "jawa tengah": ["banjarnegara", "banyumas", "batang", "blora", "boyolali", "brebes", "cilacap", "demak", "grobogan", "jepara", "karanganyar", "kebumen", "kendal", "klaten", "kudus", "magelang", "pati", "pekalongan", "pemalang", "purbalingga", "purworejo", "rembang", "semarang", "sragen", "sukoharjo", "tegal", "temanggung", "wonogiri", "wonosobo", "magelang", "pekalongan", "salatiga", "semarang", "surakarta", "tegal"],
+            "di yogyakarta": ["bantul", "gunungkidul", "kulon progo", "sleman", "yogyakarta"],
+            "jawa timur": ["bangkalan", "banyuwangi", "blitar", "bojonegoro", "bondowoso", "gresik", "jember", "jombang", "kediri", "lamongan", "lumajang", "madiun", "magetan", "malang", "mojokerto", "nganjuk", "ngawi", "pacitan", "pamekasan", "pasuruan", "ponorogo", "probolinggo", "sampang", "sidoarjo", "situbondo", "sumenep", "trenggalek", "tuban", "tulungagung", "batu", "blitar", "kediri", "madiun", "malang", "mojokerto", "pasuruan", "probolinggo", "surabaya"],
+            "bali": ["badung", "bangli", "buleleng", "gianyar", "jembrana", "karangasem", "klungkung", "tabanan", "denpasar"],
+            "nusa tenggara barat": ["bima", "dompu", "lombok barat", "lombok tengah", "lombok timur", "lombok utara", "sumbawa", "sumbawa barat", "bima", "mataram"],
+            "nusa tenggara timur": ["alor", "belu", "ende", "flores timur", "kupang", "lembata", "malaka", "manggarai", "manggarai barat", "manggarai timur", "ngada", "nagekeo", "rote ndao", "sabu raijua", "sikka", "sumba barat", "sumba barat daya", "sumba tengah", "sumba timur", "timor tengah selatan", "timor tengah utara", "kupang"],
+            "kalimantan barat": ["bengkayang", "kapuas hulu", "kayong utara", "ketapang", "kubu raya", "landak", "melawi", "pontianak", "sambas", "sanggau", "sekadau", "sintang", "pontianak", "singkawang"],
+            "kalimantan tengah": ["barito selatan", "barito timur", "barito utara", "gunung mas", "kapuas", "katingan", "kotawaringin barat", "kotawaringin timur", "lamandau", "murung raya", "pulang pisau", "seruyan", "sukamara", "palangkaraya"],
+            "kalimantan selatan": ["balangan", "banjar", "barito kuala", "hulu sungai selatan", "hulu sungai tengah", "hulu sungai utara", "kota baru", "tabalong", "tanah bumbu", "tanah laut", "tapin", "banjarbaru", "banjarmasin"],
+            "kalimantan timur": ["berau", "kutai barat", "kutai kartanegara", "kutai timur", "mahakam ulu", "pasar", "penajam paser utara", "balikpapan", "bontang", "samarinda"],
+            "kalimantan utara": ["bulungan", "malinau", "nunukan", "tana tidung", "tarakan"],
+            "sulawesi utara": ["bolaang mongondow", "bolaang mongondow selatan", "bolaang mongondow timur", "bolaang mongondow utara", "kepulauan sangihe", "kepulauan siau tagulandang biaro", "kepulauan talaud", "minahasa", "minahasa selatan", "minahasa tenggara", "minahasa utara", "bitung", "kotamobagu", "manado", "tomohon"],
+            "sulawesi tengah": ["banggai", "banggai kepulauan", "banggai laut", "buol", "donggala", "morowali", "morowali utara", "parigi moutong", "poso", "sigi", "tojo una-una", "tolitoli", "palu"],
+            "sulawesi selatan": ["bantaeng", "barru", "bone", "bulukumba", "enrekang", "gowa", "jeneponto", "kepulauan selayar", "luwu", "luwu timur", "luwu utara", "maros", "pangkajene dan kepulauan", "pinrang", "sidenreng rappang", "sinjai", "soppeng", "takalar", "tana toraja", "toraja utara", "wajo", "makassar", "palopo", "parepare"],
+            "sulawesi tenggara": ["bombana", "buton", "buton selatan", "buton tengah", "buton utara", "kolaka", "kolaka timur", "kolaka utara", "konawe", "konawe kepulauan", "konawe selatan", "konawe utara", "muna", "muna barat", "wakatobi", "baubau", "kendari"],
+            "gorontalo": ["boalemo", "bone bolango", "gorontalo", "gorontalo utara", "pohuwato", "gorontalo"],
+            "sulawesi barat": ["majene", "mamasa", "mamuju", "mamuju tengah", "pasangkayu", "polewali mandar"],
+            "maluku": ["buru", "buru selatan", "kepulauan aru", "maluku barat daya", "maluku tengah", "maluku tenggara", "maluku tenggara barat", "seram bagian barat", "seram bagian timur", "ambon", "tual"],
+            "maluku utara": ["halmahera barat", "halmahera selatan", "halmahera tengah", "halmahera timur", "halmahera utara", "kepulauan sula", "pulau morotai", "pulau taliabu", "ternate", "tidore kepulauan"],
+            "papua": ["asmat", "biak numfor", "boven digoel", "deiyai", "dogiyai", "intan jaya", "jayapura", "jayawijaya", "kaur", "keerom", "kepulauan yapen", "lanny jaya", "mamberamo raya", "mamberamo tengah", "mapia", "merauke", "mimika", "nabire", "nduga", "paniai", "pegunungan bintang", "puncak", "puncak jaya", "sarmi", "supiori", "tolikara", "waropen", "yahukimo", "yalimo", "jayapura"],
+            "papua barat": ["fakfak", "kaimana", "manokwari", "manokwari selatan", "maybrat", "pegawai arfak", "raja ampat", "sorong", "sorong selatan", "tambrauw", "teluk bintuni", "teluk wondama"],
+            "papua selatan": ["asmat", "boven digoel", "merauke", "mappi"],
+            "papua tengah": ["dogiyai", "intan jaya", "mimika", "nabire", "paniai", "puncak", "puncak jaya"],
+            "papua pegunungan": ["jayawijaya", "lanny jaya", "mamberamo tengah", "nduga", "pegunungan bintang", "tolikara", "yahukimo", "yalimo"],
+            "papua barat daya": ["maybrat", "raja ampat", "sorong", "sorong selatan", "tambrauw", "kota sorong"]
+        };
+
+        const provinceSelect = document.getElementById('provinceSelect');
+        const citySelect = document.getElementById('citySelect');
+        const subDistrictInput = document.getElementById('subDistrictInput');
+        const checkButton = document.getElementById('checkButton');
+        const resultDiv = document.getElementById('result');
+
+        // Populate Provinces
+        for (const province in areaData) {
+            const option = document.createElement('option');
+            option.value = province;
+            // Capitalize each word for display
+            option.textContent = province.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+            provinceSelect.appendChild(option);
+        }
+
+        // Event Listener for Province Select
+        provinceSelect.addEventListener('change', function() {
+            const selectedProvince = this.value;
+            citySelect.innerHTML = '<option value="">Pilih Kota/Kabupaten</option>'; // Clear existing cities
+            citySelect.disabled = true; // Disable city select by default
+            subDistrictInput.value = ''; // Clear sub-district input
+
+            if (selectedProvince) {
+                const cities = areaData[selectedProvince];
+                cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    // Capitalize each word for display
+                    option.textContent = city.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                    citySelect.appendChild(option);
+                });
+                citySelect.disabled = false; // Enable city select
+            }
+            // Hide result div on change
+            resultDiv.classList.remove('visible', 'success', 'error', 'warning');
+            resultDiv.innerHTML = '';
+        });
+
+        // Event Listener for City Select (to clear result when city changes)
+        citySelect.addEventListener('change', function() {
+            resultDiv.classList.remove('visible', 'success', 'error', 'warning');
+            resultDiv.innerHTML = '';
+        });
+
+        // Event Listener for Sub-District Input (to clear result when input changes)
+        subDistrictInput.addEventListener('input', function() {
+            resultDiv.classList.remove('visible', 'success', 'error', 'warning');
+            resultDiv.innerHTML = '';
+        });
+
+
+        // Event Listener for Check Button
+        checkButton.addEventListener('click', function() {
+            const selectedProvince = provinceSelect.value;
+            const selectedCity = citySelect.value;
+            const subDistrict = subDistrictInput.value.trim().toLowerCase();
+
+            resultDiv.classList.remove('visible', 'success', 'error', 'warning');
+            resultDiv.innerHTML = ''; // Clear previous result
+
+            if (!selectedProvince) {
+                resultDiv.className = 'result-message warning visible';
+                resultDiv.innerHTML = 'Mohon pilih **Provinsi** terlebih dahulu.';
+                return;
+            }
+            if (!selectedCity) {
+                resultDiv.className = 'result-message warning visible';
+                resultDiv.innerHTML = 'Mohon pilih **Kota/Kabupaten** terlebih dahulu.';
+                return;
+            }
+
+            // Combine selected area for display and check
+            let areaDisplayName = `${selectedCity.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}, ${selectedProvince.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}`;
+            let areaToCheck = `${selectedCity}`; // Simplified check for now. Can be expanded.
+            if (subDistrict) {
+                areaDisplayName = `${subDistrict.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}, ${areaDisplayName}`;
+                areaToCheck = `${subDistrict}, ${selectedCity}`; // Include sub-district in check string
+            }
+
+            // Simulating coverage check based on selected city (for demonstration)
+            // In a real application, this would involve a more sophisticated check
+            // against the 'coveredAreas' data, perhaps matching parts of the combined string.
+            // For now, I'm using the originally provided 'coveredAreas' logic.
+
+            const isCovered = coveredAreas.some(coveredArea => areaToCheck.includes(coveredArea) || coveredArea.includes(areaToCheck));
+
+            if (isCovered) {
+                const whatsappNumber = '6281234567890'; // Ganti dengan nomor WhatsApp ICONNET yang sebenarnya
+                const whatsappMessage = encodeURIComponent(`Halo ICONNET, saya ingin menanyakan lebih lanjut mengenai cakupan area di ${areaDisplayName}. Apakah benar sudah tercover?`);
+                const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
+                resultDiv.className = 'result-message success visible';
+                resultDiv.innerHTML = `
+                    <p>Area <span style="font-weight: bold;">"${areaDisplayName}"</span> kemungkinan <span style="font-weight: bold;">TERCOVER</span>.</p>
+                    <a href="${whatsappLink}" target="_blank" class="whatsapp-button">
+                        <i class="fab fa-whatsapp"></i> Lanjut ke WhatsApp untuk Konfirmasi Lokasi
+                    </a>
+                `;
+            } else {
+                resultDiv.className = 'result-message error visible';
+                resultDiv.innerHTML = `Area <span style="font-weight: bold;">"${areaDisplayName}"</span> <span style="font-weight: bold;">TIDAK TERCOVER</span> dalam daftar cakupan kami saat ini. Mohon maaf.`;
+            }
+        });
+
+        // Data cakupan area untuk pengecekan detail (dari daftar yang Anda berikan sebelumnya)
+        // Perlu diingat bahwa data ini mungkin tidak cocok 100% dengan semua kombinasi provinsi-kota
+        // yang baru ditambahkan jika tidak ada di daftar asli.
+        const coveredAreas = [
+            "aceh", "aceh barat", "aceh barat daya", "aceh besar", "aceh selatan", "aceh tamiang", "aceh tengah",
+            "aceh utara", "aceh tenggara", "aceh timur", "alue bilie", "banda", "banda aceh", "bener meriah",
+            "bireuen", "blangpidie", "calang", "idi", "janarata", "kota fajar", "krueng geukeuh", "kuala simpang",
+            "kuta cane", "labuhan haji", "lamno", "langsa", "lhokseumawe", "lhoksukon", "meulaboh", "meureudu",
+            "nagan raya", "panton labu", "pidi jaya", "pidie", "samalanga", "sigli", "singkil", "subulussalam",
+            "takengon", "tringgadeng",
+
+            "sumatra utara", "aek kanopan", "asahan", "balige", "batang toru", "binjai", "brastagi", "dairi",
+            "deli serdang", "galang", "gunung tua", "humbang hasundutan", "johor", "kabanjahe", "karo", "kisaran",
+            "kota pinang", "labuhan batu selatan", "labuhan batu utara", "labuhanbatu", "langkat", "lima puluh",
+            "mandailing natal", "marelan", "marendal", "medan", "padang lawas utara", "padang lawas", "padang sidempuan",
+            "pancur batu", "pangururan", "pematang siantar", "perbaungan", "pintu padang", "porsea",
+            "rantau prapat", "samosir", "selayang", "serbelawan", "serdang berdagai", "siamlungun", "siantar",
+            "sibolga", "siborong-borong", "sibuhuan", "sipirok", "sosa", "stabat", "tanjung balai",
+            "tapanuli selatan", "tapanuli tengah", "tapanuli utara", "tarutung", "tebing tinggi", "toba",
+
+            "sumatra barat", "agam", "bukittinggi", "dharmasraya", "kepulauan mentawai", "kab solok", "kota solok", "lima puluh kota",
+            "padang panjang", "padang", "pariaman", "pasaman barat", "pasaman", "payakumbuh", "pesisir selatan",
+            "sijunjung", "solok", "solok selatan", "tanah datar", "sawahlunto", "pariaman", "padang panjang", "bukittinggi",
+
+            "riau", "bengkalis", "dumai", "indragiri hilir", "indragiri hulu", "kampar", "kepulauan meranti",
+            "kuantan singingi", "pekanbaru", "pelalauan", "rokan hilir", "rokan hulu", "siak", "dumai", "pekanbaru",
+
+            "kepulauan riau", "bintan", "karimun", "lingga", "natuna", "kepulauan anambas", "kota tanjung pinang", "batam", "tanjung pinang",
+
+            "jambi", "batang hari", "bungo", "kerinci", "merangin", "muaro jambi", "sarolangun", "tanjung jabung barat", "tanjung jabung timur", "tebo", "jambi", "sungai penuh",
+
+            "sumatra selatan", "banyuasin", "empat lawang", "lahat", "muara enim", "musi banyuasin", "musi rawas", "musi rawas utara", "ogan ilir", "ogan komering ilir", "ogan komering ulu", "ogan komering ulu selatan",
+            "ogan komering ulu timur", "lubuklinggau", "pagar alam", "palembang", "prabumulih", "lubuklinggau",
+
+            "bangka belitung", "bangka", "bangka barat", "bangka selatan", "bangka tengah", "belitung", "belitung timur belitung", "pangkal pinang",
+
+            "bengkulu", "bengkulu selatan", "bengkulu tengah", "bengkulu utara", "kaur", "kepahiang", "lebong",
+            "muko-muko", "rejanglebong", "seluma", "bengkulu",
+
+            "lampung", "bandar lampung", "lampung barat", "lampung selatan", "lampung tengah", "lampung timur",
+            "lampung utara", "mesuji", "pesawaran", "pesisir barat", "pringsewu", "tanggamus", "tulang bawang", "tulang bawang barat", "way kanan", "metro",
+
+            "dki jakarta", "kepulauan seribu", "jakarta barat", "jakarta pusat", "jakarta selatan", "jakarta timur", "jakarta utara",
+            "kota bekasi",
+
+            "jawa barat", "bandung", "bandung barat", "bekasi", "bogor", "ciamis", "cianjur", "cimahi",
+            "cirebon", "depok", "garut", "indramayu", "karawang", "kuningan", "majalengka", "pangandaran", "purwakarta", "subang", "sukabumi", "sumedang", "tasikmalaya", "banjar", "cimahi", "depok",
+
+            "banten", "cilegon", "lebak", "pandeglang", "serang", "tangerang", "tangerang selatan", "kab serang",
+
+            "jawa tengah", "banjarnegara", "banyumas", "batang", "blora", "boyolali", "brebes", "cilacap", "demak",
+            "grobogan", "jepara", "karanganyar", "kebumen", "kendal", "klaten", "kudus", "magelang", "pati", "pekalongan", "pemalang", "purbalingga",
+            "purworejo", "rembang", "salatiga", "semarang", "sragen", "sukoharjo", "surakarta", "tegal",
+            "temanggung", "wonogiri", "wonosobo", "kab magelang", "kab pekalongan", "kab semarang", "kab tegal", "solo",
+
+            "di yogyakarta", "bantul", "gunungkidul", "kulon progo", "sleman", "yogyakarta",
+
+            "jawa timur", "bangkalan", "banyuwangi", "batu", "bojonegoro", "bondowoso", "gresik", "jember",
+            "jombang", "kediri", "lamongan", "lumajang", "madiun", "magetan", "malang", "mojokerto", "nganjuk", "ngawi", "pacitan", "pamekasan", "pasuruan", "ponorogo", "probolinggo", "sampang", "sidoarjo", "situbondo", "sumenep", "trenggalek", "tuban", "tulungagung", "blitar", "kota mojokerto", "kota blitar", "kota kediri", "kota madiun", "kota malang",
+            "kota pasuruan", "kota probolinggo", "kraksaan", "surabaya",
+
+            "bali", "badung", "bangli", "buleleng", "gianyar", "jembrana", "karangasem",
+            "klungkung", "singaraja", "tabanan",
+
+            "nusa tenggara barat", "bima", "dompu", "kab kupang", "kota kupang", "lombok", "lombok barat", "lombok tengah",
+            "lombok timur", "lombok utara", "mataram", "sumbawa", "sumbawa barat",
+
+            "nusa tenggara timur", "alor", "belu", "ende", "flores timur", "kab kupang", "kota kupang", "kupang", "lembata",
+            "malaka", "manggarai", "manggarai barat", "manggarai timur", "ngada", "nagekeo", "rote ndao", "sabu raijua",
+            "sikka", "sumba barat", "sumba barat daya", "sumba tengah", "sumba timur", "timor tengah selatan", "timor tengah utara",
+
+            "kalimantan barat", "bengkayang", "kapuas hulu", "kayong utara", "ketapang", "kubu raya", "landak", "melawi",
+            "pontianak", "sambas", "sanggau", "sekadau", "sintang", "singkawang",
+
+            "kalimantan tengah", "barito selatan", "barito timur", "barito utara", "gunung mas", "kapuas", "katingan",
+            "kotawaringin barat", "kotawaringin timur", "lamandau", "murung raya", "palangkaraya", "pulang pisau", "sampit", "seruyan", "sukamara",
+
+            "kalimantan selatan", "balangan", "banjar", "barito kuala", "hulu sungai selatan", "hulu sungai tengah", "hulu sungai utara",
+            "kota baru", "tabalong", "tanah bumbu", "tanah laut", "tapin", "banjarbaru", "banjarmasin",
+
+            "kalimantan timur", "berau", "kutai barat", "kutai kartanegara", "kutai timur", "mahakam ulu", "pasar",
+            "penajam paser utara", "balikpapan", "bontang", "samarinda",
+
+            "kalimantan utara", "bulungan", "malinau", "nunukan", "tana tidung", "tarakan",
+
+            "sulawesi utara", "bitung", "bolaang mongondow", "bolaang mongondow selatan", "bolaang mongondow timur", "bolaang mongondow utara",
+            "kepulauan sangihe", "kepulauan siau tagulandang biaro", "kepulauan talaud", "minahasa", "minahasa selatan",
+            "minahasa tenggara", "minahasa utara", "kota mobagu", "manado", "tomohon",
+
+            "sulawesi barat", "majene", "mamasa", "mamuju", "mamuju tengah", "pasangkayu", "polewali mandar",
+
+            "sulawesi tengah", "banggai", "banggai kepulauan", "banggai laut", "buol", "donggala", "morowali", "morowali utara",
+            "parigi moutong", "palu", "poso", "sigi", "tojo una-una", "tolitoli",
+
+            "sulawesi selatan", "bantaeng", "barru", "bone", "bulukumba", "enrekang", "gowa", "jeneponto", "kepulauan selayar", "luwu", "luwu timur", "luwu utara", "maros", "pangkajene dan kepulauan", "pinrang", "sidenreng rappang", "sinjai", "soppeng", "takalar", "tana toraja", "toraja utara", "wajo", "makassar", "palopo", "parepare",
+
+            "sulawesi tenggara", "baubau", "bombana", "buton", "buton selatan", "buton tengah", "buton utara", "kendari",
+            "kolaka", "kolaka timur", "kolaka utara", "konawe", "konawe kepulauan", "konawe selatan", "konawe utara",
+            "muna", "muna barat", "wakatobi",
+
+            "gorontalo", "bone bolango", "gorontalo", "gorontalo utara", "kab gorontalo", "kota gorontalo", "limboto", "pohuwato",
+
+            "maluku", "buru", "buru selatan", "kepulauan aru", "maluku barat daya", "maluku tengah", "maluku tenggara",
+            "maluku tenggara barat", "seram bagian barat", "seram bagian timur", "ambon", "tual",
+
+            "maluku utara", "halmahera barat", "halmahera selatan", "halmahera tengah", "halmahera timur", "halmahera utara",
+            "kepulauan sula", "pulau morotai", "pulau taliabu", "ternate", "tidore kepulauan",
+
+            "papua", "asmat", "biak numfor", "boven digoel", "deiyai", "dogiyai", "intan jaya", "jayapura", "jayawijaya",
+            "keerom", "kepulauan yapen", "lanny jaya", "mamberamo raya", "mamberamo tengah", "mapia", "merauke", "mimika",
+            "nabire", "nduga", "paniai", "pegunungan bintang", "puncak", "puncak jaya", "sarmi", "supiori", "tolikara",
+            "waropen", "yahukimo", "yalimo",
+
+            "papua barat", "fakfak", "kaimana", "manokwari", "manokwari selatan", "maybrat", "pegawai arfak",
+            "raja ampat", "sorong", "sorong selatan", "tambrauw", "teluk bintuni", "teluk wondama",
+
+            "papua selatan", "asmat", "boven digoel", "merauke", "mappi",
+
+            "papua tengah", "dogiyai", "intan jaya", "mimika", "nabire", "paniai", "puncak", "puncak jaya",
+
+            "papua pegunungan", "jayawijaya", "lanny jaya", "mamberamo tengah", "nduga", "pegunungan bintang", "tolikara", "yahukimo", "yalimo",
+
+            "papua barat daya", "maybrat", "raja ampat", "sorong", "sorong selatan", "tambrauw", "kota sorong"
+        ];
+
+        // Script untuk carousel utama dan testimonial (tidak terlihat di halaman cakupan area, namun perlu ada untuk konsistensi JS)
+        // Main Carousel (tersembunyi via CSS)
+        const imageList = [
+            "https://api.stroom.id/v1/file/asset/load/png/hojzxbo6un",
+            "https://api.stroom.id/v1/file/asset/load/png/i9eqyouga8",
+            "https://api.stroom.id/v1/file/asset/load/png/khrss86nek",
+            "https://api.stroom.id/v1/file/asset/load/jpg/fonj7zzggz",
+            "https://api.stroom.id/v1/file/asset/load/png/nh83voulxh",
+            "https://api.stroom.id/v1/file/asset/load/png/dc5ic3iauj",
+        ];
+
+        let currentIndex = 0;
+        const carouselImage = document.getElementById("carouselImage");
+        const btnLeft = document.querySelector(".carousel-btn.left");
+        const btnRight = document.querySelector(".carousel-btn.right");
+
+        if (carouselImage && btnLeft && btnRight) { // Pastikan elemen ada
+            function showImage(index) {
+                carouselImage.src = imageList[index];
+            }
+
+            btnLeft.addEventListener("click", () => {
+                currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+                showImage(currentIndex);
+            });
+            btnRight.addEventListener("click", () => {
+                currentIndex = (currentIndex + 1) % imageList.length;
+                showImage(currentIndex);
+            });
+
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % imageList.length;
+                showImage(currentIndex);
+            }, 5000);
+        }
+
+        const testimoniWrapper = document.querySelector(".testimoni");
+        const testimoniBtnLeft = document.querySelector(".testimoni-btn.left");
+        const testimoniBtnRight = document.querySelector(".testimoni-btn.right");
+
+        if (testimoniWrapper && testimoniBtnLeft && testimoniBtnRight) { // Pastikan elemen ada
+            testimoniBtnLeft.addEventListener("click", () => {
+                testimoniWrapper.scrollBy({
+                    left: -testimoniWrapper.offsetWidth / 3,
+                    behavior: "smooth",
+                });
+            });
+
+            testimoniBtnRight.addEventListener("click", () => {
+                testimoniWrapper.scrollBy({
+                    left: testimoniWrapper.offsetWidth / 3,
+                    behavior: "smooth",
+                });
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Produk & Promo - ICONNET</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8; /* Lebih terang */
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #003366;
+            padding: 0.5rem 1.5rem;
+            position: relative;
+            z-index: 1000;
+        }
+        header img {
+            height: 30px;
+        }
+        header nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            margin: 0;
+        }
+        header nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+        header nav a:hover {
+            color: #add8e6; /* Biru muda saat hover */
+        }
+
+        /* Mobile Burger Menu and Navigation */
+        .burger-menu {
+            display: none;
+            font-size: 1.8rem;
+            color: white;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #003366;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 999;
+            padding: 1rem 1.5rem;
+        }
+        .mobile-nav.active {
+            display: flex;
+        }
+        .mobile-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+
+        /* Generic Section Styling */
+        .section {
+            padding: 3rem 1.5rem; /* Padding lebih besar */
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Product Page Specific Styles */
+        .product-content {
+            background-color: white;
+            padding: 3rem; /* Padding lebih besar */
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05); /* Bayangan lebih halus dan elegan */
+            text-align: center;
+        }
+
+        .product-content h2 {
+            color: #003366;
+            margin-bottom: 1rem;
+            font-size: 2.8rem; /* Ukuran font judul lebih besar */
+            font-weight: 700;
+        }
+        .product-content p {
+            margin-bottom: 2.5rem; /* Margin lebih besar */
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #555;
+            font-size: 1.05rem; /* Sedikit lebih besar */
+        }
+
+        /* Area & Service Type Buttons - Kotak Kaku */
+        .selection-buttons-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem; /* Jarak antar tombol */
+            margin-top: 2.5rem; /* Margin lebih besar */
+            margin-bottom: 2.5rem; /* Margin lebih besar */
+            flex-wrap: wrap;
+        }
+        .selection-buttons-group button {
+            background-color: transparent; /* Tidak ada latar belakang */
+            color: #003366;
+            padding: 0.9rem 1.8rem; /* Padding lebih besar */
+            border: 2px solid #003366; /* Border kaku */
+            border-radius: 0; /* Tanpa sudut melengkung */
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+        }
+        .selection-buttons-group button:hover {
+            background-color: rgba(0,51,102,0.05); /* Sedikit latar belakang biru saat hover */
+            transform: translateY(-2px);
+        }
+        .selection-buttons-group button.active {
+            background-color: #003366; /* Latar belakang penuh saat aktif */
+            color: white;
+            border-color: #003366;
+            box-shadow: 0 4px 10px rgba(0,51,102,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Product Cards Container */
+        .product-cards-container {
+            margin-top: 3.5rem; /* Margin lebih besar */
+            min-height: 300px; 
+            display: flex;
+            flex-direction: column; /* Konten di dalamnya tetap vertikal */
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            text-align: center;
+        }
+        .product-cards-container p.initial-message {
+            font-size: 1.2rem;
+            color: #666;
+            padding: 2.5rem;
+            border: 1px dashed #c0c0c0;
+            border-radius: 10px;
+            background-color: #fdfdfd;
+        }
+
+        /* Product Grid for Rumahan & Bisnis - Menyamping seperti kartu remi */
+        .product-grid {
+            display: flex; /* Menggunakan flexbox untuk menyamping */
+            flex-wrap: nowrap; /* *Tidak* izinkan wrapping, force single row */
+            justify-content: center; /* Pusatkan kartu */
+            gap: 1.2rem; /* Jarak antar kartu lebih kecil */
+            padding: 1rem 0; 
+            text-align: left;
+            overflow-x: auto; /* Tambahkan scroll horizontal jika kartu melebihi lebar */
+            width: 100%; /* Pastikan mengambil lebar penuh agar scroll berfungsi */
+            -webkit-overflow-scrolling: touch; /* Untuk scroll yang lebih halus di iOS */
+        }
+        /* Style the scrollbar */
+        .product-grid::-webkit-scrollbar {
+            height: 8px; /* Tinggi scrollbar */
+        }
+        .product-grid::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Latar belakang track */
+            border-radius: 10px;
+        }
+        .product-grid::-webkit-scrollbar-thumb {
+            background: #888; /* Warna thumb */
+            border-radius: 10px;
+        }
+        .product-grid::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Warna thumb saat hover */
+        }
+
+        
+        /* Product Card - Efek kartu remi */
+        .product-card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            padding: 1.2rem 0.8rem; /* Padding dikurangi lagi */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e5e5e5;
+            width: 180px; /* Lebar tetap untuk kartu, lebih kecil lagi */
+            flex-shrink: 0; /* Agar kartu tidak menyusut */
+        }
+        .product-card:hover {
+            transform: translateY(-5px); 
+            box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+        }
+        .product-card .speed-display {
+            font-size: 2.8rem; /* Ukuran font kecepatan dikurangi */
+            font-weight: 800; 
+            color: #003366; 
+            line-height: 1;
+            margin-bottom: 0.5rem; /* Margin dikurangi */
+            letter-spacing: -1px;
+        }
+        .product-card .tagline {
+            font-size: 0.9rem; /* Ukuran font tagline dikurangi */
+            color: #777;
+            margin-bottom: 0.7rem; /* Margin dikurangi */
+            font-weight: 500;
+        }
+        .product-card .features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 0.8rem; /* Margin dikurangi */
+            text-align: center;
+        }
+        .product-card .features li {
+            margin-bottom: 0.4rem; /* Margin dikurangi */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 0.8rem; /* Ukuran font fitur dikurangi */
+            line-height: 1.2; /* Kerapatan baris fitur */
+        }
+        .product-card .features li i {
+            color: #0056b3; 
+            margin-right: 0.5rem; /* Margin dikurangi */
+            font-size: 0.9rem; /* Ukuran ikon dikurangi */
+            flex-shrink: 0;
+        }
+        .product-card .price-section {
+            margin-top: 0.8rem; /* Margin dikurangi */
+        }
+        .product-card .price {
+            font-size: 1.8rem; /* Ukuran font harga dikurangi */
+            font-weight: bold;
+            color: #003366; 
+            margin-bottom: 0.1rem; /* Margin dikurangi */
+            letter-spacing: -0.5px;
+        }
+        .product-card .price-note {
+            font-size: 0.75rem; /* Ukuran font catatan harga dikurangi */
+            color: #888;
+            margin-bottom: 0.8rem; /* Margin dikurangi */
+        }
+        .product-card .button {
+            display: inline-block;
+            background-color: #0056b3; 
+            color: white;
+            padding: 0.5rem 0.8rem; /* Padding dikurangi */
+            border-radius: 20px; /* Sedikit kurang membulat */
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,86,179,0.2); /* Bayangan disesuaikan */
+            font-size: 0.8rem; /* Ukuran font tombol dikurangi */
+        }
+        .product-card .button:hover {
+            background-color: #004085; 
+            transform: translateY(-1px); /* Efek melayang lebih kecil */
+            box-shadow: 0 4px 12px rgba(0,86,179,0.3);
+        }
+
+        /* Titles for product sections */
+        .product-section-title {
+            color: #003366;
+            font-size: 2rem;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            text-align: center; /* Pusatkan judul */
+            width: 100%; /* Pastikan judul mengambil lebar penuh */
+        }
+
+        .instalasi-cost { 
+            margin-top: 25px;
+            font-size: 0.95rem;
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            width: 100%;
+            display: block; 
+        }
+
+        /* Image for Product/Promo Section */
+        .section-image {
+            width: 100%;
+            max-width: 900px; 
+            margin: 3rem auto; 
+            border-radius: 15px; 
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08); 
+        }
+        .section-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #003366;
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+            margin-top: 4rem; 
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 0.6rem;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: #add8e6;
+        }
+        .footer-links-desktop {
+            display: inline-block;
+        }
+
+        /* --- Modal for Recommendation Feature --- */
+        .recommendation-modal {
+            display: none; 
+            position: fixed; 
+            z-index: 2000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.6); 
+            justify-content: center; 
+            align-items: center; 
+            padding: 20px;
+            box-sizing: border-box;
+            backdrop-filter: blur(5px); 
+        }
+
+        .recommendation-modal-content {
+            background-color: #fefefe;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            text-align: left;
+            position: relative;
+            animation: fadeInScale 0.3s ease-out; 
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .recommendation-modal-content .close-button {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .recommendation-modal-content .close-button:hover,
+        .recommendation-modal-content .close-button:focus {
+            color: #333;
+        }
+
+        .recommendation-modal-content h3 {
+            color: #003366;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .recommendation-modal-content label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .recommendation-modal-content input[type="number"],
+        .recommendation-modal-content select,
+        .recommendation-modal-content textarea {
+            width: calc(100% - 20px); 
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .recommendation-modal-content .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .recommendation-modal-content .checkbox-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0; 
+            font-weight: normal;
+        }
+
+        .recommendation-modal-content .checkbox-group input[type="checkbox"] {
+            margin-right: 5px;
+            width: auto; 
+            margin-bottom: 0;
+        }
+
+        .recommendation-modal-content button.submit-button {
+            background-color: #0056b3;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .recommendation-modal-content button.submit-button:hover {
+            background-color: #004085;
+            transform: translateY(-2px);
+        }
+
+        .recommendation-result {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f0f8ff; 
+            border: 1px solid #d0e0ea;
+            border-radius: 8px;
+            text-align: left;
+            word-wrap: break-word; 
+            white-space: pre-wrap; 
+        }
+        .recommendation-result h4 {
+            color: #003366;
+            margin-top: 0;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+        .recommendation-result p {
+            margin-bottom: 10px;
+            color: #444;
+        }
+        .recommendation-result strong {
+            color: #003366;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #003366;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none; 
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- AI Recommendation Button Styles --- */
+        .recommendation-button-wrapper {
+            margin-top: 3rem; 
+            text-align: center;
+        }
+        .recommendation-button-wrapper .button {
+            background-color: #0056b3; 
+            box-shadow: 0 4px 15px rgba(0,86,179,0.2); 
+            color: white;
+            padding: 1rem 2.5rem; 
+            font-size: 1.15rem; 
+            font-weight: 600; 
+            border-radius: 30px; 
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            text-decoration: none; 
+            display: inline-block; 
+        }
+        .recommendation-button-wrapper .button:hover {
+            background-color: #004085; 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,86,179,0.3);
+        }
+
+        /* --- New button inside modal --- */
+        .modal-secondary-button {
+            background-color: transparent;
+            color: #0056b3;
+            border: 1px solid #0056b3;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            width: 100%;
+            margin-top: 15px; /* Margin di atas tombol ini */
+        }
+        .modal-secondary-button:hover {
+            background-color: #e0eaf0;
+            color: #003366;
+        }
+
+
+        /* Media Queries for Responsiveness */
+        /* Updated media query to ensure horizontal layout on larger screens */
+        @media (min-width: 901px) { /* On screens wider than 900px */
+            .product-grid {
+                flex-wrap: nowrap; /* Force single row */
+                overflow-x: auto; /* Enable horizontal scrolling */
+                justify-content: center; /* ALIGN TO CENTER */
+            }
+            .product-card {
+                flex-shrink: 0; /* Prevent cards from shrinking */
+                width: 180px; /* Fixed width, smaller */
+            }
+        }
+
+        @media (max-width: 900px) { /* For screens 900px and smaller */
+            .product-grid {
+                flex-wrap: wrap; /* Allow wrapping */
+                justify-content: center; /* Center cards if they wrap */
+                overflow-x: hidden; /* Disable horizontal scroll if wrapping */
+                gap: 1.5rem;
+            }
+            .product-card {
+                width: calc(50% - 1.5rem); /* Two columns, considering gap */
+                max-width: 350px; 
+            }
+        }
+        @media (max-width: 768px) {
+            header nav ul {
+                display: none;
+            }
+            .burger-menu {
+                display: block;
+            }
+            .product-content {
+                padding: 2rem;
+            }
+            .product-content h2 {
+                font-size: 2.2rem;
+            }
+            .selection-buttons-group button {
+                width: calc(50% - 0.5rem); 
+                margin-bottom: 0.8rem;
+                padding: 0.8rem 1.2rem;
+            }
+            .product-grid {
+                flex-direction: column; /* Ubah ke kolom di layar sangat kecil */
+                gap: 1.5rem;
+            }
+            .product-card {
+                width: 100%; 
+                max-width: none;
+            }
+            .product-cards-container p.initial-message {
+                font-size: 1.1rem;
+                padding: 2rem;
+            }
+            .product-card .speed-display {
+                font-size: 3.8rem;
+            }
+            .product-card .price {
+                font-size: 2.5rem;
+            }
+            .section-image {
+                margin: 2rem auto;
+            }
+            .recommendation-modal-content {
+                padding: 20px;
+            }
+            .recommendation-modal-content h3 {
+                font-size: 1.5rem;
+            }
+            .modal-secondary-button {
+                margin-top: 10px;
+                padding: 8px 15px;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mobile-nav a {
+                padding: 0.6rem 0;
+            }
+            .product-content {
+                padding: 1.5rem;
+            }
+            .product-content h2 {
+                font-size: 1.8rem;
+            }
+            .selection-buttons-group button {
+                width: 100%; 
+                margin-bottom: 0.6rem;
+                padding: 0.7rem 1rem;
+            }
+            .product-card {
+                padding: 1.5rem;
+            }
+            .product-card .speed-display {
+                font-size: 3.2rem;
+            }
+            .product-card .price {
+                font-size: 2.2rem;
+            }
+            .section-image {
+                margin: 1.5rem auto;
+            }
+            .recommendation-modal-content input,
+            .recommendation-modal-content select,
+            .recommendation-modal-content textarea,
+            .recommendation-modal-content button.submit-button {
+                width: 100%;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://iconnetsumut.com/wp-content/uploads/2023/09/iconnet-putih.webp" alt="ICONNET Logo" />
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="produk.html">Produk & Promo</a></li>
+                <li><a href="cakupan.html">Cakupan Area</a></li>
+                <li><a href="kontak.html">Hubungi Kami</a></li>
+            </ul>
+        </nav>
+        <div class="burger-menu" id="headerBurger">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <a href="index.html">Home</a>
+            <a href="produk.html">Produk & Promo</a>
+            <a href="cakupan.html">Cakupan Area</a>
+            <a href="kontak.html">Hubungi Kami</a>
+            <a href="pembayaran.html">Metode Pembayaran</a>
+            <a href="tentang.html">Tentang Kami</a>
+            <a href="syarat.html">Syarat & Ketentuan</a>
+            <a href="privasi.html">Kebijakan Privasi</a>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="product-content" data-aos="fade-up">
+            <h2>PRODUK KAMI</h2>
+            <p>ICONNET adalah sebuah internet provider baru yang dulunya bernama Stroomnet. ICONNET Bangkit Bersatu Untuk Indonesia, dengan menjunjung tinggi nilai-nilai Nasionalisme, ICONNET berniat memberikan yang terbaik untuk masyarakat Indonesia.</p>
+
+            <div class="section-image">
+                <img src="https://iconnet.id/img/New%20Coverage%20v2-02.cf820d5e.png" alt="[Image of Keluarga menikmati internet ICONNET]">
+            </div>
+
+            <div class="selection-buttons-group" id="areaSelectionButtons">
+                <button data-area="jawa-bali">Jawa & Bali</button>
+                <button data-area="sumatera-kalimantan">Sumatera & Kalimantan</button>
+                <button data-area="indonesia-timur">Indonesia Timur</button>
+            </div>
+
+            <div class="selection-buttons-group" id="serviceTabs">
+                <button data-service-type="rumahan">ICONNET Internet Rumahan</button>
+                <button data-service-type="bisnis">ICONNET BIZ untuk Bisnis</button>
+            </div>
+
+            <div class="product-cards-container" id="productCardsContainer">
+                <p class="initial-message">Silakan pilih area dan jenis layanan untuk melihat daftar paket.</p>
+            </div>
+            
+            <div class="section-image">
+                <img src="https://iconnet.id/img/banner_web_iconnet_2.55ae0adb.png" alt="[Image of Bisnis modern menggunakan internet ICONNET BIZ]">
+            </div>
+
+            <div class="recommendation-button-wrapper">
+                <button id="recommendationButton" class="button">
+                    <i class="fas fa-robot" style="margin-right: 8px;"></i> Dapatkan Rekomendasi Paket dengan AI kami
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div>
+            <span class="footer-links-desktop">
+                <a href="cakupan.html">Cek Area</a> |
+                <a href="pembayaran.html">Metode Pembayaran</a> |
+                <a href="tentang.html">Tentang Kami</a> |
+                <a href="kontak.html">Hubungi Kami</a> |
+                <a href="syarat.html">Syarat & Ketentuan</a> |
+                <a href="privasi.html">Kebijakan Privasi</a>
+            </span>
+        </div>
+        <p>© 2025 All rights reserved. ICONNET powered by PT Indonesia Comnets Plus</p>
+    </footer>
+
+    <!-- Recommendation Modal -->
+    <div id="recommendationModal" class="recommendation-modal">
+        <div class="recommendation-modal-content">
+            <span class="close-button">&times;</span>
+            <h3>Dapatkan Rekomendasi Paket Internet ✨</h3>
+            <form id="recommendationForm">
+                <label for="numUsers">Jumlah pengguna di rumah:</label>
+                <input type="number" id="numUsers" min="1" value="1" required>
+
+                <label for="mainActivities">Aktivitas online utama:</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="activities" value="streaming"> Streaming Video (Netflix, YouTube)</label>
+                    <label><input type="checkbox" name="activities" value="gaming"> Gaming Online</label>
+                    <label><input type="checkbox" name="activities" value="work"> Kerja/Belajar Online (Video Conference)</label>
+                    <label><input type="checkbox" name="activities" value="social_media"> Media Sosial & Browsing</label>
+                    <label><input type="checkbox" name="activities" value="large_downloads"> Download File Besar</label>
+                </div>
+
+                <label for="monthlyBudget">Budget bulanan (Rp):</label>
+                <input type="number" id="monthlyBudget" min="0" placeholder="Contoh: 300.000">
+
+                <label for="userArea">Area Anda:</label>
+                <select id="userArea" required>
+                    <option value="">Pilih Area</option>
+                    <option value="jawa-bali">Jawa & Bali</option>
+                    <option value="sumatera-kalimantan">Sumatera & Kalimantan</option>
+                    <option value="indonesia-timur">Indonesia Timur</option>
+                </select>
+
+                <button type="submit" class="submit-button">Dapatkan Rekomendasi</button>
+                <div class="loading-spinner" id="loadingSpinner"></div>
+                <div id="recommendationResult" class="recommendation-result" style="display: none;"></div>
+            </form>
+            <button id="backToProductsButton" class="modal-secondary-button">Kembali melihat produk</button>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+
+        // Toggle Header Mobile Menu
+        const headerBurger = document.getElementById("headerBurger");
+        const mobileNav = document.getElementById("mobileNav");
+
+        if (headerBurger && mobileNav) {
+            headerBurger.addEventListener("click", () => {
+                mobileNav.classList.toggle("active");
+            });
+        }
+
+        // Data Produk
+        const productData = {
+            "jawa-bali": {
+                "rumahan": [
+                    { speed: 35, price: "239.000", benefits: ["Internet stabil untuk streaming dan browsing", "Cocok untuk 1-3 perangkat"], type: "Rumahan" },
+                    { speed: 50, price: "299.000", benefits: ["Pengalaman online lebih lancar", "Ideal untuk 3-5 perangkat dan gaming ringan"], type: "Rumahan" },
+                    { speed: 100, price: "399.000", benefits: ["Koneksi super cepat untuk seluruh keluarga", "Dukungan banyak perangkat dan aktivitas berat"], type: "Rumahan" }
+                ],
+            },
+            "sumatera-kalimantan": {
+                "rumahan": [
+                    { speed: 20, price: "259.000", benefits: ["Internet dasar untuk kebutuhan sehari-hari", "Cocok untuk 1-2 perangkat"], type: "Rumahan" },
+                    { speed: 35, price: "269.000", benefits: ["Keseimbangan kecepatan dan harga", "Cocok untuk 2-4 perangkat"], type: "Rumahan" },
+                    { speed: 50, price: "319.000", benefits: ["Streaming HD lancar", "Ideal untuk 3-5 perangkat"], type: "Rumahan" },
+                    { speed: 100, price: "499.000", benefits: ["Performa tinggi untuk rumah tangga besar", "Dukungan multi-perangkat dan gaming/streaming intens"], type: "Rumahan" }
+                ],
+            },
+            "indonesia-timur": {
+                "rumahan": [
+                    { speed: 20, price: "259.000", benefits: ["Internet dasar yang andal", "Cocok untuk 1-2 perangkat"], type: "Rumahan" },
+                    { speed: 35, price: "269.000", benefits: ["Cukup untuk kebutuhan online keluarga", "Cocok untuk 2-4 perangkat"], type: "Rumahan" },
+                    { speed: 50, price: "319.000", benefits: ["Streaming lancar dan browsing cepat", "Ideal untuk 3-5 perangkat"], type: "Rumahan" },
+                    { speed: 100, price: "499.000", benefits: ["Kecepatan premium untuk semua aktivitas online", "Dukungan perangkat tanpa batas"], type: "Rumahan" }
+                ],
+            },
+            "bisnis_global": [ 
+                { speed: 75, sharing_ratio: "1:10", jawa_bali_price: "599.000", sum_kal_price: "699.000", ind_tim_price: "899.000", benefits: ["Koneksi stabil untuk UMKM", "Prioritas jaringan"], type: "Bisnis" },
+                { speed: 150, sharing_ratio: "1:16", jawa_bali_price: "699.000", sum_kal_price: "799.000", ind_tim_price: "1.049.000", benefits: ["Performa lebih tinggi untuk kantor menengah", "Dukungan prioritas"], type: "Bisnis" },
+                { speed: 250, sharing_ratio: "1:16", jawa_bali_price: "949.000", sum_kal_price: "1.149.000", ind_tim_price: "1.549.000", benefits: ["Kecepatan maksimum untuk bisnis besar", "Layanan premium"], type: "Bisnis" }
+            ]
+        };
+
+        const productCardsContainer = document.getElementById('productCardsContainer');
+        const areaSelectionButtons = document.getElementById('areaSelectionButtons');
+        const serviceTabs = document.getElementById('serviceTabs');
+
+        let selectedArea = null;
+        let selectedServiceType = null; 
+
+        // Function to render product cards based on selected area and service type
+        function renderProducts() {
+            if (!selectedArea || !selectedServiceType) {
+                productCardsContainer.innerHTML = `<p class="initial-message">Silakan pilih area dan jenis layanan untuk melihat daftar paket.</p>`;
+                return;
+            }
+
+            let htmlContent = '';
+            let productTitle = '';
+
+            if (selectedServiceType === 'rumahan') {
+                const areaRumahanProducts = productData[selectedArea]?.rumahan;
+                if (!areaRumahanProducts || areaRumahanProducts.length === 0) {
+                    productCardsContainer.innerHTML = `<p class="initial-message">Belum ada paket ICONNET Internet Rumahan yang tersedia untuk area ${selectedArea === 'jawa-bali' ? 'Jawa & Bali' : selectedArea === 'sumatera-kalimantan' ? 'Sumatera & Kalimantan' : 'Indonesia Timur'}.</p>`;
+                    return;
+                }
+
+                productTitle = `<h3 class="product-section-title">ICONNET Internet Rumahan</h3>`;
+                htmlContent += `<div class="product-grid">`;
+                areaRumahanProducts.forEach(product => {
+                    htmlContent += `
+                        <div class="product-card" data-aos="zoom-in-up">
+                            <div class="speed-display">${product.speed}</div>
+                            <div class="tagline">Full Fiber To The Home</div>
+                            <ul class="features">
+                                <li><i class="fas fa-check-circle"></i> Up to ${product.speed} Mbps</li>
+                                <li><i class="fas fa-check-circle"></i> Download/Upload</li>
+                                <li><i class="fas fa-check-circle"></i> Unlimited Quota</li>
+                            </ul>
+                            <div class="price-section">
+                                <div class="price">Rp ${product.price}</div>
+                                <div class="price-note">/bulan *Harga belum termasuk ppn</div>
+                            </div>
+                            <a href="cakupan.html" class="button">Daftar Sekarang</a>
+                        </div>
+                    `;
+                });
+                htmlContent += `</div>`;
+            } else { // selectedServiceType === 'bisnis'
+                const bizProducts = productData.bisnis_global; 
+                if (!bizProducts || bizProducts.length === 0) {
+                    productCardsContainer.innerHTML = `<p class="initial-message">Belum ada paket ICONNET BIZ yang tersedia.</p>`;
+                    return;
+                }
+
+                let areaDisplayName;
+                let areaPriceKey;
+                if (selectedArea === 'jawa-bali') { areaPriceKey = 'jawa_bali_price'; areaDisplayName = 'Jawa & Bali'; }
+                else if (selectedArea === 'sumatera-kalimantan') { areaPriceKey = 'sum_kal_price'; areaDisplayName = 'Sumatera & Kalimantan'; }
+                else if (selectedArea === 'indonesia-timur') { areaPriceKey = 'ind_tim_price'; areaDisplayName = 'Indonesia Timur'; }
+                else {
+                    productCardsContainer.innerHTML = `<p class="initial-message">Silakan pilih area dan jenis layanan untuk melihat daftar paket bisnis.</p>`;
+                    return;
+                }
+
+                productTitle = `<h3 class="product-section-title">ICONNET BIZ untuk Bisnis (${areaDisplayName})</h3>`;
+                htmlContent += `<div class="product-grid">`; 
+                bizProducts.forEach(product => {
+                    htmlContent += `
+                        <div class="product-card" data-aos="zoom-in-up">
+                            <div class="speed-display">${product.speed}</div>
+                            <div class="tagline">Mbps</div>
+                            <ul class="features">
+                                <li><i class="fas fa-check-circle"></i> Sharing Ratio ${product.sharing_ratio}</li>
+                                <li><i class="fas fa-check-circle"></i> Dedicated IP (opsional)</li>
+                                <li><i class="fas fa-check-circle"></i> Dukungan Bisnis</li>
+                            </ul>
+                            <div class="price-section">
+                                <div class="price">Rp ${product[areaPriceKey]}</div>
+                                <div class="price-note">/bulan *Harga belum termasuk ppn</div>
+                            </div>
+                            <a href="cakupan.html" class="button">Daftar Sekarang</a>
+                        </div>
+                    `;
+                });
+                htmlContent += `</div>`;
+                htmlContent += `<p class="instalasi-cost">Biaya Instalasi (OTC) = Rp 500.000 (belum termasuk ppn)</p>`;
+            }
+
+            productCardsContainer.innerHTML = productTitle + htmlContent;
+        }
+
+        // Event listener for area selection buttons
+        if (areaSelectionButtons) {
+            areaSelectionButtons.addEventListener('click', (event) => {
+                const targetButton = event.target.closest('button');
+                if (targetButton && targetButton.dataset.area) {
+                    // Remove active class from all area buttons
+                    document.querySelectorAll('#areaSelectionButtons button').forEach(button => {
+                        button.classList.remove('active');
+                    });
+                    // Add active class to clicked area button
+                    targetButton.classList.add('active');
+                    selectedArea = targetButton.dataset.area;
+                    renderProducts(); // Re-render based on new area
+                }
+            });
+        }
+
+        // Event listener for service type tabs (Rumahan / Bisnis)
+        if (serviceTabs) {
+            serviceTabs.addEventListener('click', (event) => {
+                const targetButton = event.target.closest('button');
+                if (targetButton && targetButton.dataset.serviceType) {
+                    // Remove active class from all service type buttons
+                    document.querySelectorAll('#serviceTabs button').forEach(button => {
+                        button.classList.remove('active');
+                    });
+                    // Add active class to clicked service type button
+                    targetButton.classList.add('active');
+                    selectedServiceType = targetButton.dataset.serviceType;
+                    renderProducts(); // Re-render based on new service type
+                }
+            });
+        }
+
+        // Initial state: No products displayed, only message
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts(); // This will show the initial message
+        });
+
+        // --- Recommendation Modal Logic ---
+        const recommendationButton = document.getElementById('recommendationButton');
+        const recommendationModal = document.getElementById('recommendationModal');
+        const closeRecommendationModalButton = recommendationModal.querySelector('.close-button');
+        const recommendationForm = document.getElementById('recommendationForm');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const recommendationResultDiv = document.getElementById('recommendationResult');
+        const userAreaSelect = document.getElementById('userArea');
+        const backToProductsButton = document.getElementById('backToProductsButton'); // New button
+
+        // Pre-fill userAreaSelect if an area is already selected on the page
+        if (selectedArea) {
+            userAreaSelect.value = selectedArea;
+        }
+
+        recommendationButton.addEventListener('click', () => {
+            recommendationModal.style.display = 'flex'; // Show modal
+            // Reset form and result when opening
+            recommendationForm.reset();
+            recommendationResultDiv.style.display = 'none';
+            recommendationResultDiv.innerHTML = '';
+            loadingSpinner.style.display = 'none';
+
+            // Ensure the selectedArea from the page is reflected in the modal's dropdown
+            if (selectedArea) {
+                userAreaSelect.value = selectedArea;
+            } else {
+                userAreaSelect.value = ""; // Reset if no area selected on page
+            }
+        });
+
+        closeRecommendationModalButton.addEventListener('click', () => {
+            recommendationModal.style.display = 'none'; // Hide modal
+        });
+
+        recommendationModal.addEventListener('click', (e) => {
+            if (e.target === recommendationModal) {
+                recommendationModal.style.display = 'none';
+            }
+        });
+
+        // New event listener for "Kembali melihat produk" button
+        backToProductsButton.addEventListener('click', () => {
+            recommendationModal.style.display = 'none'; // Hide modal
+        });
+
+
+        recommendationForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            recommendationResultDiv.style.display = 'none';
+            loadingSpinner.style.display = 'block'; // Show spinner
+
+            const numUsers = document.getElementById('numUsers').value;
+            const activities = Array.from(document.querySelectorAll('input[name="activities"]:checked')).map(cb => cb.value);
+            const monthlyBudget = document.getElementById('monthlyBudget').value;
+            const userArea = userAreaSelect.value;
+
+            // Prepare product data for LLM
+            const simplifiedProductData = JSON.parse(JSON.stringify(productData)); // Deep copy
+            // Remove full price details from business_global to simplify for LLM
+            simplifiedProductData.bisnis_global = simplifiedProductData.bisnis_global.map(biz => {
+                const { jawa_bali_price, sum_kal_price, ind_tim_price, ...rest } = biz;
+                return { ...rest, prices_by_area: { "jawa-bali": jawa_bali_price, "sumatera-kalimantan": sum_kal_price, "indonesia-timur": ind_tim_price } };
+            });
+
+            const prompt = `Anda adalah asisten AI yang merekomendasikan paket internet ICONNET (rumahan dan bisnis).
+                            Gunakan data paket yang saya berikan di bawah ini sebagai satu-satunya sumber informasi Anda.
+                            Data Paket: ${JSON.stringify(simplifiedProductData)}
+
+                            Berikan rekomendasi paket yang paling sesuai untuk pengguna dengan kriteria berikut:
+                            - Jumlah pengguna di rumah: ${numUsers} orang
+                            - Aktivitas online utama: ${activities.length > 0 ? activities.join(', ') : 'Tidak disebutkan'}
+                            - Budget bulanan: ${monthlyBudget ? `Rp ${monthlyBudget}` : 'Tidak disebutkan'}
+                            - Area: ${userArea === 'jawa-bali' ? 'Jawa & Bali' : userArea === 'sumatera-kalimantan' ? 'Sumatera & Kalimantan' : userArea === 'indonesia-timur' ? 'Indonesia Timur' : 'Tidak disebutkan'}
+
+                            Rekomendasikan paket yang paling sesuai dari data di atas. Jelaskan mengapa paket tersebut cocok, termasuk kecepatan, fitur/benefit, dan harga untuk area yang disebutkan.
+                            Jika tidak ada paket yang cocok berdasarkan budget atau kriteria, berikan saran umum untuk memilih paket atau tawarkan untuk melihat semua paket di halaman.
+                            Format respons Anda harus mudah dibaca, seperti paragraf atau poin-pun.`;
+
+            try {
+                // Ensure the API key is not hardcoded here for Canvas environment
+                const apiKey = ""; // Canvas runtime will inject the key
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyB14Z9QJwMjKsuJnVihOpR4pf3GyCXXT34`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }] }] })
+                });
+
+                console.log("Gemini API Response Status:", response.status);
+                const result = await response.json();
+                console.log("Gemini API Full Result:", result);
+                
+                loadingSpinner.style.display = 'none'; 
+                recommendationResultDiv.style.display = 'block'; 
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    recommendationResultDiv.innerHTML = `<h4>Rekomendasi Kami:</h4><p>${text}</p>`;
+                } else {
+                    recommendationResultDiv.innerHTML = `<h4>Maaf, terjadi kesalahan.</h4><p>Tidak dapat memuat rekomendasi saat ini. Respons API tidak lengkap atau tidak sesuai. Silakan coba lagi nanti.</p>`;
+                    console.error("Gemini API response structure unexpected:", result);
+                }
+            } catch (error) {
+                loadingSpinner.style.display = 'none'; 
+                recommendationResultDiv.style.display = 'block'; 
+                recommendationResultDiv.innerHTML = `<h4>Maaf, terjadi kesalahan.</h4><p>Terjadi masalah saat mengambil rekomendasi: ${error.message}. Mohon cek koneksi internet Anda atau coba lagi nanti.</p>`;
+                console.error("Error calling Gemini API:", error);
+            }
+        });
+    </script>
+</body>
+</html>
