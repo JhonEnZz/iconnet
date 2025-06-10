@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>ICONNET - Kebijakan Privasi</title>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+ <style>
+  body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  color: #333;
+  }
+  header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #003366;
+  padding: 0.5rem 1.5rem;
+  position: relative; /* Needed for absolute positioning of mobile nav */
+  }
+  header img {
+  height: 30px;
+  }
+  header nav ul {
+  display: flex;
+  list-style: none;
+  gap: 1rem;
+  margin: 0;
+  }
+  header nav a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  }
+  /* Mobile Burger Menu and Navigation */
+  .burger-menu {
+  display: none; /* Hidden by default */
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
+  padding: 5px 10px;
+  }
+  .mobile-nav {
+  display: none; /* Hidden by default */
+  flex-direction: column;
+  position: absolute;
+  top: 100%; /* Position below header */
+  left: 0;
+  width: 100%;
+  background-color: #003366;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1000;
+  padding: 1rem 1.5rem;
+  }
+  .mobile-nav.active {
+  display: flex;
+  }
+  .mobile-nav a {
+  color: white;
+  text-decoration: none;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .mobile-nav a:last-child {
+  border-bottom: none;
+  }
+  /* Carousel-specific styles (not used on this page, but kept for consistency if needed) */
+  .carousel-wrapper {
+  display: none; /* Hide carousel on privacy page */
+  }
+
+  /* General Section Styles */
+  .section {
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: auto;
+  }
+
+  /* Main content area for privacy policy */
+  .privacy-content {
+  background-color: white;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 900px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  line-height: 1.7;
+  }
+
+  .privacy-content h2, .privacy-content h3 {
+  color: #003366;
+  margin-top: 1.5rem;
+  margin-bottom: 0.8rem;
+  }
+
+  .privacy-content h2 {
+  font-size: 2rem;
+  text-align: center;
+  }
+
+  .privacy-content h3 {
+  font-size: 1.3rem;
+  }
+
+  .privacy-content p, .privacy-content ul {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  }
+
+  .privacy-content ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  }
+
+  .privacy-content ul ul { /* For nested lists */
+  list-style-type: circle;
+  margin-left: 1.5rem;
+  }
+
+  /* Call to Action Section (not explicitly on this page, but kept general) */
+  .cta-section {
+  background-color: #003366;
+  color: white;
+  text-align: center;
+  padding: 3rem 1rem;
+  border-radius: 12px;
+  }
+  .cta-section h2 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  }
+  .cta-section p {
+  font-size: 1.1rem;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+  }
+  .cta-button {
+  background-color: #ff9900;
+  color: white;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+  }
+  .cta-button:hover {
+  background-color: #e68a00;
+  transform: scale(1.05);
+  }
+
+  /* Footer Styles */
+  footer {
+  background-color: #003366;
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  margin-top: 2rem; /* Adjusted for spacing */
+  }
+
+  /* Styling for desktop footer links to make them horizontal and wrap */
+  .footer-links-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow links to wrap to the next line */
+  justify-content: center; /* Center the links horizontally */
+  margin-bottom: 1rem; /* Space above copyright text */
+  }
+
+  .footer-links-container a {
+  color: white;
+  text-decoration: none;
+  padding: 0.2rem 0.75rem; /* Padding for spacing around the link text */
+  position: relative;
+  white-space: nowrap; /* Prevent links from breaking mid-text if possible */
+  }
+
+  /* Add the "|" separator using pseudo-element */
+  .footer-links-container a:not(:last-child)::after {
+  content: '|';
+  position: absolute;
+  right: -0.5rem; /* Adjust to position the separator correctly */
+  color: white;
+  }
+
+  /* Media Queries for Responsiveness */
+  @media (max-width: 768px) {
+  header nav ul {
+  display: none; /* Hide desktop nav in header */
+  }
+  .burger-menu {
+  display: block; /* Show burger menu */
+  }
+  .privacy-content {
+  margin: 1.5rem 1rem;
+  padding: 1.5rem;
+  }
+  .privacy-content h2 {
+  font-size: 1.7rem;
+  }
+  .privacy-content h3 {
+  font-size: 1.2rem;
+  }
+  }
+
+  @media (max-width: 480px) {
+  .footer-links-container {
+  gap: 0.5rem 0; /* Adjust vertical gap on very small screens */
+  justify-content: center; /* Keep centered or adjust as needed */
+  padding: 0 0.5rem; /* Add some horizontal padding to the container itself */
+  }
+  .footer-links-container a {
+  padding: 0.2rem 0.4rem; /* Reduce padding for smaller screens */
+  }
+  .footer-links-container a:not(:last-child)::after {
+  right: -0.2rem; /* Adjust separator position */
+  }
+  .privacy-content {
+  padding: 1rem;
+  }
+  .privacy-content h2 {
+  font-size: 1.4rem;
+  }
+  .privacy-content h3 {
+  font-size: 1.1rem;
+  }
+  }
+ </style>
+</head>
+<body>
+  <header>
+  <img src="https://iconnetsumut.com/wp-content/uploads/2023/09/iconnet-putih.webp" alt="ICONNET Logo" />
+  <nav>
+  <ul>
+  <li><a href="index.html">Home</a></li>
+  <li><a href="produk.html">Produk & Promo</a></li>
+  <li><a href="cakupan.html">Cakupan Area</a></li>
+  <li><a href="kontak.html">Hubungi Kami</a></li>
+  </ul>
+  </nav>
+  <div class="burger-menu" id="headerBurger">
+  <i class="fas fa-bars"></i>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+  <a href="index.html">Home</a>
+  <a href="produk.html">Produk & Promo</a>
+  <a href="cakupan.html">Cakupan Area</a>
+  <a href="kontak.html">Hubungi Kami</a>
+  <a href="pembayaran.html">Metode Pembayaran</a>
+  <a href="tentang.html">Tentang Kami</a>
+  <a href="syarat.html">Syarat & Ketentuan</a>
+  <a href="privasi.html">Kebijakan Privasi</a>
+  </div>
+  </header>
+
+  <!-- Bagian Konten Kebijakan Privasi -->
+  <section class="privacy-content" data-aos="fade-up">
+  <h2>PRIVACY AND POLICY</h2>
+
+  <h3>ICONNET</h3>
+  <p>
+  ICONNET adalah sebuah internet provider baru yang dulunya bernama Stroomnet.
+  ICONNET Bangkit Bersatu Untuk Indonesia, dengan menjunjung tinggi
+  nilai-nilai Nasionalisme, ICONNET berniat memberikan yang terbaik untuk masyarakat Indonesia.
+  </p>
+
+  <h3>Tentang Kebijakan Privasi dan Cookie PLN Icon Plus</h3>
+  <p>
+  Kebijakan Privasi ini merupakan kebijakan PT Indonesia Comnets Plus (“PLN Icon Plus” atau “Kami”) dalam penanganan informasi dan data pengguna layanan, website, aplikasi, platform dan produk Kami (secara keseluruhan disebut “Layanan”).
+  Kebijakan privasi ini disusun oleh PLN Icon Plus untuk menghargai,
+  menghormati dan melindungi data tentang perseorangan yang
+  terindentifikasi atau dapat diidentifikasi secara tersendiri atau
+  dikombinasi dengan informasi lainnya baik secara langsung maupun tidak
+  langsung melalui sistem elektronik atau nonelektronik (“Data Pribadi”) milik calon pengguna dan/atau pengguna Layanan PLN Icon Plus (“Pengguna”, “Konsumen” atau “Anda”) berdasarkan standar dan ketentuan peraturan perundang-undangan yang berlaku di Indonesia.
+  </p>
+  <p>
+  Sebelum Anda melanjutkan Kami perlu mengingatkan bahwa Kebijakan Privasi ini
+  merupakan kebijakan turunan atau kebijakan yang tidak terpisahkan dari
+  Kebijakan Privasi PT PLN (Persero) (“PLN”) (<a href="https://layanan.pln.co.id/kebijakan-privasi" target="_blank" rel="noopener noreferrer">https://layanan.pln.co.id/kebijakan-privasi</a>).
+  Kebijakan Privasi ini menjelaskan bagaimana Kami, PLN Icon Plus sebagai
+  Sub Holding dari PLN, termasuk seluruh anak perusahaan maupun
+  perusahaan terafiliasi serta seluruh perusahaan yang ada dalam kendali
+  PLN Icon Plus baik secara langsung maupun tidak langsung dalam melakukan
+  pemrosesan Data Pribadi Anda, termasuk pemerolehan, pengumpulan,
+  pengolahan, penganalisisan, penyimpanan, perbaikan, pembaruan,
+  penampilan, pengumuman, transfer, penyebarluasan, pengungkapan,
+  penghapusan, dan/atau pemusnahan Data Pribadi Anda yang diperoleh pada
+  saat Anda melakukan pendaftaran dan/atau menggunakan Layanan PLN Icon
+  Plus.
+  </p>
+  <p>
+  Kebijakan Privasi ini dan cookie Kami
+  diperbarui dari waktu ke waktu. Setiap kali Kami melakukan perubahan,
+  Kami akan menampilkan informasinya pada situs website Kami atau dengan
+  mekanisme lainnya sesuai yang diatur dalam peraturan perundang-undangan.
+  Kami menyarankan agar Anda memantau Kebijakan Privasi ini secara
+  berkala.
+  </p>
+  <p>
+  Kami akan melakukan perubahan atas
+  Kebijakan Privasi Kami agar sejalan dengan upaya Kami untuk senantiasa
+  memberikan Layanan terbaik bagi Anda serta memastikan yang Kami lakukan
+  telah sesuai dengan peraturan perundang-undangan yang berlaku di
+  Indonesia.
+  </p>
+
+  <h3>Informasi dan Data Pribadi Anda yang Kami Kumpulkan</h3>
+  <p>
+  Informasi dan Data Pribadi Anda yang Kami kumpulkan dan bagaimana Kami
+  mengumpulkannya dapat bervariasi tergantung pada Layanan Kami yang Anda
+  gunakan, bagaimana Anda telah menggunakan Layanan tersebut, dan
+  bagaimana Anda berinteraksi dengan PLN Icon Plus meskipun Anda bukan
+  Pengguna, atau dari informasi yang telah Kami peroleh dari pihak ketiga
+  atau sumber lain yang sah.
+  </p>
+  <p>
+  PLN Icon Plus akan memproses Data Pribadi Anda berdasarkan dasar-dasar pemrosesan Data Pribadi yang sah sebagai berikut:
+  </p>
+  <ul>
+  <li>Persetujuan yang Anda berikan secara sah dan eksplisit terhadap pemrosesan Data Pribadi.</li>
+  <li>Pemenuhan kewajiban dalam perjanjian apabila Anda merupakan salah satu pihak di dalamnya atau dalam rangka mengambil tindakan atas permintaan Anda terhadap Layanan Kami.</li>
+  <li>Kepatuhan dan/atau pemenuhan atas kewajiban hukum PLN Icon Plus.</li>
+  <li>Pemenuhan pelindungan Data Pribadi Anda.</li>
+  <li>Kepentingan publik yang substansial.</li>
+  <li>Kepentingan bisnis PLN Icon Plus yang sah lainnya (termasuk diantaranya yaitu dalam menghindari indikasi fraud dan/atau menjaga keamanan Layanan Kami) dengan tetap memperhatikan dan tidak mengesampingkan hak Anda.</li>
+  </ul>
+
+  <p>Kami akan mengumpulkan informasi, termasuk Data Pribadi Anda, ketika Anda, misalnya:</p>
+  <ul>
+  <li>Mendaftar untuk Layanan Kami;</li>
+  <li>Membeli atau menggunakan setiap Layanan Kami;</li>
+  <li>Berlangganan newsletter, peringatan atau Layanan lain dari Kami;</li>
+  <li>Menghubungi Kami melalui berbagai saluran, atau meminta informasi tentang Layanan kami;</li>
+  <li>Ikut serta dalam kompetisi, pengundian hadiah, acara, atau survei tertentu yang diselenggarakan oleh PLN Icon Plus;</li>
+  <li>Mengakses situs website Layanan PLN Icon Plus;</li>
+  <li>Telah memberikan izin kepada perusahaan lain atau pihak ketiga lainnya untuk berbagi informasi tentang Anda yang kemudian informasi tersebut dibagikan kepada PLN Icon Plus;</li>
+  <li>Informasi Anda tersedia untuk umum;</li>
+  <li>Anda adalah Konsumen dari suatu bisnis yang diambil alih oleh PLN Icon Plus; dan/atau</li>
+  <li>Terdapat fungsi bisnis tertentu yang dialihkan kepada Kami di mana informasi, termasuk Data Pribadi Anda secara sah beralih kepada Kami.</li>
+  </ul>
+
+  <p>
+  Kami juga dapat mengumpulkan informasi dari pihak tertentu dengan dasar
+  hukum yang sah untuk melakukannya. Kami juga dapat mengumpulkan
+  informasi tentang Anda di CCTV, kamera keamanan atau alat pemroses atau
+  pengolah data visual lainnya saat Anda mengunjungi setiap kantor PLN
+  Icon Plus atau gerai resmi layanan PLN Icon Plus lainnya sebagai bagian
+  dari tindakan keamanan, pencegahan kejahatan, pencegahan bencana,
+  dan/atau untuk tujuan lainnya dengan tunduk pada peraturan perundang-
+  undangan yang berlaku.
+  </p>
+  <p>
+  Secara umum, informasi dan <strong>Data Pribadi</strong> yang Kami miliki dalam penyelenggaraan Layanan (jika
+  disetujui dan dimungkinkan), antara lain:
+  </p>
+  <ul>
+  <li>
+  <strong>Data Pribadi</strong> yang dibutuhkan oleh Kami untuk menyelenggarakan Layanan, termasuk namun tidak terbatas pada:
+  <ul>
+  <li>Nama;</li>
+  <li>ID PLN;</li>
+  <li>Titik koordinat;</li>
+  <li>Nomor Telepon;</li>
+  <li>Nomor Telepon Alternatif;</li>
+  <li>Nomor Pokok Wajib Pajak (NPWP);</li>
+  <li>KTP;</li>
+  <li>Alamat E-mail;</li>
+  <li>Pekerjaan;</li>
+  <li>Alamat;</li>
+  <li>Nama kerabat;</li>
+  <li>Nomor Telepon kerabat;</li>
+  <li>Hubungan kerabat;</li>
+  <li>Foto KTP</li>
+  <li>Foto Selfie bersama KTP</li>
+  <li>Foto Tampak Depan Rumah</li>
+  <li>Foto kWh Meter PLN</li>
+  <li>Data pribadi lainnya yang bersifat umum maupun spesifik sebagaimana diuraikan di bawah ini; dan/atau</li>
+  <li>data pribadi yang dikombinasikan untuk mengidentifikasi Anda sebagaimana diuraikan di bawah ini.</li>
+  </ul>
+  </li>
+  <li>
+  Selain <strong>Data Pribadi</strong> yang telah disebutkan di atas, Kami dapat mengumpulkan
+  <strong>Data Pribadi</strong> tambahan lainnya sesuai kebutuhan. Data-data di bawah ini
+  adalah bagian dari <strong>Data Pribadi</strong> sebagaimana dimaksud dalam huruf r dan s
+  di atas, yaitu
+  <ul>
+  <li>
+  Data penelusuran atas informasi yang dikumpulkan ketika Anda menggunakan
+  Layanan. Informasi yang berkenaan dengan data Anda termasuk namun tidak
+  terbatas pada:
+  <ul>
+  <li>data pencarian, riwayat penelusuran (termasuk tanggal dan waktu yang terekam);</li>
+  <li>ketertarikan atau preferensi Anda yang dikumpulkan dari penggunaan Layanan;</li>
+  <li>foto, suara, kontak, daftar panggilan ataupun interaksi lainnya dalam Layanan yang diizinkan oleh Anda untuk diakses melalui perangkat yang Anda miliki. Kami tidak pernah memindai atau mengambil foto-foto album atau kamera dalam perangkat Anda; dan/atau</li>
+  <li>data lainnya yang diperlukan oleh PLN Icon Plus di kemudian hari sebagaimana dapat ditambahkan dari waktu ke waktu.</li>
+  </ul>
+  </li>
+  <li>
+  Data teknis tertentu, termasuk namun tidak terbatas pada:
+  <ul>
+  <li>informasi atas Uniform Resource Locator (URL) yang Anda kunjungi;</li>
+  <li>data cookie (saat Anda mengunjungi situs web Layanan PLN Icon Plus ICONNET maupun situs Web PLN Icon Plus, maka Kami akan mengumpulkan bagian data tentang Anda yang disimpan di perangkat, yang memungkinkan Kami untuk mengetahui ketika Anda mengunjungi situs PLN Icon Plus dan/atau PLN Group di masa mendatang);</li>
+  <li>advertising ID yang digunakan PLN Icon Plus untuk penyelenggaraan aktivitas periklanan;</li>
+  <li>log file (data log hanya digunakan dalam bentuk agregat (keseluruhan) untuk menganalisis penggunaan Layanan Kami);</li>
+  <li>alamat Internet Protocol (IP) (Kami menyimpan IP address, atau lokasi perangkat Anda di Internet, untuk keperluan administrasi sistem dan troubleshooting. Kami menggunakan IP address secara keseluruhan (agregat) untuk mengetahui lokasi-lokasi yang mengakses Layanan Kami);</li>
+  <li>informasi mengenai tipe perangkat yang Anda gunakan, seperti ID unik perangkat, tipe koneksi jaringan seluler, penyelenggara, jaringan dan kinerja perangkat, tipe browser, bahasa, informasi yang memungkinkan pengelolaan hak digital, dan sistem operasi; dan/atau</li>
+  <li>data lainnya yang diperlukan oleh PLN Icon Plus di kemudian hari sebagaimana dapat ditambahkan dari waktu ke waktu.</li>
+  </ul>
+  </li>
+  <li>
+  Data penggunaan tenaga listrik yang Anda gunakan, termasuk namun tidak terbatas pada:
+  <ul>
+  <li>konsumsi tenaga listrik Anda;</li>
+  <li>besaran pembayaran tagihan listrik;</li>
+  <li>data penerima subsidi listrik; dan/atau</li>
+  <li>data lainnya yang diperlukan oleh PLN Icon Plus di kemudian hari sebagaimana dapat ditambahkan dari waktu ke waktu.</li>
+  </ul>
+  </li>
+  <li>
+  Metadata tertentu yang didapat dari penggunaan Layanan Kami, termasuk namun tidak terbatas pada:
+  <ul>
+  <li>data olahan teknis, seperti mobile positioning, telco score, location scoring, dan advance profiling;</li>
+  <li>metadata aktivitas pemakaian Layanan, penggunaan data, pengisian deposit berbayar, pembayaran tagihan, transfer deposit berbayar, serta pemrofilan dan segmentasi Anda; dan/atau</li>
+  <li>data lainnya yang diperlukan oleh PLN Icon Plus di kemudian hari sebagaimana dapat ditambahkan dari waktu ke waktu.</li>
+  </ul>
+  </li>
+  <li>
+  Data dari pemasok, mitra bisnis dan/atau pihak ketiga lainnya yang
+  berpartisipasi dalam proses pengadaan barang atau jasa, mengadakan kerja
+  sama, atau pengaturan dalam aktivitas tertentu dengan Kami, termasuk
+  namun tidak terbatas pada:
+  <ul>
+  <li>data mitra otentikasi adalah data yang didapat apabila Anda mendaftar atau masuk untuk menggunakan Layanan menggunakan kredensial pihak ketiga, Kami akan mengumpulkan informasi Anda dari pihak ketiga tersebut untuk membantu Anda menggunakan Layanan sepanjang Anda telah memberikan persetujuan kepada layanan pihak ketiga tersebut; dan/atau</li>
+  <li>data mitra pembayaran adalah data yang didapat apabila Anda memilih untuk membayar suatu Layanan dengan tagihan, Kami mungkin menerima data dari mitra pembayaran agar Kami dapat mengirimkan tagihan kepada Anda, memproses pembayaran Anda dan memberikan apa yang Anda beli kepada Anda.</li>
+  </ul>
+  </li>
+  </ul>
+  <p>
+  Dalam hal terdapat tambahan informasi dan data pribadi tambahan yang akan
+  Kami kumpulkan dari Anda, Kami akan memberikan pemberitahuan dan meminta
+  persetujuan tambahan dari Anda atau dengan mekanisme lain sesuai
+  peraturan perundang-undangan yang berlaku, dengan tetap memperhatikan
+  dan memastikan keamanan dan pelindungan <strong>Data Pribadi</strong> Anda berdasarkan
+  Kebijakan ini.
+  </p>
+
+  <h3>Tujuan Pemrosesan Informasi dan Data Pribadi Anda yang Kami Kumpulkan</h3>
+  <p>
+  Kami akan menggunakan informasi dan <strong>Data Pribadi</strong> Anda sebagaimana dijelaskan
+  di atas, dengan tetap memperhatikan persetujuan yang Anda berikan atas
+  masing-masing tujuan, sebagai berikut (Tujuan Pemrosesan):
+  </p>
+  <ul>
+  <li>Untuk menyediakan Layanan Kami;</li>
+  <li>Untuk mengelola kontrak, surat penawaran, atau komitmen lain yang telah Kami buat untuk Anda;</li>
+  <li>Untuk berkomunikasi, menjalankan prinsip Know-Your-Customer (KYC), penentuan kredit (credit scoring) dan memberikan personalisasi kepada Anda terhadap pemakaian Layanan Kami;</li>
+  <li>Untuk melakukan diagnosis dan penyelesaian masalah terkait kesulitan dalam pengaksesan Layanan (troubleshoot);</li>
+  <li>Untuk menyelenggarakan Layanan, mengevaluasi, dan mengembangkan Layanan Kami dari waktu ke waktu;</li>
+  <li>Untuk menganalisis aktivitas, perilaku, dan data demografis konsumen termasuk kebiasaan dan penggunaan Layanan;</li>
+  <li>Untuk menyelenggarakan undian, kontes maupun memberikan reward sebagai bentuk loyalty lainnya kepada Anda;</li>
+  <li>Untuk memproses maupun memfasilitasi pembayaran Anda;</li>
+  <li>Untuk menawarkan iklan/promosi maupun penawaran dari pihak lain yang bekerja sama dengan Kami terkait dengan Layanan;</li>
+  <li>Untuk menjalankan mandat peraturan perundang-undangan;</li>
+  <li>Untuk mengolah dan menanggapi pertanyaan dan saran yang diterima dari Anda;</li>
+  <li>Untuk dapat dihubungkan ke, dan disimpan di, pusat data Kami, PLN Group dan/atau pihak lainnya yang tunduk pada perjanjian penyimpanan data dengan Kami untuk jangka waktu dan sebagaimana yang disyaratkan berdasarkan peraturan yang berlaku; dan/atau</li>
+  <li>Untuk dapat diproses oleh Kami, PLN Group, dan/atau pihak lainnya yang memiliki perjanjian kolaborasi pengelolaan data dengan Kami untuk kepentingan kegiatan pemanfaatan data pribadi dan informasi untuk menyempurnakan mutu Layanan Kami dan/atau PLN Group termasuk berdasarkan pengalaman konsumen, mengembangkan kegiatan usaha Kami dan/atau PLN Group berdasarkan rencana usaha yang telah disusun oleh Kami dan/atau PLN Group.</li>
+  </ul>
+
+  <h3>Informasi dan Data Pribadi Anda yang Kami Bagikan</h3>
+  <p>
+  Berdasarkan persetujuan yang Anda berikan atau dasar pemrosesan <strong>Data Pribadi</strong>
+  lainnya yang sah berdasarkan undang-undang, Kami dapat berbagi informasi
+  tentang Anda dengan:
+  </p>
+  <ul>
+  <li>Perusahaan dan/atau entitas yang menjadi bagian PLN Group;</li>
+  <li>Prosesor <strong>Data Pribadi</strong> yang Kami tunjuk;</li>
+  <li>Sub-prosesor <strong>Data Pribadi</strong> yang Kami setujui;</li>
+  <li>Penasihat dan konsultan yang Kami tunjuk;</li>
+  <li>Mitra, pemasok, atau agen yang terlibat dalam Layanan Kami;</li>
+  <li>Mitra bisnis Kami;</li>
+  <li>Perusahaan dan/atau entitas yang bergerak untuk menyediakan Layanan untuk, atau atas nama PLN Icon Plus dan/atau PLN Group;</li>
+  <li>Lembaga penegak hukum, badan pemerintah, regulator, pengadilan, atau otoritas publik lainnya jika Kami harus, atau diizinkan oleh peraturan perundang-undangan;</li>
+  <li>Pihak atau badan ketiga di mana pengungkapan tersebut diperlukan untuk memenuhi hukum yang berlaku.</li>
+  </ul>
+  <p>
+  Pengungkapan dan pembagian informasi dan <strong>Data Pribadi</strong> kepada pihak ketiga akan Kami
+  lakukan berdasarkan peraturan perundang-undangan yang berlaku sesuai
+  dengan Tujuan Pemrosesan sebagaimana yang disebutkan dalam Kebijakan
+  Privasi ini, serta alasan-alasan lainnya, antara lain:
+  </p>
+  <ul>
+  <li>Sesuai dengan hukum yang berlaku atau untuk menanggapi proses hukum, seperti surat perintah penggeledahan, perintah pengadilan, atau panggilan pengadilan;</li>
+  <li>Untuk melindungi keselamatan PLN Icon Plus dan/atau PLN Group, keselamatan Anda atau keselamatan orang lain atau demi kepentingan sah pihak manapun dalam konteks keamanan nasional, penegakan hukum, litigasi, investigasi kriminal atau untuk mencegah wabah, keadaan darurat yang telah ditetapkan oleh pemerintah;</li>
+  <li>Untuk kepentingan investigasi internal atas tindak pidana atau pelanggaran peraturan atau kebijakan di lingkungan PLN Icon Plus dan/atau PLN Group;</li>
+  <li>Jika diperlukan sehubungan dengan proses hukum yang diajukan terhadap PLN Icon Plus, pejabat, karyawan, afiliasi, atau vendor Kami;</li>
+  <li>Untuk menetapkan, melaksanakan, melindungi, mempertahankan, dan menegakkan hak-hak hukum PLN Icon Plus;</li>
+  <li>Dalam rangka pengungkapan informasi dan <strong>Data Pribadi</strong> kepada mitra dan/atau PLN Group di mana PLN Icon Plus dengan itikad baik dapat memberikannya dalam bentuk data yang telah dikumpulkan dan diringkas atau data agregat. Apabila PLN melakukan pengungkapan data bukan agregat, PLN Icon Plus akan melakukan upaya-upaya terbaik untuk melindungi data Anda, seperti namun tidak terbatas pada pengungkapan data yang dilakukan secara anonim (dengan menghilangkan identifikasi personal milik Anda) dan dilaksanakan setelah dilakukannya penandatanganan perjanjian kerahasiaan;</li>
+  <li>Dalam hal kerja sama dengan pemasok, vendor, dan penyedia jasa yang bekerja atas nama PLN Icon Plus, sesuai dengan Tujuan Pemrosesan yang diatur dalam Kebijakan Privasi ini;</li>
+  <li>Untuk bekerja sama dengan mitra dan PLN Group guna peningkatan pengalaman Anda pada Layanan, yang hanya akan dilakukan sesuai dengan Tujuan Pemrosesan sebagaimana disampaikan dalam Kebijakan Privasi ini, atau untuk melindungi kepentingan Konsumen;</li>
+  <li>Terjadinya penggabungan, penjualan aset perusahaan, konsolidasi atau restrukturisasi, pembiayaan atau akuisisi seluruh atau sebagian dari bisnis PLN Icon Plus oleh dan/atau ke perusahaan lain, untuk keperluan transaksi tersebut. Tindakan ini dilindungi oleh perjanjian kerahasiaan antara PLN Icon Plus dengan pihak ketiga yang terkait; dan/atau</li>
+  <li>Untuk melaksanakan kegiatan-kegiatan sebagaimana dijelaskan pada bagian Tujuan Pemrosesan.</li>
+  </ul>
+
+  <h3>Jangka Waktu Penyimpanan Informasi dan Data Pribadi Anda</h3>
+  <p>
+  Kami berkomitmen untuk mengumpulkan, memproses, dan menyimpan <strong>Data Pribadi</strong>
+  Anda dengan enkripsi atau metode lainnya, dengan pelindungan terbaik
+  berdasarkan peraturan perundang-undangan untuk menyediakan Layanan Kami.
+  Penyimpanan informasi dan <strong>Data Pribadi</strong> Anda dapat dilakukan di wilayah
+  Indonesia dan/atau di luar wilayah Indonesia, dengan tetap memenuhi
+  kewajiban akses dan efektivitas pengawasan sesuai dengan peraturan
+  perundang-undangan yang berlaku. Kami akan menyimpan <strong>Data Pribadi</strong> dan
+  informasi sebagaimana disebutkan dalam Kebijakan Privasi ini sepanjang
+  Anda masih menggunakan Layanan dan/atau sesuai dengan kebijakan internal
+  dari PLN Icon Plus dan/atau peraturan perundang-undangan yang berlaku.
+  </p>
+
+  <h3>Hak Anda</h3>
+  <p>
+  Pada bagian ini Kami menjelaskan detail tentang bagaimana Anda dapat
+  menggunakan hak Anda. Jika Anda memiliki pertanyaan lebih lanjut terkait
+  hak Anda, silakan hubungi tim Layanan Kami.
+  </p>
+  <p>
+  Kami berhak menolak permintaan Anda untuk mengakses, memperbaiki dan/atau
+  menghapus, sebagian atau seluruh <strong>Data Pribadi</strong> Anda yang Kami proses,
+  jika diizinkan atau diharuskan berdasarkan peraturan perundang-undangan
+  yang berlaku, terutama jika permintaan tersebut dapat berdampak mengenai
+  hal-hal seperti namun tidak terbatas pada:
+  </p>
+  <ul>
+  <li>Membahayakan keselamatan, kesehatan fisik atau mental Anda dan/atau orang lain;</li>
+  <li>Ada dampak pengungkapan <strong>Data Pribadi</strong> orang lain;</li>
+  <li>Bertentangan dengan kepentingan pertahanan dan keamanan negara; dan/atau</li>
+  <li>Alasan permintaan tidak relevan bagi Anda dan/atau tidak relevan terhadap aktivitas pemrosesan <strong>Data Pribadi</strong> yang Kami lakukan.</li>
+  </ul>
+
+  <h4>Hak atas Informasi</h4>
+  <p>
+  Anda berhak mendapatkan informasi tentang kejelasan identitas, dasar
+  kepentingan hukum, tujuan permintaan dan penggunaan <strong>Data Pribadi</strong> dan
+  akuntabilitas Kami terhadap <strong>Data Pribadi</strong> Anda. Untuk mengajukan
+  permintaan ini sebagai individu atau pihak ketiga yang berwenang, Anda
+  dapat menghubungi tim Layanan Kami.
+  </p>
+
+  <h4>Hak atas Perbaikan Data Pribadi</h4>
+  <p>
+  Anda berhak melengkapi, memperbarui, dan/atau memperbaiki kesalahan dan/atau
+  ketidakakuratan <strong>Data Pribadi</strong> Anda yang Kami proses sesuai dengan Tujuan
+  Pemrosesan. Jika informasi yang Kami miliki tentang Anda tidak akurat
+  atau perlu diperbarui, Anda dapat menghubungi tim Layanan Kami. Anda
+  dianjurkan untuk aktif dalam memastikan keakuratan dan pemutakhiran data
+  Anda dari waktu ke waktu.
+  </p>
+
+  <h4>Hak atas Akses Data Pribadi</h4>
+  <p>
+  Anda berhak mendapatkan akses dan memperoleh salinan <strong>Data Pribadi</strong> yang Kami
+  miliki tentang Anda sesuai ketentuan peraturan perundang-undangan. Untuk
+  mengajukan akses ini sebagai individu atau pihak ketiga yang berwenang,
+  Anda dapat menghubungi tim Layanan Kami.
+  </p>
+
+  <h4>Hak atas Penghapusan Data Pribadi</h4>
+  <p>
+  PLN Icon Plus dan/atau PLN Group berusaha untuk hanya memproses dan
+  menyimpan data Anda selama Kami membutuhkannya. Dalam keadaan tertentu
+  Anda memiliki hak untuk mengakhiri pemrosesan, menghapus, dan/atau
+  memusnahkan <strong>Data Pribadi</strong> tentang Anda dalam jangka waktu 3x24 jam
+  sebelum dan/atau setelah penghapusan dan/atau pemusnahan dilakukan atau
+  jangka waktu lainnya sesuai ketentuan peraturan perundang-undangan.
+  </p>
+  <p>
+  Jika Anda merasa bahwa Kami menyimpan data Anda lebih lama dari yang Kami
+  butuhkan, Kami menyarankan Anda untuk terlebih dahulu memeriksa apakah
+  perjanjian antara Anda dan PLN Icon Plus dan/atau PLN Group telah
+  berakhir, yang dapat Anda lakukan melalui tim Layanan Kami. Jika
+  perjanjian Anda dengan PLN Icon Plus dan/atau PLN Group telah berakhir,
+  Kami mungkin masih memiliki alasan yang sah untuk memproses <strong>Data Pribadi</strong>
+  Anda. Untuk informasi lebih lanjut tentang periode penyimpanan, Anda
+  dapat mengunjungi bagian terkait masa penyimpanan yang dijelaskan dalam
+  Kebijakan Privasi ini.
+  </p>
+
+  <h4>Hak untuk menarik persetujuan pemrosesan Data Pribadi</h4>
+  <p>
+  Anda berhak, dalam keadaan tertentu, menarik kembali persetujuan pemrosesan
+  <strong>Data Pribadi</strong> yang telah Anda berikan kepada Kami. Namun, tidak
+  tersedianya informasi <strong>Data Pribadi</strong> Anda menyebabkan Kami menjadi tidak
+  dapat melakukan verifikasi dan memproses penggunaan Anda terhadap
+  Layanan, sehingga dapat membatasi kemampuan Anda untuk dapat menggunakan
+  Layanan tertentu dari Kami.
+  </p>
+  <p>
+  Jika Anda tetap
+  ingin menggunakan Layanan Kami, maka Anda hanya dapat menarik sebagian
+  persetujuan penggunaan <strong>Data Pribadi</strong> yang tidak digunakan untuk
+  menyediakan Layanan Kami kepada Anda.
+  </p>
+
+  <h4>Hak untuk mengajukan keberatan atas pengambilan keputusan yang didasarkan pemrosesan secara otomatis</h4>
+  <p>
+  Jika Anda merasa bahwa Kami melakukan pemrosesan <strong>Data Pribadi</strong> Anda secara
+  otomatis yang berdampak signifikan pada Anda, maka Anda dapat
+  menghubungi tim Layanan Kami untuk mengatasi keluhan Anda. Dalam keadaan
+  tertentu, Anda berhak untuk mengajukan keberatan atas tindakan
+  pengambilan keputusan yang hanya didasarkan pada pemrosesan secara
+  otomatis, termasuk pemrofilan, yang menimbulkan akibat hukum atau
+  berdampak signifikan pada Anda.
+  </p>
+
+  <h4>Hak untuk membatasi pemrosesan Data Pribadi</h4>
+  <p>
+  Jika Anda merasa <strong>Data Pribadi</strong> yang Kami simpan tentang Anda tidak akurat,
+  atau Anda merasa bahwa Kami seharusnya tidak memproses <strong>Data Pribadi</strong>
+  Anda, Anda dapat menghubungi tim Layanan Kami untuk mengatasi keluhan
+  Anda. Dalam keadaan tertentu, Anda berhak menunda atas membatasi
+  pemrosesan <strong>Data Pribadi</strong> terkait Anda secara proporsional sesuai dengan
+  tujuan pemrosesan <strong>Data Pribadi</strong> yang telah Anda setujui.
+  </p>
+
+  <h4>Hak atas portabilitas Data Pribadi</h4>
+  <p>
+  Anda berhak untuk dapat membawa <strong>Data Pribadi</strong> yang Anda berikan kepada Kami
+  pada kondisi tertentu. Kami juga memastikan bahwa Anda dapat membawa dan
+  mengirimkan <strong>Data Pribadi</strong> Anda tersebut ke pihak lainnya atau ke
+  pengendali <strong>Data Pribadi</strong> lainnya, sepanjang sistem yang digunakan dapat
+  saling berkomunikasi secara aman sesuai regulasi.
+  </p>
+
+  <h3>Pembaruan Kebijakan</h3>
+  <p>
+  Kebijakan Privasi ini dapat diubah dan/atau diperbarui dari waktu ke waktu,
+  dengan tujuan untuk memastikan Kebijakan Privasi ini sesuai dengan
+  perkembangan bisnis dan/atau perkembangan hukum yang terjadi. Sehubungan
+  dengan hal ini, PLN Icon Plus akan memberitahukan perubahan dan/atau
+  pembaruan tersebut kepada Anda sesuai dengan ketentuan peraturan
+  perundang-undangan yang berlaku.
+  </p>
+
+  <h3>Pengakuan dan Persetujuan</h3>
+  <p>
+  Anda menjamin bahwa segala data yang diberikan dalam bentuk tertulis maupun
+  bentuk lainnya untuk menggunakan Layanan Kami adalah benar milik Anda
+  dan bukan diperoleh dari informasi pribadi milik pihak ketiga tanpa izin
+  yang sah, sehingga segala hal yang timbul sehubungan dengan pemberian
+  dan kebenaran data-data tersebut menjadi tanggung jawab penuh dari Anda.
+  </p>
+  <p>
+  Dengan menyetujui Kebijakan Privasi ini, Anda mengakui bahwa Anda telah
+  membaca dan memahami Kebijakan Privasi ini dan menyetujui semua
+  ketentuannya. Secara khusus, Anda setuju dan memberikan izin kepada Kami
+  untuk melakukan perolehan, pengumpulan, pengolahan, penganalisisan,
+  penyimpanan, perbaikan, pembaruan, penampilan, pengumuman, transfer,
+  penyebarluasan, pengungkapan dan pemusnahan atau penghapusan <strong>Data Pribadi</strong> Anda sesuai dengan Kebijakan Privasi ini.
+  </p>
+  <p>
+  Jika Anda berada di bawah persyaratan usia minimum atau termasuk dalam
+  kategori anak-anak dan/atau penyandang disabilitas sesuai dengan
+  ketentuan peraturan perundang-undangan yang berlaku, maka Anda wajib
+  memastikan telah mendapatkan persetujuan dari orang tua (ayah atau ibu)
+  atau wali Anda sesuai dengan peraturan yang berlaku.
+  </p>
+
+  <h3>Hubungi Kami</h3>
+  <p>
+  Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini, silahkan
+  hubungi Contact Center ICONNET 150678, IG: @iconnet.plniconplus, dan
+  e-mail: cc.iconnet@iconpln.co.id.
+  </p>
+  </section>
+
+  <footer>
+  <div>
+  <!-- Container baru untuk footer links agar bisa diatur dengan flexbox -->
+  <div class="footer-links-container">
+  <a href="cakupan.html">Cek Area</a>
+  <a href="pembayaran.html">Metode Pembayaran</a>
+  <a href="tentang.html">Tentang Kami</a>
+  <a href="kontak.html">Hubungi Kami</a>
+  <a href="syarat.html">Syarat & Ketentuan</a>
+  <a href="privasi.html">Kebijakan Privasi</a>
+  </div>
+  </div>
+  <p>© 2025 All rights reserved. ICONNET powered by PT Indonesia Comnets Plus</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+  AOS.init({
+  duration: 1000,
+  once: true,
+  });
+
+  // Toggle Header Mobile Menu
+  const headerBurger = document.getElementById("headerBurger");
+  const mobileNav = document.getElementById("mobileNav");
+
+  if (headerBurger && mobileNav) { // Pastikan elemen ada sebelum menambahkan event listener
+  headerBurger.addEventListener("click", () => {
+  mobileNav.classList.toggle("active");
+  });
+  }
+
+  // NOTE: Carousel JS is removed as it's not relevant for a static privacy policy page.
+  // If this code is used on a page that also needs a carousel,
+  // ensure you re-add the carousel JavaScript from your original index.html.
+  </script>
+</body>
+</html>
