@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ICONNET - Syarat & Ketentuan</title> <!-- Judul khusus halaman ini -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS yang disalin PERSIS dari Pastebin index.html */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #003366;
+            padding: 0.5rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+        header img {
+            height: 30px;
+        }
+        header nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+        }
+        header nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        header nav a:hover {
+            color: white; /* Menghilangkan efek kuning */
+        }
+        header nav a.active {
+            color: white; /* Active state, tetap putih sesuai index.html */
+        }
+
+        /* Mobile Burger Menu and Navigation */
+        .burger-menu {
+            display: none;
+            font-size: 1.8rem;
+            color: white;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #003366;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            padding: 1rem 1.5rem;
+        }
+        .mobile-nav.active {
+            display: flex;
+        }
+        .mobile-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: color 0.3s ease;
+        }
+        .mobile-nav a:hover {
+            color: white; /* Menghilangkan efek kuning */
+        }
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+        .mobile-nav a.active {
+            color: white; /* Active state, tetap putih sesuai index.html */
+        }
+
+        /* Sembunyikan bagian-bagian dari index.html yang tidak relevan di halaman ini */
+        .carousel-wrapper,
+        .carousel-btn,
+        .features,
+        .feature,
+        .paket-banner,
+        .testimoni-wrapper,
+        .testimoni-btn,
+        .cta-section {
+            display: none !important;
+        }
+        .testimoni, .testimoni::-webkit-scrollbar,
+        .testimoni-card, .testimoni-card img {
+            display: none !important;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 1rem;
+        }
+
+        .section {
+            padding: 2rem 1rem;
+            max-width: 900px; /* Lebar konten utama */
+            margin: 2rem auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center; /* Default text alignment */
+        }
+
+        /* Styling khusus untuk halaman Syarat & Ketentuan */
+        .terms-container h1 {
+            font-size: 2.5rem;
+            color: #003366;
+            margin-bottom: 1rem;
+        }
+        .terms-container p.intro {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .terms-container h2 {
+            font-size: 1.8rem;
+            color: #003366;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .terms-section {
+            text-align: left; /* Mengembalikan text alignment ke kiri untuk FAQ */
+            margin-top: 2rem;
+        }
+
+        .terms-category-title {
+            font-size: 2rem;
+            color: #0056b3;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e0e7ee;
+            padding-bottom: 0.5rem;
+            text-align: left;
+        }
+
+        .terms-item {
+            background-color: #f8fafd;
+            border: 1px solid #e0e7ee;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden; /* Penting untuk transisi tinggi */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .terms-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #003366;
+            cursor: pointer;
+            background-color: #e6f0fa;
+            border-bottom: 1px solid #e0e7ee;
+            transition: background-color 0.3s ease;
+        }
+        .terms-question:hover {
+            background-color: #d1e4f7;
+        }
+        .terms-question i {
+            margin-left: 1rem;
+            transition: transform 0.3s ease;
+        }
+        .terms-question.active i {
+            transform: rotate(180deg);
+        }
+
+        .terms-answer {
+            padding: 0 1.5rem;
+            max-height: 0; /* Awalnya tersembunyi */
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out; /* Transisi untuk tinggi */
+            background-color: #ffffff;
+            color: #555;
+            line-height: 1.6;
+        }
+        .terms-answer.active {
+            max-height: 1000px; /* Cukup besar untuk menampung jawaban panjang */
+            padding: 1rem 1.5rem;
+        }
+        .terms-answer p {
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        .terms-answer ul {
+            padding-left: 20px;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            list-style: disc;
+        }
+        .terms-answer ol {
+            padding-left: 20px;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            list-style: decimal;
+        }
+        .terms-answer ol ol { /* Untuk nested ordered lists */
+            list-style: lower-alpha;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .terms-answer ul ul { /* For nested unordered lists */
+            list-style: circle;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .terms-answer li {
+            margin-bottom: 0.5rem;
+        }
+        .terms-answer strong {
+            color: #003366;
+        }
+
+
+        /* Footer */
+        footer {
+            background-color: #003366;
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+            margin-top: 4rem; 
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 0.6rem;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: #add8e6;
+        }
+        .footer-links-desktop {
+            display: inline-block;
+        }
+
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            header nav ul {
+                display: none;
+            }
+            .burger-menu {
+                display: block;
+            }
+            .section {
+                padding: 1.5rem 0.8rem;
+                margin: 1rem auto;
+            }
+            .terms-container h1 {
+                font-size: 2rem;
+            }
+            .terms-container p.intro {
+                font-size: 1rem;
+            }
+            .terms-container h2 {
+                font-size: 1.5rem;
+            }
+            .terms-question {
+                font-size: 1rem;
+                padding: 0.8rem 1rem;
+            }
+            .terms-answer {
+                font-size: 0.9rem;
+                padding: 0 1rem;
+            }
+            .terms-answer.active {
+                padding: 0.8rem 1rem;
+            }
+            footer .footer-links-desktop {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+            footer a {
+                padding: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 0.5rem 1rem;
+            }
+            header img {
+                height: 25px;
+            }
+            .mobile-nav {
+                padding: 1rem;
+            }
+            .section {
+                padding: 1.2rem 0.5rem;
+            }
+            .terms-container h1 {
+                font-size: 1.8rem;
+            }
+            .terms-container p.intro {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <img src="https://iconnetsumut.com/wp-content/uploads/2023/09/iconnet-putih.webp" alt="ICONNET Logo" onerror="this.onerror=null;this.src='https://placehold.co/100x30/003366/FFFFFF?text=ICONNET';">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="produk.html">Produk & Promo</a></li>
+                <li><a href="cakupan.html">Cakupan Area</a></li>
+                <li><a href="kontak.html">Hubungi Kami</a></li>
+            </ul>
+        </nav>
+        <div class="burger-menu" id="headerBurger">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <a href="index.html">Home</a>
+            <a href="produk.html">Produk & Promo</a>
+            <a href="cakupan.html">Cakupan Area</a>
+            <a href="kontak.html">Hubungi Kami</a>
+            <a href="pembayaran.html">Metode Pembayaran</a>
+            <a href="tentang.html">Tentang Kami</a>
+            <a href="syarat.html" class="active">Syarat & Ketentuan</a> <!-- Link aktif untuk halaman ini -->
+            <a href="privasi.html">Kebijakan Privasi</a>
+        </div>
+    </header>
+
+    <!-- Main Content Section - Syarat & Ketentuan -->
+    <main>
+        <section class="section terms-container" data-aos="fade-up">
+            <h1>SYARAT & KETENTUAN</h1>
+            <p class="intro">
+                ICONNET adalah sebuah internet provider baru yang dulunya bernama Stroomnet. ICONNET Bangkit Bersatu Untuk Indonesia, dengan menjunjung tinggi nilai-nilai Nasionalisme, ICONNET berniat memberikan yang terbaik untuk masyarakat Indonesia.
+            </p>
+
+            <div class="terms-section" id="termsSection">
+                <!-- Syarat & Ketentuan Item: Definisi -->
+                <div class="terms-item">
+                    <div class="terms-question">
+                        <span>Definisi</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="terms-answer">
+                        <ol>
+                            <li><strong>Data Pribadi</strong> adalah data tentang perseorangan yang teridentifikasi atau dapat diidentifikasi secara tersendiri atau dikombinasi dengan informasi lainnya baik secara langsung maupun tidak langsung melalui sistem elektronik atau nonelektronik.</li>
+                            <li><strong>Formulir Permohonan Pelanggan</strong> adalah formulir pendaftaran yang berisi data Pelanggan dalam hal akan berlangganan Layanan ICONNET melalui aplikasi PLN Icon Plus, dimana syarat-syarat dalam Syarat dan Ketentuan Berlangganan ini menjadi satu kesatuan yang tidak terpisahkan dan mengikat bagi para pihak.</li>
+                            <li><strong>Gangguan</strong> adalah kejadian yang menyebabkan terganggunya penggunaan Layanan ICONNET yang disebabkan oleh masalah teknis pada Perangkat milik PLN Icon Plus.</li>
+                            <li><strong>Syarat dan Ketentuan Berlangganan</strong> adalah syarat dan ketentuan yang wajib dipatuhi oleh Pelanggan maupun PLN Icon Plus sehubungan dengan Layanan ICONNET berdasarkan permohonan berlangganan yang telah disetujui oleh Pelanggan.</li>
+                            <li><strong>Layanan ICONNET</strong> adalah produk internet yang diberikan oleh PLN Icon Plus kepada Pelanggan.</li>
+                            <li><strong>Pelanggan</strong> adalah perseorangan/individu yang menggunakan/berlangganan Layanan ICONNET dari PLN Icon Plus yang lokasi terminasi layanannya berada pada cakupan fiber optic milik PLN Icon Plus untuk area residential (rumah) dengan metode pembayaran di awal (prepaid).</li>
+                            <li><strong>Perangkat Set Top Box (STB)</strong> adalah perangkat yang digunakan untuk menonton tayangan pada ICONPLAY.</li>
+                            <li><strong>Perangkat Optical Network Termination/Modem (“ONT/Modem”)</strong> adalah perangkat yang digunakan untuk mendukung access point WIFI (standard).</li>
+                            <li><strong>PLN Icon Plus</strong> adalah PT Indonesia Comnets Plus sebagai penyelenggara telekomunikasi yang menyediakan Layanan ICONNET kepada Pelanggan.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Syarat & Ketentuan Item: Ruang Lingkup -->
+                <div class="terms-item">
+                    <div class="terms-question">
+                        <span>Ruang Lingkup</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="terms-answer">
+                        <ol>
+                            <li>PLN Icon Plus menyediakan Layanan ICONNET kepada Pelanggan dengan lokasi dan kapasitas sebagaimana tercantum dalam Formulir Permohonan Pelanggan dengan teknologi kecepatan dan bandwidth “up to” yang dapat digunakan oleh Pelanggan.</li>
+                            <li>Layanan ICONNET dinyatakan aktif dan berlaku apabila Layanan ICONNET telah dilakukan instalasi pada hari kerja setelah Pelanggan mengisi Formulir Permohonan Pelanggan, untuk kemudian dituangkan dalam Kontrak Berlangganan ICONNET yang ditandatangani oleh PLN Icon Plus dan Pelanggan.</li>
+                            <li>Layanan ICONNET terdiri dari 1 (satu) akun Layanan ICONNET dan terdiri dari 1 (satu) akses internet broadband.</li>
+                            <li>Layanan ICONNET digunakan untuk perseorangan dan untuk kepentingan Pelanggan sendiri, sehingga Pelanggan dilarang untuk menyambungkan Layanan ICONNET dengan jaringan telekomunikasi umum/jaringan lainnya atau untuk telekomunikasi secara illegal yang melanggar ketentuan perundang-undangan yang berlaku.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Syarat & Ketentuan Item: Jangka Waktu Berlangganan -->
+                <div class="terms-item">
+                    <div class="terms-question">
+                        <span>Jangka Waktu Berlangganan</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="terms-answer">
+                        <ol>
+                            <li>Jangka waktu berlangganan adalah minimal 12 (dua belas) bulan berturut-turut terhitung sejak tanggal ditandatanganinya Kontrak Berlangganan ICONNET.</li>
+                            <li>Dalam hal Pelanggan bermaksud untuk memutus Layanan ICONNET, maka Pelanggan wajib mengajukan permohonan kepada PLN Icon Plus selambat-lambatnya 30 (tiga puluh) hari kalender sebelum tanggal pemutusan yang dikehendaki oleh Pelanggan.</li>
+                            <li>Jangka waktu berlangganan akan diperpanjang secara otomatis sampai dengan adanya permintaan pemutusan dari Pelanggan.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Syarat & Ketentuan Item: Pembayaran -->
+                <div class="terms-item">
+                    <div class="terms-question">
+                        <span>Pembayaran</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="terms-answer">
+                        <ol>
+                            <li>Atas penyediaan Layanan ICONNET oleh PLN Icon Plus sebagaimana dimaksud dalam Syarat dan Ketentuan Berlangganan ini, Pelanggan akan dikenakan biaya instalasi (one time charge) dan biaya Layanan ICONNET (secara bulanan) sebagaimana tercantum dalam Formulir Permohonan Pelanggan selambat-lambatnya pada setiap tanggal jatuh tempo.</li>
+                            <li>Semua bea dan pajak yang timbul sebagai akibat dari Syarat dan Ketentuan Berlangganan ini menjadi tanggung jawab Pelanggan sesuai ketentuan perundang-undangan yang berlaku.</li>
+                            <li>Apabila Pelanggan melakukan pembatalan berlangganan Layanan ICONNET, maka :
+                                <ul>
+                                    <li>Jika pembatalan dilakukan setelah Pelanggan mengisi Formulir Permohonan Pelanggan dan sudah melakukan pembayaran biaya instalasi dan biaya Layanan ICONNET namun belum dilakukan aktivasi Layanan ICONNET oleh tim PLN Icon Plus, maka Pelanggan dapat mengajukan refund kepada PLN Icon Plus sesuai dengan ketentuan sebagaimana berlaku dilingkungan PLN Icon Plus.</li>
+                                    <li>Jika pembatalan dilakukan setelah Pelanggan menandatangani Kontrak Berlangganan ICONNET, maka Pelanggan tidak dapat menarik kembali biaya instalasi dan biaya Layanan ICONNET yang telah dibayarkan kepada PLN Icon Plus.</li>
+                                    <li>Jika Pelanggan melakukan pembatalan Layanan ICONNET sebelum masa berlangganan berakhir, maka Pelanggan akan dikenakan biaya pembatalan berlangganan sebesar Rp 1.000.000,- (satu juta rupiah).</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Syarat & Ketentuan Item: Hak dan Kewajiban PLN ICON Plus -->
+                <div class="terms-item">
+                    <div class="terms-question">
+                        <span>Hak dan Kewajiban PLN ICON Plus</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="terms-answer">
+                        <ol>
+                            <li>Berhak mendapatkan izin dari Pelanggan terhadap pegawai atau tenaga teknis dari PLN Icon Plus untuk memasuki wilayah milik Pelanggan guna melakukan instalasi, aktivasi, konfigurasi, pemeliharaan Layanan ICONNET dan/atau dismantle (pengambilan perangkat) Layanan ICONNET.</li>
+                            <li>Berhak menyambungkan/mencabangkan saluran Layanan ICONNET kepada pihak ketiga lainnya tanpa mengganggu Layanan ICONNET yang dimanfaatkan oleh Pelanggan.</li>
+                            <li>Berhak mendapatkan biaya perbaikan dan/atau ganti kerugian atas perangkat apabila terjadi kerusakan dan/atau kehilangan yang disebabkan oleh kelalaian Pelanggan.</li>
+                            <li>Berhak melakukan “blacklist” pada Pelanggan yang tidak membayarkan denda pembatalan yang muncul dikarenakan Pelanggan berlangganan Layanan ICONNET kurang dari 12 (dua belas) bulan dan/atau Pelanggan yang tidak melakukan pembayaran biaya bulanan selama 90 (sembilan puluh) hari kalender dan/atau jika Pelanggan melakukan penjualan kembali/resale bandwidth Layanan ICONNET, pemindahan, perubahan atau penyalahgunaan apapun terhadap jaringan dan Layanan ICONNET yang tidak sesuai dengan aturan yang berlaku pada PLN Icon Plus.</li>
+                            <li>Berhak memberikan dukungan teknis dan/atau non-teknis untuk Layanan ICONNET dari PLN Icon Plus yang dapat dihubungi selama 24 (dua puluh empat) jam per hari dan 7 (tujuh) hari per minggu melalui contact center 150678.</li>
+                            <li>Wajib memberikan garansi penggantian perangkat dengan jangka waktu selama masa/periode berlangganan dan berlaku setelah Layanan ICONNET berstatus aktif. Garansi ini tidak berlaku jika kerusakan pada perangkat terjadi akibat kecelakaan dan/atau kelalaian yang disebabkan oleh Pelanggan.</li>
+                            <li>Tidak bertanggung jawab secara hukum dan tidak menanggung kerugian atas penggunaan Layanan ICONNET oleh Pelanggan dan/atau penggunaan Layanan ICONNET yang melanggar ketentuan perundang-undangan.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Syarat & Ketentuan Item: Hak dan Kewajiban Pelanggan -->
+                <div class="terms-item">
+                    <div class="terms-question">
+                        <span>Hak dan Kewajiban Pelanggan</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="terms-answer">
+                        <ol>
+                            <li>Berhak memperoleh dukungan teknis dan/atau non-teknis untuk Layanan ICONNET dari PLN Icon Plus yang dapat dihubungi selama 24 (dua puluh empat) jam per hari dan 7 (tujuh) hari per minggu melalui contact center 150678.</li>
+                            <li>Berhak mendapatkan garansi penggantian perangkat dengan jangka waktu selama masa/periode berlangganan dan berlaku setelah Layanan ICONNET berstatus aktif. Garansi ini tidak berlaku jika kerusakan pada perangkat terjadi akibat kecelakaan dan/atau kelalaian yang disebabkan oleh Pelanggan.</li>
+                            <li>Wajib melakukan pembayaran atas Layanan ICONNET kepada PLN Icon Plus sesuai ketentuan yang berlaku dalam Syarat dan Ketentuan Berlangganan ini.</li>
+                            <li>Wajib memberikan data/identitas Pelanggan yang valid dengan melampirkan Kartu Tanda Penduduk (KTP) dan Nomor ID Pelanggan PT PLN Persero untuk dapat berlangganan Layanan.</li>
+                            <li>Wajib memberikan izin kepada pegawai atau tenaga teknis PLN Icon Plus untuk memasuki wilayah milik Pelanggan guna melakukan instalasi, aktivasi, konfigurasi, pemeliharaan Layanan dan/atau dismantle (pengambilan Perangkat).</li>
+                            <li>Wajib menjaga Perangkat PLN Icon Plus dan apabila terjadi kehilangan dan/atau kerusakan Perangkat maka Pelanggan wajib membayar biaya ganti Perangkat sesuai ketentuan yang berlaku.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Syarat & Ketentuan Item: Pemutusan -->
+                <div class="terms-item">
+                    <div class="terms-question">
+                        <span>Pemutusan</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="terms-answer">
+                        <ol>
+                            <li>Apabila setelah tanggal jatuh tempo Pelanggan melalaikan kewajiban membayar biaya berlangganan sebagaimana dimaksud pada Pasal 4 Syarat dan Ketentuan Berlangganan ini, maka Layanan ICONNET akan di-isolir/diputus sementara oleh PLN Icon Plus dengan pemberitahuan/peringatan kepada Pelanggan.</li>
+                            <li>Apabila dalam waktu 90 (sembilan puluh) hari kalender sejak pemberitahuan/peringatan kepada Pelanggan sebagaimana diuraikan pada Ayat 1 Pasal ini Pelanggan belum juga melunasi tagihannya, maka akan dilakukan pemutusan Layanan ICONNET secara permanen.</li>
+                            <li>PLN Icon Plus dan Pelanggan sepakat untuk mengesampingkan berlakunya ketentuan Pasal 1266 Kitab Undang-undang Hukum Perdata, sehingga pembatalan atau pemutusan Syarat dan Ketentuan Berlangganan ini dapat dilakukan oleh salah satu pihak sesuai dengan ketentuan Syarat dan Ketentuan Berlangganan, dan akan sah tanpa menunggu keputusan hakim.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Syarat & Ketentuan Item: Sambung Kembali, Perubahan Layanan dan Add On -->
+                <div class="terms-item">
+                    <div class="terms-question">
+                        <span>Sambung Kembali, Perubahan Layanan dan Add On</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="terms-answer">
+                        <ol>
+                            <li>Penyambungan kembali karena pemutusan dapat dilakukan oleh PLN Icon Plus jika Pelanggan melunasi seluruh tunggakan berikut denda (apabila ada) dengan melampirkan bukti pembayaran kepada PLN Icon Plus.</li>
+                            <li>Penyambungan kembali karena pencabutan akan diberlakukan sebagai pemasangan baru.</li>
+                            <li>Perubahan Layanan ICONNET berupa downgrade dapat diajukan setelah minimal berlangganan selama 3 (tiga) bulan dengan tagihan selama masa berlangganan telah terbayarkan.</li>
+                            <li>PLN Icon Plus akan melayani permintaan Pelanggan yang diajukan untuk perpindahan dan/atau perubahan sepanjang secara teknis memungkinkan.</li>
+                            <li>Masa berlangganan layanan add on berupa layanan ICONPLAY minimal 12 (dua belas) bulan. Apabila Pelanggan melakukan pembatalan layanan add on sebelum masa berlangganan berakhir maka akan dikenakan biaya sesuai ketentuan yang berlaku di lingkungan PLN Icon Plus.</li>
+                            <li>Penambahan atau perubahan layanan add on dapat dilakukan oleh Pelanggan baik melalui aplikasi PLN Icon Plus, media telepon maupun melalui channel yang disediakan oleh PLN Icon Plus sesuai kebijakan di lingkungan PLN Icon Plus.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Syarat & Ketentuan Item: Keadaan Kahar -->
+                <div class="terms-item">
+                    <div class="terms-question">
+                        <span>Keadaan Kahar</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="terms-answer">
+                        <ol>
+                            <li>Keadaan Kahar (Force Majeure) adalah suatu keadaan yang terjadi diluar Kekuasaan para pihak sehingga kewajiban yang ditentukan dalam Syarat dan Ketentuan Berlangganan menjadi tidak dapat dipenuhi :
+                                <ol type="a">
+                                    <li>Peperangan, kerusuhan, revolusi, bencana alam, pemogokan umum, dan kebakaran.</li>
+                                    <li>Bencana alam meliputi : banjir, gempa bumi, badai, gunung meletus, tanah longsor, wabah penyakit, disambar petir dan angin topan yang dinyatakan resmi oleh instansi terkait yang berwenang.</li>
+                                    <li>Meledaknya gardu listrik, runtuhnya tower dan atau tiang listrik atau tidak berfungsinya fasilitas yang berkaitan langsung dengan pelaksanaan Syarat dan Ketentuan Berlangganan ini yang tidak diduga sebelumnya.</li>
+                                    <li>Kebijakan Pemerintah yang berkaitan langsung dengan Syarat dan Ketentuan Berlangganan.</li>
+                                </ol>
+                            </li>
+                            <li>Keadaan kahar ini tidak termasuk hal-hal yang merugikan yang disebabkan oleh perbuatan atau kelalaian masing-masing pihak.</li>
+                            <li>Masing-masing pihak tidak akan bertanggung jawab dan tidak dapat menuntut ganti rugi kepada pihak lainnya atas kegagalan memenuhi ketentuan-ketentuan dalam Perjanjian ini apabila kegagalan tersebut disebabkan oleh terjadinya Keadaan Kahar (Force Majeure) dan pihak yang terkena Keadaan Kahar (Force Majuere) telah menggunakan segala upaya terbaik untuk menanggulangi penyebab atau peristiwa tersebut.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Syarat & Ketentuan Item: Larangan-Larangan -->
+                <div class="terms-item">
+                    <div class="terms-question">
+                        <span>Larangan-Larangan</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="terms-answer">
+                        <ol>
+                            <li>Pelanggan dilarang untuk menjual, memanfaatkan atau membagi kembali baik sebagian maupun keseluruhan Layanan ICONNET.</li>
+                            <li>Pelanggan dilarang melakukan pemindahan, perubahan, atau penyalahgunaan apapun terhadap jaringan dan Layanan ICONNET. Pelanggan dalam menggunakan Layanan wajib mendukung program internet sehat sesuai dengan ketentuan dan peraturan yang berlaku di Indonesia.</li>
+                            <li>Pelanggan tidak diperkenankan untuk menikmati Layanan ICONNET selain di alamat Pelanggan dan/atau memindahkan perangkat milik PLN Icon Plus.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Syarat & Ketentuan Item: Kerahasiaan -->
+                <div class="terms-item">
+                    <div class="terms-question">
+                        <span>Kerahasiaan</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="terms-answer">
+                        <ol>
+                            <li>Masing-masing pihak sepakat untuk menjaga kerahasiaan semua informasi, data, dokumen, pengetahuan dalam bentuk apapun yang timbul dan diperoleh dalam pelaksanaan Perjanjian ini (“Informasi Rahasia”) dan tidak akan mengungkapkannya kepada pihak ketiga manapun tanpa persetujuan tertulis terlebih dahulu dari pihak lainnya, kecuali pengungkapan tersebut dilakukan kepada:
+                                <ol type="a">
+                                    <li>Instansi pemerintah dan Lembaga Negara yang berwenang sesuai dengan peraturan yang berlaku;</li>
+                                    <li>Konsultan hukum;</li>
+                                    <li>Lembaga keuangan yang tugasnya memerlukan Informasi Rahasia tersebut;</li>
+                                    <li>Afiliasi (hubungan antara perusahaan dengan pihak baik langsung maupun tidak langsung mengendalikan atau dikendalikan oleh perusahaan tersebut).</li>
+                                </ol>
+                                <p>Dengan ketentuan bahwa konsultan hukum, lembaga keuangan dan afiliasi tersebut telah menyetujui untuk tidak akan mempublikasikannya kepada pihak ketiga dengan alasan apa pun dan telah membuat kesepakatan tertulis untuk tidak mengungkapkan Informasi Rahasia tersebut kepada pihak lain untuk maksud apapun.</p>
+                            </li>
+                            <li>Pembatasan tersebut pada butir diatas ini tidak diterapkan atas informasi Rahasia dalam hal sebagai berikut :
+                                <ol type="a">
+                                    <li>Informasi Rahasia tersebut telah menjadi publik domain yang tidak disebabkan oleh pelanggaran ayat 1 Pasal ini;</li>
+                                    <li>Informasi Rahasia tersebut berada pada pihak yang menerimanya secara sah sebelum pengungkapan Informasi Rahasia dilakukan;</li>
+                                    <li>Informasi Rahasia tersebut diperoleh dengan itikad baik dari pihak yang berhak untuk mengungkapkannya.</li>
+                                </ol>
+                            </li>
+                            <li>Pembatasan atas Informasi Rahasia tetap berlaku sekalipun Syarat dan Ketentuan Berlangganan ini berakhir.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Syarat & Ketentuan Item: Ketentuan Lain-Lain -->
+                <div class="terms-item">
+                    <div class="terms-question">
+                        <span>Ketentuan Lain-Lain</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="terms-answer">
+                        <ol>
+                            <li>Hal-hal yang belum cukup diatur dalam Syarat dan Ketentuan Berlangganan ini akan diatur lebih lanjut dalam brosur, leaflet, katalog produk, website Layanan ICONNET, pengumuman dan/atau pemberitahuan lain yang diterbitkan secara resmi dari waktu ke waktu oleh PLN Icon Plus.</li>
+                            <li>Pelanggan sepenuhnya memahami, menerima, dan tunduk pada syarat-syarat pada Syarat dan Ketentuan Berlangganan ini, termasuk namun tidak terbatas pada layanan telekomunikasi lainnya yang dapat dikembangkan oleh PLN Icon Plus dari waktu ke waktu, berikut perubahan dan/atau penambahan Syarat dan Ketentuan Berlangganan lainnya antara PLN Icon Plus dan Pelanggan yang akan diinformasikan melalui <a href="https://iconnet.id/syaratketentuan" target="_blank">iconnet.id/syaratketentuan</a>.</li>
+                            <li>Pelanggan menyatakan bahwa informasi yang telah diberikan kepada PLN Icon Plus diberikan secara sukarela, data tersebut valid dan benar untuk tujuan penggunaan Layanan ICONNET, sehingga PLN Icon Plus berhak memproses data Pelanggan tersebut untuk kepentingan Pelanggan dalam Layanan ICONNET. Setiap perubahan terhadap informasi yang telah diberikan wajib disampaikan kepada PLN Icon Plus selama berlangganan Layanan ICONNET.</li>
+                            <li>Pelanggan setuju bahwa dengan ditandatanganinya Syarat dan Ketentuan Berlangganan ini, maka Pelanggan memberikan izin kepada PLN Icon Plus untuk dapat memproses data yang Pelanggan berikan secara sukarela ketika registrasi berlangganan Layanan ICONNET termasuk Data Pribadi (sesuai ketentuan yang diatur dalam Undang- Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi). Untuk menghindari keragu-raguan, persetujuan pemrosesan tersebut termasuk namun tidak terbatas pada pengumpulan, pengiriman dan pengungkapan data kepada PLN Icon Plus dan/atau afiliasinya. Untuk keterangan lebih lanjut dapat diakses pada <a href="privasi.html">iconnet.id/kebijakanprivasi</a> (“Kebijakan Privasi”).</li>
+                            <li>Data Pribadi Pelanggan yang telah dikumpulkan akan disimpan selama jangka waktu diperlukan untuk memenuhi tujuan yang disebutkan di atas. PLN Icon Plus dapat menyimpan Data Pribadi Pelanggan untuk menyediakan layanan ICONNET atau untuk tujuan penting lainnya, seperti mematuhi kewajiban hukum, menyelesaikan sengketa dan melaksanakan kebijakan-kebijakan sesuai ketentuan yang berlaku. Periode penyimpanan Data Pribadi didasarkan pada persyaratan hukum yang berlaku. Akan tetapi, apabila terdapat regulasi dan/atau peraturan perundang-undangan yang relevan, Data Pribadi akan disimpan selama waktu yang diperlukan untuk tujuan bisnis PLN Icon Plus.</li>
+                            <li>PLN Icon Plus dapat menyimpan data Pelanggan di pusat data atau gudang yang dikelola dengan baik oleh PLN Icon Plus dan/atau oleh penyedia layanan atas nama PLN Icon Plus. Semua fasilitas, sistem dan produk PLN Icon Plus telah dilengkapi dengan control keamanan yang diperlukan untuk memastikan pelindungan Data Pribadi.</li>
+                            <li>Pelanggan menyetujui bahwa selama proses aktivasi dan selama masa berlangganan, Pelanggan bersedia dihubungi oleh petugas PLN Icon Plus dalam kaitannya untuk komunikasi sehubungan dengan penyediaan Layanan ICONNET.</li>
+                            <li>Syarat dan Ketentuan Berlangganan dan Kebijakan Privasi berlaku efektif setelah Pelanggan melakukan persetujuan pada Formulir Permohonan Pelanggan dan/atau ditandatanganinya Syarat dan Ketentuan Berlangganan ini.</li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div>
+            <span class="footer-links-desktop">
+                <a href="cakupan.html">Cek Area</a> |
+                <a href="pembayaran.html">Metode Pembayaran</a> |
+                <a href="tentang.html">Tentang Kami</a> |
+                <a href="kontak.html">Hubungi Kami</a> |
+                <a href="syarat.html">Syarat & Ketentuan</a> |
+                <a href="privasi.html">Kebijakan Privasi</a>
+            </span>
+        </div>
+        <p>&copy; 2025 All rights reserved. ICONNET powered by PT Indonesia Comnets Plus</p>
+    </footer>
+
+    <!-- AOS (Animate On Scroll) Library -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+
+        // Fungsionalitas menu burger
+        const headerBurger = document.getElementById('headerBurger');
+        const mobileNav = document.getElementById('mobileNav');
+
+        if (headerBurger && mobileNav) {
+            headerBurger.addEventListener('click', function() {
+                mobileNav.classList.toggle('active');
+            });
+        }
+
+        // Fungsionalitas FAQ/Terms Dropdown
+        document.querySelectorAll('.terms-question').forEach(item => {
+            item.addEventListener('click', event => {
+                const termsItem = item.closest('.terms-item');
+                const answer = termsItem.querySelector('.terms-answer');
+                const icon = item.querySelector('i');
+
+                // Toggle 'active' class on the question and answer
+                item.classList.toggle('active');
+                answer.classList.toggle('active');
+
+                // Toggle icon rotation
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+
+                // Close other open sections if needed (now active)
+                document.querySelectorAll('.terms-question.active').forEach(otherQuestion => {
+                    if (otherQuestion !== item) {
+                        otherQuestion.classList.remove('active');
+                        otherQuestion.querySelector('.terms-answer').classList.remove('active');
+                        const otherIcon = otherQuestion.querySelector('i');
+                        otherIcon.classList.remove('fa-chevron-up');
+                        otherIcon.classList.add('fa-chevron-down');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
