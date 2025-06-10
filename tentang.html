@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ICONNET - Tentang Kami</title> <!-- Judul khusus halaman ini -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS yang disalin PERSIS dari Pastebin index.html */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #003366;
+            padding: 0.5rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+        header img {
+            height: 30px;
+        }
+        header nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+        }
+        header nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        header nav a:hover {
+            color: white; /* Menghilangkan efek kuning */
+        }
+        header nav a.active {
+            color: white; /* Active state, tetap putih sesuai index.html */
+        }
+
+        /* Mobile Burger Menu and Navigation */
+        .burger-menu {
+            display: none;
+            font-size: 1.8rem;
+            color: white;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #003366;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            padding: 1rem 1.5rem;
+        }
+        .mobile-nav.active {
+            display: flex;
+        }
+        .mobile-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: color 0.3s ease;
+        }
+        .mobile-nav a:hover {
+            color: white; /* Menghilangkan efek kuning */
+        }
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+        .mobile-nav a.active {
+            color: white; /* Active state, tetap putih sesuai index.html */
+        }
+
+        /* Sembunyikan bagian-bagian dari index.html yang tidak relevan di halaman ini */
+        .carousel-wrapper,
+        .carousel-btn,
+        .features,
+        .feature,
+        .paket-banner,
+        .testimoni-wrapper,
+        .testimoni-btn,
+        .cta-section {
+            display: none !important;
+        }
+        .testimoni, .testimoni::-webkit-scrollbar,
+        .testimoni-card, .testimoni-card img {
+            display: none !important;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 1rem;
+        }
+
+        .section {
+            padding: 2rem 1rem;
+            max-width: 900px; /* Lebar konten utama */
+            margin: 2rem auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center; /* Default text alignment */
+        }
+
+        /* Styling khusus untuk halaman FAQ (Tentang Kami) */
+        .faq-container h1 {
+            font-size: 2.5rem;
+            color: #003366;
+            margin-bottom: 1rem;
+        }
+        .faq-container p.intro {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .faq-container h2 {
+            font-size: 1.8rem;
+            color: #003366;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .faq-section {
+            text-align: left; /* Mengembalikan text alignment ke kiri untuk FAQ */
+            margin-top: 2rem;
+        }
+
+        .faq-category-title {
+            font-size: 2rem;
+            color: #0056b3;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e0e7ee;
+            padding-bottom: 0.5rem;
+            text-align: left;
+        }
+
+        .faq-item {
+            background-color: #f8fafd;
+            border: 1px solid #e0e7ee;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden; /* Penting untuk transisi tinggi */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #003366;
+            cursor: pointer;
+            background-color: #e6f0fa;
+            border-bottom: 1px solid #e0e7ee;
+            transition: background-color 0.3s ease;
+        }
+        .faq-question:hover {
+            background-color: #d1e4f7;
+        }
+        .faq-question i {
+            margin-left: 1rem;
+            transition: transform 0.3s ease;
+        }
+        .faq-question.active i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0; /* Awalnya tersembunyi */
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out; /* Transisi untuk tinggi */
+            background-color: #ffffff;
+            color: #555;
+            line-height: 1.6;
+        }
+        .faq-answer.active {
+            max-height: 500px; /* Cukup besar untuk menampung jawaban */
+            padding: 1rem 1.5rem;
+        }
+        .faq-answer p {
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        .faq-answer ul {
+            padding-left: 20px;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            list-style: disc;
+        }
+        .faq-answer ol {
+            padding-left: 20px;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            list-style: decimal;
+        }
+        .faq-answer li {
+            margin-bottom: 0.5rem;
+        }
+        /* Styling untuk Instagram links di lokasi sales rep */
+        .faq-answer .instagram-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .faq-answer .instagram-link:hover {
+            text-decoration: underline;
+        }
+        .faq-answer .instagram-link i {
+            color: #E1306C; /* Warna ikon Instagram */
+            margin-right: 0; /* Hilangkan margin di sini */
+        }
+
+
+        /* Footer */
+        footer {
+            background-color: #003366;
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+            margin-top: 4rem; 
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 0.6rem;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: #add8e6;
+        }
+        .footer-links-desktop {
+            display: inline-block;
+        }
+
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            header nav ul {
+                display: none;
+            }
+            .burger-menu {
+                display: block;
+            }
+            .section {
+                padding: 1.5rem 0.8rem;
+                margin: 1rem auto;
+            }
+            .faq-container h1 {
+                font-size: 2rem;
+            }
+            .faq-container p.intro {
+                font-size: 1rem;
+            }
+            .faq-container h2 {
+                font-size: 1.5rem;
+            }
+            .faq-question {
+                font-size: 1rem;
+                padding: 0.8rem 1rem;
+            }
+            .faq-answer {
+                font-size: 0.9rem;
+                padding: 0 1rem;
+            }
+            .faq-answer.active {
+                padding: 0.8rem 1rem;
+            }
+            footer .footer-links-desktop {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+            footer a {
+                padding: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 0.5rem 1rem;
+            }
+            header img {
+                height: 25px;
+            }
+            .mobile-nav {
+                padding: 1rem;
+            }
+            .section {
+                padding: 1.2rem 0.5rem;
+            }
+            .faq-container h1 {
+                font-size: 1.8rem;
+            }
+            .faq-container p.intro {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <img src="https://iconnetsumut.com/wp-content/uploads/2023/09/iconnet-putih.webp" alt="ICONNET Logo" onerror="this.onerror=null;this.src='https://placehold.co/100x30/003366/FFFFFF?text=ICONNET';">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="produk.html">Produk & Promo</a></li>
+                <li><a href="cakupan.html">Cakupan Area</a></li>
+                <li><a href="kontak.html">Hubungi Kami</a></li>
+            </ul>
+        </nav>
+        <div class="burger-menu" id="headerBurger">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <a href="index.html">Home</a>
+            <a href="produk.html">Produk & Promo</a>
+            <a href="cakupan.html">Cakupan Area</a>
+            <a href="kontak.html">Hubungi Kami</a>
+            <a href="pembayaran.html">Metode Pembayaran</a>
+            <a href="tentang.html" class="active">Tentang Kami</a> <!-- Link aktif untuk halaman ini -->
+            <a href="syarat.html">Syarat & Ketentuan</a>
+            <a href="privasi.html">Kebijakan Privasi</a>
+        </div>
+    </header>
+
+    <!-- Main Content Section - FAQ (Tentang Kami) -->
+    <main>
+        <section class="section faq-container" data-aos="fade-up">
+            <h1>FAQ</h1>
+            <p class="intro">
+                Cari jawaban dari pertanyaan yang sering ditanyakan oleh pelanggan
+            </p>
+
+            <h2 class="faq-category-title">Tentang ICONNET</h2>
+
+            <div class="faq-section" id="faqSection">
+                <!-- FAQ Item: Apa itu ICONNET? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Apa itu ICONNET?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>ICONNET adalah layanan internet fiber optik cepat dan stabil dari PT Indonesia Comnets Plus, yang dulunya dikenal sebagai Stroomnet, bertekad memberikan konektivitas terbaik untuk seluruh masyarakat Indonesia.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Paket Layanan apa saja yang tersedia di ICONNET? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Paket Layanan apa saja yang tersedia di ICONNET?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>ICONNET menyediakan 5 layanan internet dengan pilihan bandwidth mulai dari 10 Mbps, 20 Mbps, 35 Mbps, 50 Mbps dan 100 Mbps. ICONNET juga menyediakan layanan Add-On berupa Wifi extender dan OTT (TV).</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Apa pengertian Internet Broadband? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Apa pengertian Internet Broadband?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Internet Broadband adalah jenis koneksi internet yang biasa digunakan di rumah dimana kecepatannya dibagi rata sesuai jumlah pengguna atau padatnya penggunaan internet di wilayah tersebut.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Apa keunggulan layanan ICONNET? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Apa keunggulan layanan ICONNET?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Value proposition ICONNET adalah Andal (Reliable), Terjangkau (Affordable), dan Tanpa Batas Kuota (Unlimited).</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Apa syarat dan ketentuan Promo 'Tak Bisa ke Lain Hati'? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Apa syarat dan ketentuan Promo 'Tak Bisa ke Lain Hati'?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <ol>
+                            <li>Bagi pelanggan prepaid, pelanggan harus melakukan top up pembayaran untuk 1 (satu) bulan berlangganan dan akan mendapatkan gratis layanan 1 (satu) bulan berikutnya</li>
+                            <li>Bagi pelanggan postpaid, wajib membayar tagihan ICONNET terakhir terlebih dahulu sebelum mendapatkan gratis layanan pada bulan berjalan. Bulan berjalan yang dimaksud adalah periode penggunaan layanan dimulai dari tanggal terbayarnya tagihan terakhir sampai dengan 30 (tiga puluh) hari ke depan.</li>
+                            <li>Tujuan program ini adalah untuk meneruskan periode aktif layanan sejak mulai berlangganan ICONNET pertama kali.</li>
+                            <li>Selama periode promo gratis berlangganan, pelanggan tidak dapat melakukan upgrade/downgrade bandwidth layanan.</li>
+                            <li>Promo ini hanya berlaku 1 (satu) kali kesempatan selama menjadi pelanggan ICONNET.</li>
+                            <li>Pelanggan ICONNET yang berkesempatan mengikuti program ini merupakan pelanggan yang sudah tidak aktif berlangganan lebih dari 3 (tiga) bulan.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Bagaimana cara mengetahui coverage Area ICONNET? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Bagaimana cara mengetahui coverage Area ICONNET?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Coverage area ICONNET dapat dicek melalui website ini pada menu <a href="cakupan.html">cakupan area</a> atau melalui aplikasi PLN Mobile pada menu Internet.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Bagaimana cara saya mendaftar layanan ICONNET? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Bagaimana cara saya mendaftar layanan ICONNET?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Terdapat 2 cara untuk mendaftarankan layanan ICONNET:</p>
+                        <ol>
+                            <li>Untuk melakukan pendaftaran, pastikan area Anda sudah tercakup layanan kami, kemudian Anda dapat menghubungi layanan Contact Center ICONNET.</li>
+                            <li>Pendaftaran bisa dilakukan dengan nomor whatsapp yang ada di website ini dan juga bisa dilakukan melalui aplikasi PLN Mobile yang sudah tersedia di Google Playstore dan Apple Appstore, Silahkan login pada Aplikasi PLN Mobile pilih menu cek coverage, jika tercover klik pesan sekarang dan pilih paket layanan. Lanjutkan pengisian data diri Anda dan pilih salah satu metode pembayaran.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Dimana saja lokasi sales representatif tersedia? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Dimana saja lokasi sales representatif tersedia?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sales Representatif ICONNET tersedia pada 11 Lokasi dibawah ini dan juga melalui media sosial sebagai berikut :</p>
+                        <ol>
+                            <li><strong>SBU Sumatera Bagian Utara</strong>
+                                <p>Jl. Kasuari 8, Medan, Sumatera Utara, 20122<br>
+                                Instagram : <a href="https://www.instagram.com/iconnet.sumut" target="_blank" class="instagram-link"><i class="fab fa-instagram"></i> @iconnet.sumut</a></p>
+                            </li>
+                            <li><strong>SBU Sumatera Bagian Tengah</strong>
+                                <p>Jl. Soekarno Hatta, Komp. Griya Sattitri No. 4-5 Marpoyan Damai, Pekanbaru, Riau.<br>
+                                Instagram : <a href="https://www.instagram.com/iconnet.plnriau" target="_blank" class="instagram-link"><i class="fab fa-instagram"></i> @iconnet.plnriau</a>, <a href="https://www.instagram.com/iconnet.plnsumbar" target="_blank" class="instagram-link"><i class="fab fa-instagram"></i> @iconnet.plnsumbar</a>, <a href="https://www.instagram.com/iconnet.plnkepri" target="_blank" class="instagram-link"><i class="fab fa-instagram"></i> @iconnet.plnkepri</a></p>
+                            </li>
+                            <li><strong>SBU Sumatera Bagian Selatan</strong>
+                                <p>Jl. Demang Lebar Daun No. 1782, Kel. 20 Ilir D IV, Kec. Ilir Timur I, Palembang, Sumatera Selatan, 30128<br>
+                                Instagram : <a href="https://www.instagram.com/iconnet.sumbagsel" target="_blank" class="instagram-link"><i class="fab fa-instagram"></i> @iconnet.sumbagsel</a></p>
+                            </li>
+                            <li><strong>SBU Jakarta dan Banten</strong>
+                                <p>Komp. PT PLN (Persero) Duren Tiga Gedung 12, Jl. Karang Kates, Jakarta Selatan, DKI Jakarta, 12760<br>
+                                Instagram : <a href="https://www.instagram.com/iconnet.jakban" target="_blank" class="instagram-link"><i class="fab fa-instagram"></i> @iconnet.jakban</a></p>
+                            </li>
+                            <li><strong>SBU Jawa Bagian Barat</strong>
+                                <p>Jl. Supratman No. 58, Bandung, Jawa Barat 40121<br>
+                                Instagram : <a href="https://www.instagram.com/iconnet.jawabarat" target="_blank" class="instagram-link"><i class="fab fa-instagram"></i> @iconnet.jawabarat</a></p>
+                            </li>
+                            <li><strong>SBU Jawa Bagian Tengah</strong>
+                                <p>GI Krapyak Jl. Siliwangi 379, Krapyak, Semarang, Kota Semarang, Jawa Tengah 50146<br>
+                                Instagram : <a href="https://www.instagram.com/pln.iconplus_jatengdiy" target="_blank" class="instagram-link"><i class="fab fa-instagram"></i> @pln.iconplus_jatengdiy</a></p>
+                            </li>
+                            <li><strong>SBU Jawa Bagian Timur</strong>
+                                <p>Jl. Ketintang Baru (satu) No. 1-3 Surabaya, Jawa Timur<br>
+                                Instagram : <a href="https://www.instagram.com/iconnet.jatim" target="_blank" class="instagram-link"><i class="fab fa-instagram"></i> @iconnet.jatim</a></p>
+                            </li>
+                            <li><strong>SBU Bali dan Nusa Tenggara</strong>
+                                <p>Jl. Gunung Mandalawangi No. 15 Tegal Harum, Denpasar, Bali, 80119<br>
+                                Instagram : <a href="https://www.instagram.com/iconnet.balinusra" target="_blank" class="instagram-link"><i class="fab fa-instagram"></i> @iconnet.balinusra</a></p>
+                            </li>
+                            <li><strong>SBU Kalimantan</strong>
+                                <p>Jl. Sungai Ampal RT 54 No. 168 Kel. Sumber Rejo, Kec. Balikpapan Tengah, Balikpapan, Kalimantan Timur 76124<br>
+                                Instagram : <a href="https://www.instagram.com/iconnet.kalimantan" target="_blank" class="instagram-link"><i class="fab fa-instagram"></i> @iconnet.kalimantan</a></p>
+                            </li>
+                            <li><strong>SBU Sulawesi dan Indonesia Timur</strong>
+                                <p>Gedung Menara Bosowa, lantai 12 JL. Jendral Sudirman No.5 Makassar, Kota Makassar, Sulawesi Selatan.<br>
+                                Instagram : <a href="https://www.instagram.com/iconnet.sulawesi" target="_blank" class="instagram-link"><i class="fab fa-instagram"></i> @iconnet.sulawesi</a></p>
+                            </li>
+                            <li><strong>SBU Kediri</strong>
+                                <p>Perum Graha Kota Blok O2 No 16, Burengan, Kec. Pesantren, Kabupaten Kediri, Jawa Timur 64131<br>
+                                Instagram : <a href="https://www.instagram.com/iconnet.jatim" target="_blank" class="instagram-link"><i class="fab fa-instagram"></i> @iconnet.jatim</a></p>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Bagaimana cara saya melakukan pembayaran ICONNET? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Bagaimana cara saya melakukan pembayaran ICONNET?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Pembayaran ICONNET, baik pendaftaran pemasangan baru maupun tagihan bulanan dapat dilakukan melalui nomor Virtual Account Bank Mandiri, Virtual Account BRI, Virtual Account BNI, Indomaret dan juga Alfamart. Untuk pembayaran e-wallet dapat diakses melalui aplikasi PLN Mobile. Kerja sama e-wallet antaralain: LinkAja, Gopay dan OVO. Sedangkan pembayaran e-commerce dapat dilakukan melalui Tokopedia, Blibli dan Buka Lapak.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Berapa lama pemasangan ICONNET dapat dilakukan? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Berapa lama pemasangan ICONNET dapat dilakukan?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Pemasangan ICONNET akan dilakukan dalam rentan waktu 3-5 hari kerja setelah pembayaran biaya pasang baru dinyatakan lunas pada sistem.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Bagaimana saya bisa mengetahui bahwa area saya sudah tercover layanan ICONNET? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Bagaimana saya bisa mengetahui bahwa area saya sudah tercover layanan ICONNET?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Area ICONNET dapat dicek melalui website ini pada menu <a href="cakupan.html">cakupan area</a> atau melalui aplikasi PLN Mobile pada menu Internet.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Bagaimana jika area saya ternyata belum tercover dan saya ingin berlangganan ICONNET? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Bagaimana jika area saya ternyata belum tercover dan saya ingin berlangganan ICONNET?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Apabila lokasi Anda belum tercakup layanan ICONNET, mohon dapat menginformasikan alamat Anda pada aplikasi PLN Mobile atau website iconnet.id melalui formulir 'Beri Tahu Kami' sebagai pertimbangan dalam perluasan jaringan pada masa mendatang.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Bagaimana apabila hasil pengecekan belum tercover namun tetangga saya sudah menggunakan ICONNET? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Bagaimana apabila hasil pengecekan belum tercover namun tetangga saya sudah menggunakan ICONNET?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Anda dapat mengisi formulir 'Beri Tahu Kami' pada website iconnet.id atau aplikasi PLN Mobile sebagai pertimbangan bagi kami untuk melakukan perluasan cakupan jaringan ICONNET.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Apakah perlu penambahan daya listrik PLN untuk menggunakan layanan Internet ICONNET? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Apakah perlu penambahan daya listrik PLN untuk menggunakan layanan Internet ICONNET?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Untuk pendaftaran layanan ICONNET, Anda tidak perlu melakukan tambah daya listrik PLN.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Setelah saya mendaftar, apa yang harus saya lakukan? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Setelah saya mendaftar, apa yang harus saya lakukan?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Setelah melakukan pendaftaran melalui whatsapp pendaftaran atau aplikasi PLN Mobile, Anda akan menerima kode pembayaran sesuai metode pembayaran uang diinginkan. Mohon dapat menyelesaikan proses pembayaran ICONNET untuk dapat diproses aktivasi layanannya.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Setelah melakukan pembayaran awal, kapan layanan ICONNET saya akan dilakukan pemasangan? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Setelah melakukan pembayaran awal, kapan layanan ICONNET saya akan dilakukan pemasangan?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Estimasi untuk pemasangan setelah dilakukan pembayaran adalah 3 - 5 hari kerja. Jika dalam 3 - 5 hari kerja anda belum mendapatkan informasi mengenai pemasangan, Anda bisa menghubungi kami kembali melalui Call di 150678 atau whatsapp chat 0811-1200-2123.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Saya sudah mendapatkan email terkait pembayaran awal, bagaimana cara untuk membayarnya? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Saya sudah mendapatkan email terkait pembayaran awal, bagaimana cara untuk membayarnya?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Untuk pembayaran bisa dilakukan melalui Virtual Account bank mandiri, Transfer antar bank, Indomaret, serta Alfamart.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Berapa jumlah pembayaran yang harus saya lakukan? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Berapa jumlah pembayaran yang harus saya lakukan?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Jumlah pembayaran tagihan awal atau tagihan bulan yaitu nilai tagihan ditambah dengan biaya adminitrasi sesuai pilihan metode bayar.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Dimana saya bisa melihat kode pembayaran saya? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Dimana saya bisa melihat kode pembayaran saya?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Dapat dilakukan dengan 2 cara:</p>
+                        <ol>
+                            <li>Pada aplikasi PLN Mobile, pastikan Anda menambah ID Pelanggan yang terdaftar pada layanan ICONNET, kemudian pilih menu layanan dan akan muncul nilai tagihan anda saat ini.</li>
+                            <li>Email yang didaftarkan pada saat pengajuan permohonan ICONNET.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Saya mencoba membayarkan melalui transfer bank lain, namun pembayaran selalu gagal, bagaimana cara pemnbayarannya? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Saya mencoba membayarkan melalui transfer bank lain, namun pembayaran selalu gagal, bagaimana cara pemnbayarannya?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Pastikan nominal transfer yang Anda masukkan jumlahnya yaitu nilai tagihan ditambah dengan biaya adminitrasi sesuai metode pembayaran yang dipilih.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Saya tidak memiliki akun Bank sedangkan Alfamart dan Indomaret di daerah saya tidak mensupport pembayaran ICONNET, bagaimana saya melakukan pembayaran? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Saya tidak memiliki akun Bank sedangkan Alfamart dan Indomaret di daerah saya tidak mensupport pembayaran ICONNET, bagaimana saya melakukan pembayaran?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Mohon maaf, saat ini metode pembayaran melalui Alfamart dan Indomaret mungkin belum tersedia di seluruh area. Anda bisa mencoba metode pembayaran lain yang tersedia (seperti Virtual Account Bank atau e-wallet melalui PLN Mobile) atau menghubungi Contact Center ICONNET untuk bantuan lebih lanjut.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Jika saya membayar dari Alfamart dan Indomaret apa yang harus saya infokan ke kasir? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Jika saya membayar dari Alfamart dan Indomaret apa yang harus saya infokan ke kasir?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Anda dapat menyebutkan kode pembayaran Alfamart atau Indomaret sesuai dengan kode yang Anda terima pada lampiran email tagihan ICONNET.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Bagaimana cara untuk cek apakah pembayaran saya sudah diterima? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Bagaimana cara untuk cek apakah pembayaran saya sudah diterima?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Terdapat 2 cara mengecek pembayaran yang sudah diterima:</p>
+                        <ol>
+                            <li>Pada Aplikasi PLN Mobile, Anda dapat mengecek status tagihan di menu layanan.</li>
+                            <li>Notifikasi pembayaran berhasil akan dikirimkan ke email Anda yang terdaftar saat pendaftaran awal ICONNET. Pengiriman notifikasi akan dikirim dari iconnet@iconpln.co.id</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Saya sudah melakukan pembayaran ICONNET namun saya belum dapat email notifikasi pembayaran berhasil apa yang harus saya lakukan? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Saya sudah melakukan pembayaran ICONNET namun saya belum dapat email notifikasi pembayaran berhasil apa yang harus saya lakukan?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Bisa dengan 2 cara:</p>
+                        <ol>
+                            <li>Pembayaran melalui transfer antar bank. Anda membayar melalui bank selain Bank Mandiri untuk notifikasi pembayaran berhasil ditunggu 2-5 hari kerja. Apabila masih belum menerima notifikasi lunas maka Anda dapat menghubungi Bank asal tempat Anda melakukan pembayaran.</li>
+                            <li>Pembayaran melalui Indomaret atau Alfamart. Anda dapat menunggu notifikasi pembayaran berhasil 4-7 hari kerja. Apabila dalam 7 hari belum menerima notifikasi lunas dapat menghubungi CC ICONNET.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Bagaimana saya dapat mengajukan refund apabila mendapat informasi bahwa permohonan saya tidak dapat diproses lanjut? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Bagaimana saya dapat mengajukan refund apabila mendapat informasi bahwa permohonan saya tidak dapat diproses lanjut?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Anda dapat mengajukan refund melalui Aplikasi MyICON+.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item: Data apa yang dibutuhkan untuk mendaftar ICONNET? -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Data apa yang dibutuhkan untuk mendaftar ICONNET?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Nomor ID Pelanggan PLN, nomor KTP, e-mail aktif, dan nomor HP yang tersambung dengan aplikasi Whatsapp.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div>
+            <span class="footer-links-desktop">
+                <a href="cakupan.html">Cek Area</a> |
+                <a href="pembayaran.html">Metode Pembayaran</a> |
+                <a href="tentang.html">Tentang Kami</a> |
+                <a href="kontak.html">Hubungi Kami</a> |
+                <a href="syarat.html">Syarat & Ketentuan</a> |
+                <a href="privasi.html">Kebijakan Privasi</a>
+            </span>
+        </div>
+        <p>&copy; 2025 All rights reserved. ICONNET powered by PT Indonesia Comnets Plus</p>
+    </footer>
+
+    <!-- AOS (Animate On Scroll) Library -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+
+        // Fungsionalitas menu burger
+        const headerBurger = document.getElementById('headerBurger');
+        const mobileNav = document.getElementById('mobileNav');
+
+        if (headerBurger && mobileNav) {
+            headerBurger.addEventListener('click', function() {
+                mobileNav.classList.toggle('active');
+            });
+        }
+
+        // Fungsionalitas FAQ Dropdown
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', event => {
+                const faqItem = item.closest('.faq-item');
+                const answer = faqItem.querySelector('.faq-answer');
+                const icon = item.querySelector('i');
+
+                // Toggle 'active' class on the question and answer
+                item.classList.toggle('active');
+                answer.classList.toggle('active');
+
+                // Toggle icon rotation
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+
+                // Close other open FAQs if needed (optional)
+                document.querySelectorAll('.faq-question.active').forEach(otherQuestion => {
+                    if (otherQuestion !== item) {
+                        otherQuestion.classList.remove('active');
+                        otherQuestion.querySelector('.faq-answer').classList.remove('active');
+                        const otherIcon = otherQuestion.querySelector('i');
+                        otherIcon.classList.remove('fa-chevron-up');
+                        otherIcon.classList.add('fa-chevron-down');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
