@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ICONNET - Metode Pembayaran</title> <!-- Judul khusus halaman ini -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS yang disalin PERSIS dari Pastebin index.html */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #003366;
+            padding: 0.5rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+        header img {
+            height: 30px;
+        }
+        header nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+        }
+        header nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        header nav a:hover {
+            color: white; /* Menghilangkan efek kuning */
+        }
+        header nav a.active {
+            color: white; /* Active state, tetap putih sesuai index.html */
+        }
+
+        /* Mobile Burger Menu and Navigation */
+        .burger-menu {
+            display: none;
+            font-size: 1.8rem;
+            color: white;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #003366;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            padding: 1rem 1.5rem;
+        }
+        .mobile-nav.active {
+            display: flex;
+        }
+        .mobile-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: color 0.3s ease;
+        }
+        .mobile-nav a:hover {
+            color: white; /* Menghilangkan efek kuning */
+        }
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+        .mobile-nav a.active {
+            color: white; /* Active state, tetap putih sesuai index.html */
+        }
+
+        /* Sembunyikan bagian-bagian dari index.html yang tidak relevan di halaman ini */
+        .carousel-wrapper,
+        .carousel-btn,
+        .features,
+        .feature,
+        .paket-banner,
+        .testimoni-wrapper,
+        .testimoni-btn,
+        .cta-section {
+            display: none !important;
+        }
+        .testimoni, .testimoni::-webkit-scrollbar,
+        .testimoni-card, .testimoni-card img {
+            display: none !important;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 1rem;
+        }
+
+        .section {
+            padding: 2rem 1rem;
+            max-width: 900px; /* Lebar konten utama */
+            margin: 2rem auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center; /* Default text alignment */
+        }
+
+        /* Styling khusus untuk halaman Metode Pembayaran */
+        .payment-methods-container h1 {
+            font-size: 2.5rem;
+            color: #003366;
+            margin-bottom: 1rem;
+        }
+        .payment-methods-container p.intro {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .payment-methods-container h2 {
+            font-size: 1.8rem;
+            color: #003366;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .payment-methods-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            text-align: left; /* Mengembalikan text alignment ke kiri untuk item metode pembayaran */
+        }
+        .payment-method-card {
+            background-color: #f8fafd;
+            border: 1px solid #e0e7ee;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer; /* Menambahkan cursor pointer untuk kartu yang bisa diklik */
+            display: flex; /* Untuk menyejajarkan ikon/logo dan teks */
+            flex-direction: column;
+            align-items: center; /* Pusatkan secara horizontal */
+            justify-content: center; /* Pusatkan secara vertikal */
+            text-align: center;
+        }
+        .payment-method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+        .payment-method-card h3 {
+            font-size: 1.4rem;
+            color: #0056b3;
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            justify-content: center; /* Pusatkan teks h3 */
+        }
+        .payment-method-card h3 img.payment-logo {
+            width: 40px; /* Ukuran logo */
+            height: 40px;
+            margin-right: 0.6rem; /* Jarak antara logo dan teks */
+            object-fit: contain; /* Memastikan logo tidak terdistorsi */
+        }
+        .payment-method-card p {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 0;
+        }
+
+        /* Styling untuk detail panduan pembayaran */
+        .payment-details-section {
+            text-align: left; /* Mengembalikan text alignment ke kiri */
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .payment-details-section h2 {
+            font-size: 2rem;
+            color: #003366;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .payment-details-section h3 {
+            font-size: 1.7rem;
+            color: #0056b3;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #e0e7ee;
+            padding-bottom: 0.5rem;
+            display: flex; /* Menambahkan flex untuk logo di detail */
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .payment-details-section h3 img.payment-logo { /* Aturan baru untuk logo di detail */
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+        .payment-details-section h4 {
+            font-size: 1.3rem;
+            color: #003366;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .payment-details-section p {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+        }
+        .payment-details-section ul {
+            list-style: decimal; /* Menggunakan nomor untuk langkah-langkah */
+            padding-left: 25px;
+            margin-bottom: 1.5rem;
+        }
+        .payment-details-section ul li {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+        .payment-details-section strong {
+            color: #003366;
+        }
+        .payment-details-section .example {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #e6f0fa;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            color: #003366;
+            font-weight: bold;
+        }
+        .payment-details-section .note {
+            background-color: #fffacd;
+            border-left: 4px solid #f78c00;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            color: #777;
+        }
+
+
+        /* Footer */
+        footer {
+            background-color: #003366;
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+            margin-top: 4rem; 
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 0.6rem;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: #add8e6;
+        }
+        .footer-links-desktop {
+            display: inline-block;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            header nav ul {
+                display: none;
+            }
+            .burger-menu {
+                display: block;
+            }
+            .section {
+                padding: 1.5rem 0.8rem;
+                margin: 1rem auto;
+            }
+            .payment-methods-container h1 {
+                font-size: 2rem;
+            }
+            .payment-methods-container p.intro {
+                font-size: 1rem;
+            }
+            .payment-methods-container h2 {
+                font-size: 1.5rem;
+            }
+            .payment-method-card h3 {
+                font-size: 1.2rem;
+            }
+            .payment-method-card p {
+                font-size: 0.85rem;
+            }
+            .payment-details-section h2 {
+                font-size: 1.8rem;
+            }
+            .payment-details-section h3 {
+                font-size: 1.5rem;
+            }
+            .payment-details-section h4 {
+                font-size: 1.2rem;
+            }
+            .payment-details-section p, .payment-details-section ul li {
+                font-size: 0.9rem;
+            }
+            footer .footer-links-desktop {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+            footer a {
+                padding: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 0.5rem 1rem;
+            }
+            header img {
+                height: 25px;
+            }
+            .mobile-nav {
+                padding: 1rem;
+            }
+            .section {
+                padding: 1.2rem 0.5rem;
+            }
+            .payment-methods-container h1 {
+                font-size: 1.8rem;
+            }
+            .payment-methods-container p.intro {
+                font-size: 0.95rem;
+            }
+            .payment-method-card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <img src="https://iconnetsumut.com/wp-content/uploads/2023/09/iconnet-putih.webp" alt="ICONNET Logo" onerror="this.onerror=null;this.src='https://placehold.co/100x30/003366/FFFFFF?text=ICONNET';">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="produk.html">Produk & Promo</a></li>
+                <li><a href="cakupan.html">Cakupan Area</a></li>
+                <li><a href="kontak.html">Hubungi Kami</a></li>
+            </ul>
+        </nav>
+        <div class="burger-menu" id="headerBurger">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <a href="index.html">Home</a>
+            <a href="produk.html">Produk & Promo</a>
+            <a href="cakupan.html">Cakupan Area</a>
+            <a href="kontak.html">Hubungi Kami</a>
+            <a href="pembayaran.html" class="active">Metode Pembayaran</a> <!-- Link aktif untuk halaman ini -->
+            <a href="tentang.html">Tentang Kami</a>
+            <a href="syarat.html">Syarat & Ketentuan</a>
+            <a href="privasi.html">Kebijakan Privasi</a>
+        </div>
+    </header>
+
+    <!-- Main Content Section - Metode Pembayaran -->
+    <main>
+        <section class="section payment-methods-container" data-aos="fade-up">
+            <h1>METODE PEMBAYARAN</h1>
+            <p class="intro">
+                ICONNET adalah sebuah internet provider baru yang dulunya bernama Stroomnet. ICONNET Bangkit Bersatu Untuk Indonesia, dengan menjunjung tinggi nilai-nilai Nasionalisme, ICONNET berniat memberikan yang terbaik untuk masyarakat Indonesia.
+            </p>
+
+            <h2>Daftar Pembayaran</h2>
+            <div class="payment-methods-list">
+                <div class="payment-method-card" data-method="mandiri-va">
+                    <h3>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png" alt="Logo Mandiri" class="payment-logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/003366/FFFFFF?text=M';">
+                        Mandiri Virtual Account
+                    </h3>
+                    <p>Pembayaran via Virtual Account Bank Mandiri.</p>
+                </div>
+                <div class="payment-method-card" data-method="bri-va">
+                    <h3>
+                        <img src="https://jasalogocepat.com/wp-content/uploads/2023/09/logo-bri-png-transparan-jasalogocepat-01.png" alt="Logo BRI" class="payment-logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/ED1C24/FFFFFF?text=BRI';">
+                        BRI Virtual Account
+                    </h3>
+                    <p>Pembayaran via Virtual Account Bank BRI.</p>
+                </div>
+                <div class="payment-method-card" data-method="bni-va">
+                    <h3>
+                        <img src="https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BNI_logo.svg/2560px-BNI_logo.svg.png" alt="Logo BNI" class="payment-logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/046A38/FFFFFF?text=BNI';">
+                        BNI Virtual Account
+                    </h3>
+                    <p>Pembayaran via Virtual Account Bank BNI.</p>
+                </div>
+                <div class="payment-method-card" data-method="bca-va">
+                    <h3>
+                        <img src="https://algorit.ma/wp-content/uploads/2023/02/Logo-BCA-PNG.png" alt="Logo BCA" class="payment-logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/005A9C/FFFFFF?text=BCA';">
+                        BCA Virtual Account
+                    </h3>
+                    <p>Pembayaran via Virtual Account Bank BCA.</p>
+                </div>
+                <div class="payment-method-card" data-method="tokopedia">
+                    <h3>
+                        <img src="https://lf-web-assets.tokopedia-static.net/obj/tokopedia-web-sg/arael_v3/0c292173.png" alt="Logo Tokopedia" class="payment-logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/42B549/FFFFFF?text=TP';">
+                        Tokopedia
+                    </h3>
+                    <p>Pembayaran melalui platform Tokopedia.</p>
+                </div>
+                <div class="payment-method-card" data-method="bukalapak">
+                    <h3>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Bukalapak_%282020%29.svg/2560px-Bukalapak_%282020%29.svg.png" alt="Logo Bukalapak" class="payment-logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/E40030/FFFFFF?text=BL';">
+                        Bukalapak
+                    </h3>
+                    <p>Pembayaran melalui platform Bukalapak.</p>
+                </div>
+                <div class="payment-method-card" data-method="alfamart">
+                    <h3>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Alfamart_Belanja_puas%2C_harga_pas.svg" alt="Logo Alfamart" class="payment-logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/ED1C24/FFFFFF?text=A';">
+                        Alfamart
+                    </h3>
+                    <p>Pembayaran di gerai Alfamart terdekat.</p>
+                </div>
+                <div class="payment-method-card" data-method="indomaret">
+                    <h3>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Logo_Indomaret.png" alt="Logo Indomaret" class="payment-logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/003366/FFFFFF?text=I';">
+                        Indomaret
+                    </h3>
+                    <p>Pembayaran di gerai Indomaret terdekat.</p>
+                </div>
+                <div class="payment-method-card" data-method="pln-mobile">
+                    <h3>
+                        <img src="https://ugc.production.linktr.ee/NRMJnMEVSEi8s2IWMW3z_AEpdxU0AKe1W0L4m" alt="Logo PLN Mobile" class="payment-logo" onerror="this.onerror=null;this.src='https://placehold.co/40x40/0073B7/FFFFFF?text=PLN';">
+                        PLN Mobile
+                    </h3>
+                    <p>Pembayaran via aplikasi PLN Mobile.</p>
+                </div>
+            </div>
+
+            <!-- Detail Panduan Pembayaran (akan diisi via JS atau ditampilkan/disembunyikan) -->
+            <div id="paymentDetails" class="payment-details-section" style="display: none;">
+                <!-- Konten detail panduan akan dimuat di sini -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div>
+            <span class="footer-links-desktop">
+                <a href="cakupan.html">Cek Area</a> |
+                <a href="pembayaran.html">Metode Pembayaran</a> |
+                <a href="tentang.html">Tentang Kami</a> |
+                <a href="kontak.html">Hubungi Kami</a> |
+                <a href="syarat.html">Syarat & Ketentuan</a> |
+                <a href="privasi.html">Kebijakan Privasi</a>
+            </span>
+        </div>
+        <p>&copy; 2025 All rights reserved. ICONNET powered by PT Indonesia Comnets Plus</p>
+    </footer>
+
+    <!-- AOS (Animate On Scroll) Library -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+
+        // Fungsionalitas menu burger
+        const headerBurger = document.getElementById('headerBurger');
+        const mobileNav = document.getElementById('mobileNav');
+
+        if (headerBurger && mobileNav) {
+            headerBurger.addEventListener('click', function() {
+                mobileNav.classList.toggle('active');
+            });
+        }
+
+        // --- Fungsionalitas Detail Pembayaran ---
+        const paymentDetailsDiv = document.getElementById('paymentDetails');
+        const paymentMethodCards = document.querySelectorAll('.payment-method-card');
+
+        const paymentGuides = {
+            "mandiri-va": `
+                <h3>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/2560px-Bank_Mandiri_logo_2016.svg.png" alt="Logo Mandiri" class="payment-logo">
+                    Mandiri Virtual Account
+                </h3>
+                <h4>Panduan Pembayaran</h4>
+                <p>Pembayaran melalui <strong>Mandiri ATM</strong></p>
+                <ol>
+                    <li>Masukkan kartu ATM dan PIN</li>
+                    <li>Pilih menu BAYAR/BELI</li>
+                    <li>Pilih menu INTERNET - ICONNET</li>
+                    <li>Masukkan Kode Virtual Account, contoh : <span class="example">89450xxxxxxxxxxxx</span></li>
+                    <li>Masukkan Nominal / yang sesuai tertera pada tagihan/ATM</li>
+                    <li>KONFIRMASI : Tekan 1 kemudian tekan OK</li>
+                    <li>Transaksi Selesai</li>
+                </ol>
+                <p>Pembayaran melalui <strong>Mandiri Online / Livin’</strong></p>
+                <ol>
+                    <li>Buka aplikasi mandiri online di handphone atau PC</li>
+                    <li>Masukkan user id dan pin di halaman log in</li>
+                    <li>Pilih menu BAYAR</li>
+                    <li>Pilih menu INTERNET & TV KABEL</li>
+                    <li>Pilih penyedia jasa ICONNET</li>
+                    <li>Masukkan Kode Virtual Account, contoh : <span class="example">89450xxxxxxxxxxxx</span></li>
+                    <li>Tekan Lanjut</li>
+                    <li>Tekan KONFIRMASI</li>
+                    <li>Masukkan MPIN Banking kemudian tekan OK</li>
+                    <li>Transaksi Selesai</li>
+                </ol>
+                <p>Pembayaran melalui <strong>Bank Lain (ATM)</strong></p>
+                <ol>
+                    <li>Pada menu utama, pilih Transaksi Lainnya</li>
+                    <li>Pilih Transfer</li>
+                    <li>Pilih Transfer Antar Bank Online.</li>
+                    <li>Masukan kode Bank Mandiri <strong>008</strong> diikuti 16 digit kode Virtual Account <span class="example">89450xxxxxxxxxxxx</span> yang Anda terima. Contoh: <span class="example">00889450xxxxxxxxxxxx</span></li>
+                    <li>Masukan total pembayaran. Jumlah yang tidak tepat akan membatalkan transaksi.</li>
+                    <li>Kosongkan nomor referensi dan klik Benar</li>
+                    <li>Muncul konfirmasi pembayaran, pilih Benar</li>
+                    <li>Pembayaran melalui <strong>Online Banking</strong></li>
+                    <li>Pada menu utama, pilih Transaksi Lainnya</li>
+                    <li>Pilih Transfer</li>
+                    <li>Pilih Rek Bank Lain</li>
+                    <li>Pilih Bank Mandiri</li>
+                    <li>Isi nomor rekening dengan nomor kode Mandiri virtual account</li>
+                    <li>Masukan jumlah yang harus dibayarkan dan klik Lanjut. Jumlah yang tidak tepat akan membatalkan transaksi.</li>
+                    <li>Jumlah yang harus dibayar dan nomor rekening akan muncul pada halaman konfirmasi pembayaran. Jika informasi sudah benar, pilih OK.</li>
+                </ol>
+            `,
+            "bri-va": `
+                <h3>
+                    <img src="https://jasalogocepat.com/wp-content/uploads/2023/09/logo-bri-png-transparan-jasalogocepat-01.png" alt="Logo BRI" class="payment-logo">
+                    BRI Virtual Account
+                </h3>
+                <h4>Panduan Pembayaran</h4>
+                <p>Pembayaran melalui <strong>ATM BRI</strong></p>
+                <ol>
+                    <li>Masukkan kartu ATM dan PIN</li>
+                    <li>Pilih menu Transaksi Lain -> LAINNYA -> BRIVA</li>
+                    <li>Masukkan Nomor Virtual Account , yaitu “1326891” (ICONNET)</li>
+                    <li>Masukkan Nomor Virtual Account, Contoh : <span class="example">1326891000000001</span></li>
+                    <li>Di halaman KONFIRMASI, pastikan detil pembayaran sudah sesuai Nomor BRIVA, Nama Pelanggan dan Jumlah Pembayaran</li>
+                    <li>Transaksi Selesai</li>
+                    <li>Simpan Struk Pembayaran</li>
+                </ol>
+                <p>Pembayaran melalui <strong>Mobile Banking BRI</strong></p>
+                <ol>
+                    <li>Buka aplikasi BRI Mobile</li>
+                    <li>Pilih menu Mobile Banking BRI -> PEMBAYARAN -> BRIVA</li>
+                    <li>Masukkan Nomor Virtual Account</li>
+                    <li>Kemudian Klik Bayar</li>
+                    <li>Masukkan PIN</li>
+                    <li>Transaksi Selesai</li>
+                    <li>Simpan notifikasi SMS sebagai bukti pembayaran</li>
+                </ol>
+                <p>Pembayaran melalui <strong>Internet Banking BRI</strong></p>
+                <ol>
+                    <li>Login pada alamat Internet Banking BRI (<a href="https://ib.bri.co.id/ib-bri/Login.html" target="_blank">https://ib.bri.co.id/ib-bri/Login.html</a>)</li>
+                    <li>Pilih menu Pembayaran Tagihan > Pembayaran > BRIVA</li>
+                    <li>Masukkan Nomor Virtual Account</li>
+                    <li>Di halaman konfirmasi, pastikan detil pembayaran sudah sesuai seperti Nomor BRIVA, Nama Pelanggan dan Jumlah Pembayaran</li>
+                    <li>Masukkan password dan mToken</li>
+                    <li>Transaksi Selesai</li>
+                    <li>Simpan Struk Pembayaran</li>
+                </ol>
+            `,
+            "bni-va": `
+                <h3>
+                    <img src="https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BNI_logo.svg/2560px-BNI_logo.svg.png" alt="Logo BNI" class="payment-logo">
+                    BNI Virtual Account
+                </h3>
+                <h4>Panduan Pembayaran</h4>
+                <p>Pembayaran melalui <strong>ATM BNI</strong></p>
+                <ol>
+                    <li>Masukkan kartu ATM dan PIN</li>
+                    <li>Pilih menu Transaksi Lain -> LAINNYA -> BNIVA</li>
+                    <li>Masukkan Nomor Virtual Account , yaitu “3438691” (ICONNET)</li>
+                    <li>Masukkan Nomor Virtual Account, Contoh : <span class="example">3438691000000001</span></li>
+                    <li>Di halaman KONFIRMASI, pastikan detil pembayaran sudah sesuai Nomor BNIVA, Nama Pelanggan dan Jumlah Pembayaran</li>
+                    <li>Transaksi Selesai</li>
+                    <li>Simpan Struk Pembayaran</li>
+                </ol>
+                <p>Pembayaran melalui <strong>Mobile Banking BNI</strong></p>
+                <ol>
+                    <li>Buka aplikasi BNI Mobile</li>
+                    <li>Pilih menu Mobile Banking BNI > TRANSFER > Virtual Account Billing</li>
+                    <li>Masukkan Nomor Virtual Account dengan kode “34386910” diikuti 8 digit Kode Pembayaran, contoh : <span class="example">3438691000000001</span></li>
+                    <li>Kemudian Klik Bayar</li>
+                    <li>Masukkan PIN</li>
+                    <li>Transaksi Selesai</li>
+                    <li>Simpan struk digital sebagai bukti pembayaran</li>
+                </ol>
+                <p>Pembayaran melalui <strong>Internet Banking BNI</strong></p>
+                <ol>
+                    <li>Login pada alamat Internet Banking BNI (<a href="https://ibank.bni.co.id" target="_blank">https://ibank.bni.co.id</a>)</li>
+                    <li>Pilih menu Transfer > Virtual Account Billing</li>
+                    <li>Masukkan Nomor Virtual Account</li>
+                    <li>Di halaman KONFIRMASI, pastikan detil pembayaran sudah sesuai seperti Nomor BNIVA, Nama Pelanggan dan Jumlah Pembayaran</li>
+                    <li>Masukkan password dan mToken</li>
+                    <li>Transaksi Selesai</li>
+                    <li>Simpan Struk Pembayaran</li>
+                </ol>
+            `,
+            "bca-va": `
+                <h3>
+                    <img src="https://algorit.ma/wp-content/uploads/2023/02/Logo-BCA-PNG.png" alt="Logo BCA" class="payment-logo">
+                    BCA Virtual Account
+                </h3>
+                <h4>Panduan Pembayaran</h4>
+                <p>Pembayaran melalui <strong>ATM BCA</strong></p>
+                <ol>
+                    <li>Masukkan kartu ATM dan PIN</li>
+                    <li>Pilih menu Transaksi Lain -> LAINNYA -> BCAVA</li>
+                    <li>Masukkan Nomor Virtual Account , yaitu “2060091” (ICONNET)</li>
+                    <li>Masukkan Nomor Virtual Account, Contoh : <span class="example">2060091000000001</span></li>
+                    <li>Di halaman KONFIRMASI, pastikan detil pembayaran sudah sesuai Nomor BCAVA, Nama Pelanggan dan Jumlah Pembayaran</li>
+                    <li>Transaksi Selesai</li>
+                    <li>Simpan Struk Pembayaran</li>
+                </ol>
+                <p>Pembayaran melalui <strong>Mobile Banking BCA</strong></p>
+                <ol>
+                    <li>Buka aplikasi BCA Mobile</li>
+                    <li>Pilih menu Mobile Banking BCA -> PEMBAYARAN -> BCAVA</li>
+                    <li>Masukkan Nomor Virtual Account</li>
+                    <li>Kemudian Klik Bayar</li>
+                    <li>Masukkan PIN</li>
+                    <li>Transaksi Selesai</li>
+                    <li>Simpan notifikasi SMS sebagai bukti pembayaran</li>
+                </ol>
+                <p>Pembayaran melalui <strong>Klik BCA</strong></p>
+                <ol>
+                    <li>Login pada alamat Internet Banking BCA (<a href="https://www.klikbca.com" target="_blank">https://www.klikbca.com</a>)</li>
+                    <li>Pilih menu Pembayaran Tagihan > Pembayaran > BCAVA</li>
+                    <li>Masukkan Nomor Virtual Account</li>
+                    <li>Di halaman konfirmasi, pastikan detil pembayaran sudah sesuai seperti Nomor BCAVA, Nama Pelanggan dan Jumlah Pembayaran</li>
+                    <li>Masukkan password dan mToken</li>
+                    <li>Transaksi Selesai</li>
+                    <li>Simpan Struk Pembayaran</li>
+                </ol>
+            `,
+            "tokopedia": `
+                <h3>
+                    <img src="https://lf-web-assets.tokopedia-static.net/obj/tokopedia-web-sg/arael_v3/0c292173.png" alt="Logo Tokopedia" class="payment-logo">
+                    Tokopedia
+                </h3>
+                <h4>Panduan Pembayaran</h4>
+                <p>Pembayaran melalui <strong>Tokopedia</strong></p>
+                <ol>
+                    <li>Masuk ke aplikasi Tokopedia di Handphone / Web</li>
+                    <li>Pilih Top-up & Tagihan</li>
+                    <li>Pilih kategori Internet dan TV Kabel</li>
+                    <li>Pilih ICONNET pada menu turunan</li>
+                    <li>Masukkan Id pelanggan</li>
+                    <li>Klik “BAYAR”</li>
+                    <li>Pelanggan akan diarahkan ke halaman checkout setelah klik tombol “BAYAR”</li>
+                    <li>Pastikan nama, id Pelanggan, dan jumlah tagihan sudah benar, Klik “LANJUT”</li>
+                    <li>Setelah klik “LANJUT” pelanggan akan diarahkan ke halaman pembayaran</li>
+                    <li>Pilih pilihan pembayaran yang tersedia</li>
+                    <li>Transaksi sukses</li>
+                    <li>Pelanggan dapat melihat resi pada email atau pada riwayat transaksi</li>
+                </ol>
+            `,
+            "bukalapak": `
+                <h3>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Bukalapak_%282020%29.svg/2560px-Bukalapak_%282020%29.svg.png" alt="Logo Bukalapak" class="payment-logo">
+                    Bukalapak
+                </h3>
+                <h4>Panduan Pembayaran</h4>
+                <p>Pembayaran melalui <strong>Bukalapak</strong></p>
+                <ol>
+                    <li>Masuk ke aplikasi Bukalapak di Handphone / Web</li>
+                    <li>Pilih Tagihan</li>
+                    <li>Pilih kategori TV Kabel & Internet</li>
+                    <li>Pilih ICONNET pada menu turunan</li>
+                    <li>Masukkan Id pelanggan</li>
+                    <li>Klik “BAYAR”</li>
+                    <li>Pelanggan akan diarahkan ke halaman checkout setelah klik tombol “BAYAR”</li>
+                    <li>Pastikan nama, id Pelanggan, dan jumlah tagihan sudah benar</li>
+                    <li>Klik “LANJUT”</li>
+                    <li>Setelah klik “LANJUT” pelanggan akan diarahkan ke halaman pembayaran</li>
+                    <li>Pilih pilihan pembayaran yang tersedia</li>
+                    <li>Transaksi sukses</li>
+                    <li>Pelanggan dapat melihat resi pada email atau pada riwayat transaksi</li>
+                </ol>
+            `,
+            "alfamart": `
+                <h3>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Alfamart_Belanja_puas%2C_harga_pas.svg" alt="Logo Alfamart" class="payment-logo">
+                    Alfamart
+                </h3>
+                <h4>Panduan Pembayaran</h4>
+                <p>Pembayaran melalui <strong>gerai Alfamart</strong></p>
+                <ol>
+                    <li>Datang di gerai Alfamart terdekat</li>
+                    <li>Info kasir untuk pembayaran ICONNet</li>
+                    <li>Info kasir kode alfamart 111113 diikuti 8 digit Kode Pembayaran, contoh : <span class="example">11111310021136</span></li>
+                    <li>Pembayaran sesuai dengan jumlah tagihan ditambah dengan biaya Rp 6.606,-</li>
+                    <li>Transaksi Selesai</li>
+                    <li>Simpan Struk Pembayaran</li>
+                </ol>
+            `,
+            "indomaret": `
+                <h3>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Logo_Indomaret.png" alt="Logo Indomaret" class="payment-logo">
+                    Indomaret
+                </h3>
+                <h4>Panduan Pembayaran</h4>
+                <p>Pembayaran melalui <strong>gerai Indomaret</strong></p>
+                <ol>
+                    <li>Datang ke gerai Indomaret terdekat</li>
+                    <li>Info kasir untuk pembayaran ICONNET</li>
+                    <li>Info kasir kode indomaret 88267001 diikuti 8 digit Kode Pembayaran, Contoh : <span class="example">8826700110021136</span></li>
+                    <li>Pembayaran sesuai dengan jumlah tagihan ditambah dengan biaya Rp 7.716,-</li>
+                    <li>Transaksi Selesai</li>
+                    <li>Simpan Struk Pembayaran</li>
+                </ol>
+            `,
+            "pln-mobile": `
+                <h3>
+                    <img src="https://ugc.production.linktr.ee/NRMJnMEVSEi8s2IWMW3z_AEpdxU0AKe1W0L4m" alt="Logo PLN Mobile" class="payment-logo">
+                    PLN Mobile
+                </h3>
+                <h4>Panduan Pembayaran</h4>
+                <p>Pembayaran melalui <strong>Gopay, OVO dan LinkAja</strong> dapat dilakukan untuk pendaftaran baru maupun tagihan bulanan ICONNET hanya pada aplikasi PLN Mobile</p>
+                <ol>
+                    <li>Buka Aplikasi PLN Mobile</li>
+                    <li>Pilih Menu “Internet”</li>
+                    <li>Pilih “Koneksi Saya” (klik pada bagian Nama Pelanggan)</li>
+                    <li>Pilih “Bayar”</li>
+                    <li>Pilih “Metode Pembayaran" Gopay/Ovo/LinkAja</li>
+                    <li>Lanjutkan transaksi sesuai tahap aplikasi masing-masing.</li>
+                    <li>Transaksi Selesai</li>
+                </ol>
+                <p>Detail untuk <strong>Gopay</strong></p>
+                <ul>
+                    <li>Pastikan Anda sudah memiliki aplikasi Gojek dengan saldo yang cukup</li>
+                    <li>Masukkan PIN Aplikasi Gojek</li>
+                    <li>Biaya administrasi tertera pada aplikasi</li>
+                </ul>
+                <p>Detail untuk <strong>OVO</strong></p>
+                <ul>
+                    <li>Masukkan Nomor Handphone yang teregistrasi pada OVO</li>
+                    <li>Pastikan Anda sudah login ke aplikasi OVO</li>
+                    <li>Pembayaran dengan OVO akan kadaluarsa dalam 55 detik setelah Anda klik “Konfirmasi”</li>
+                    <li>Buka notifikasi OVO untuk melakukan pembayaran</li>
+                    <li>Pilih cara pembayaran dengan “OVO Cash” atau “OVO Point” atau kombinasi keduanya - kemudian klik “Bayar”</li>
+                    <li>Biaya administrasi tertera pada aplikasi</li>
+                </ul>
+                <p>Detail untuk <strong>LinkAja</strong></p>
+                <ul>
+                    <li>Pastikan Anda sudah memiliki aplikasi Link Aja dengan saldo yang cukup</li>
+                    <li>Masukkan PIN Aplikasi Link Aja</li>
+                    <li>Biaya administrasi tertera pada aplikasi</li>
+                </ul>
+            `
+        };
+
+        // Event listener untuk setiap kartu metode pembayaran
+        paymentMethodCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const method = this.dataset.method;
+                if (paymentGuides[method]) {
+                    paymentDetailsDiv.innerHTML = paymentGuides[method];
+                    paymentDetailsDiv.style.display = 'block'; // Tampilkan bagian detail
+                    // Gulir ke bagian detail setelah ditampilkan
+                    paymentDetailsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    paymentDetailsDiv.innerHTML = '<p>Detail pembayaran tidak ditemukan untuk metode ini.</p>';
+                    paymentDetailsDiv.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
